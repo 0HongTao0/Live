@@ -1,14 +1,80 @@
 package com.hongtao.live;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hongtao.live.home.HomeFragment;
+import com.hongtao.live.live.LiveFragment;
+import com.hongtao.live.me.MeFragment;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.widget.ViewPager2;
+
+public class MainActivity extends FragmentActivity {
+    private final static String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final ViewPager2 viewPager2 = findViewById(R.id.main_view_pager);
+        final BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottom_navigation_view);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_bottom_live:
+                        viewPager2.setCurrentItem(0);
+                        break;
+                    case R.id.item_bottom_home:
+                        viewPager2.setCurrentItem(1);
+                        break;
+                    case R.id.item_bottom_me:
+                        viewPager2.setCurrentItem(2);
+                        break;
+                }
+                return false;
+            }
+        });
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d(TAG, "onPageSelected: " + position);
+                switch (position) {
+                    case 0:
+                        bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                        break;
+                    case 1:
+                        bottomNavigationView.getMenu().getItem(1).setChecked(true);
+                        break;
+                    case 2:
+                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                super.onPageScrollStateChanged(state);
+            }
+        });
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new LiveFragment());
+        fragments.add(new HomeFragment());
+        fragments.add(new MeFragment());
+        final MainVpAdapter mainVpAdapter = new MainVpAdapter(this, fragments);
+        viewPager2.setAdapter(mainVpAdapter);
     }
 }
