@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Live</string>
+
+    <string name="bottom_nv_live">直播</string>
+    <string name="bottom_nv_home">首页</string>
+    <string name="bottom_nv_me">我的</string>
 </resources>
