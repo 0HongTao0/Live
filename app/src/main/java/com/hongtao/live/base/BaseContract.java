@@ -5,12 +5,12 @@ package com.hongtao.live.base;
  *
  * @author HongTao
  */
-public class BaseContract {
-    public interface BaseView {
-        void setPresenter(BasePresenter presenter);
+public interface BaseContract {
+    interface BaseView {
+
     }
 
-    public interface BasePresenter{
+    interface BasePresenter{
 
     }
 }
