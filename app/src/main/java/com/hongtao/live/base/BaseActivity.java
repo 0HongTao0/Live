@@ -1,7 +1,6 @@
 package com.hongtao.live.base;
 
 import android.Manifest;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -25,21 +24,16 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            final String[] PERMISSIONS = new String[]{Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET};
-            PermissionsUtils.checkAndRequestMorePermissions(this, PERMISSIONS, REQUEST_CODE_PERMISSIONS,
-                    new PermissionsUtils.PermissionRequestSuccessCallBack() {
-
-                        @Override
-                        public void onHasPermission() {
-                            setContentView(getLayoutId());
-                            initView();
-                        }
-                    });
-        }
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        final String[] PERMISSIONS = new String[]{Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET};
+        PermissionsUtils.checkAndRequestMorePermissions(this, PERMISSIONS, REQUEST_CODE_PERMISSIONS,
+                new PermissionsUtils.PermissionRequestSuccessCallBack() {
+                    @Override
+                    public void onHasPermission() {
+                        setContentView(getLayoutId());
+                        initView();
+                    }
+                });
     }
 
     @Override
