@@ -1,10 +1,10 @@
 package com.hongtao.live;
 
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.hongtao.live.base.BaseActivity;
 import com.hongtao.live.home.HomeFragment;
 import com.hongtao.live.live.LiveFragment;
 import com.hongtao.live.me.MeFragment;
@@ -14,16 +14,18 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends BaseActivity {
     private final static String TAG = "MainActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initView() {
         final ViewPager2 viewPager2 = findViewById(R.id.main_view_pager);
         final BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottom_navigation_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
