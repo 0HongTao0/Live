@@ -1,13 +1,14 @@
 package com.hongtao.live.live;
 
+import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hongtao.live.R;
+import com.hongtao.live.view.AutoFitTextureView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,18 +19,17 @@ import androidx.fragment.app.Fragment;
  *
  * @author HongTao
  */
-public class LiveFragment extends Fragment implements LiveContract.View, SurfaceHolder.Callback{
+public class LiveFragment extends Fragment implements LiveContract.View, TextureView.SurfaceTextureListener {
     private static final String TAG = "LiveFragment";
     private LivePresenter mPresenter;
-    private SurfaceView mLiveView;
-    private SurfaceHolder mSurfaceHolder;
+    private AutoFitTextureView mLiveView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_live, container, false);
-        mLiveView = rootView.findViewById(R.id.live_surface_view);
-        mLiveView.getHolder().addCallback(this);
+        mLiveView = rootView.findViewById(R.id.live_texture_view);
+        mLiveView.setSurfaceTextureListener(this);
         return rootView;
     }
 
@@ -39,20 +39,23 @@ public class LiveFragment extends Fragment implements LiveContract.View, Surface
         mPresenter = new LivePresenter(this);
     }
 
-
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        mSurfaceHolder = holder;
-        mPresenter.startCameraPreview(mSurfaceHolder);
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        mPresenter.startCameraPreview(mLiveView, width, height);
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        mSurfaceHolder = holder;
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
     }
 }

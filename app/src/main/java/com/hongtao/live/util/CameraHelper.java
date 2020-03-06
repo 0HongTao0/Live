@@ -13,12 +13,16 @@ import android.hardware.camera2.CaptureRequest;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
+import android.util.Size;
 import android.view.Surface;
-import android.view.SurfaceHolder;
 
 import com.hongtao.live.LiveApplication;
+import com.hongtao.live.view.AutoFitTextureView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -35,24 +39,29 @@ public class CameraHelper {
     private String frontCameraId;
     private String backCameraId;
 
-    private SurfaceHolder mSurfaceHolder;
+    private AutoFitTextureView mAutoFitTextureView;
 
     private CameraDevice mCameraDevice;
 
-    private CameraCaptureSession mCameraCaptureSession;
+    private CaptureRequest.Builder mPreviewRequestBuilder;
 
-    private HandlerThread cameraThread;
-    private Handler cameraHandler;
+    private CaptureRequest mPreviewRequest;
 
+    private CameraCaptureSession mCaptureSession;
 
-    public CameraHelper(SurfaceHolder surfaceHolder) {
+    private HandlerThread mBackgroundThread;
+    private Handler mBackgroundHandler;
+
+    private boolean mFlashSupported;
+
+    public CameraHelper(AutoFitTextureView autoFitTextureView) {
         this.mCameraManager = (CameraManager) LiveApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
-        this.mSurfaceHolder = surfaceHolder;
+        this.mAutoFitTextureView = autoFitTextureView;
         init();
     }
 
 
-    private void init () {
+    private void init() {
         try {
             for (String cameraId : mCameraManager.getCameraIdList()) {
                 CameraCharacteristics characteristics = mCameraManager.getCameraCharacteristics(cameraId);
@@ -65,12 +74,12 @@ public class CameraHelper {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        cameraThread = new HandlerThread("CameraThread");
-        cameraThread.start();
-        cameraHandler = new Handler(cameraThread.getLooper());
+        mBackgroundThread = new HandlerThread("CameraThread");
+        mBackgroundThread.start();
+        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 
-    private void openCamera(String cameraId) {
+    private void openCamera(String cameraId, final int width, final int height) {
         try {
             if (ActivityCompat.checkSelfPermission(LiveApplication.getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -80,7 +89,7 @@ public class CameraHelper {
                 public void onOpened(@NonNull CameraDevice camera) {
                     Log.d(TAG, "onOpened: ");
                     mCameraDevice = camera;
-                    startPreview();
+                    startPreview(width, height);
                 }
 
                 @Override
@@ -96,58 +105,115 @@ public class CameraHelper {
                     camera.close();
                     mCameraDevice = null;
                 }
-            }, cameraHandler);
+            }, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
 
-    public void openFrontCamera() {
-        openCamera(frontCameraId);
+    public void openFrontCamera(int width, int height) {
+        openCamera(frontCameraId, width, height);
     }
 
-    public void openBackCamera() {
-        openCamera(backCameraId);
+    public void openBackCamera(int width, int height) {
+        openCamera(backCameraId, width, height);
     }
 
-    public void startPreview() {
-        Surface mSurface = mSurfaceHolder.getSurface();
+    public void startPreview(int width, int height) {
         try {
-            //创建CaptureRequestBuilder，TEMPLATE_PREVIEW比表示预览请求
-            final CaptureRequest.Builder captureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            //设置Surface作为预览数据的显示界面
-            captureRequestBuilder.addTarget(mSurface);
-            //创建相机捕获会话，第一个参数是捕获数据的输出Surface列表，第二个参数是CameraCaptureSession的状态回调接口，当它创建好后会回调onConfigured方法，第三个参数用来确定Callback在哪个线程执行，为null的话就在当前线程执行
-            mCameraDevice.createCaptureSession(Arrays.asList(mSurface), new CameraCaptureSession.StateCallback() {
-                @Override
-                public void onConfigured(CameraCaptureSession session) {
-                    Log.d(TAG, "onConfigured: ");
-                    if (null == mCameraDevice) {
-                        return;
-                    }
-                    // 会话准备好后，我们开始显示预览
-                    mCameraCaptureSession = session;
-                    try {
-                        captureRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
-                                CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-                        CaptureRequest captureRequest = captureRequestBuilder.build();
-                        //发送请求
-                        mCameraCaptureSession.setRepeatingRequest(captureRequest,
-                                null, null);
-                        Log.e(TAG," 开启相机预览并添加事件");
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
+            assert mAutoFitTextureView != null;
 
-                @Override
-                public void onConfigureFailed(CameraCaptureSession session) {
-                    Log.d(TAG," onConfigureFailed 开启预览失败");
-                }
-            }, cameraHandler);
+            // We configure the size of default buffer to be the size of camera preview we want.
+            mAutoFitTextureView.getSurfaceTexture().setDefaultBufferSize(width, height);
+
+            // This is the output Surface we need to start preview.
+            Surface surface = new Surface(mAutoFitTextureView.getSurfaceTexture());
+
+            // We set up a CaptureRequest.Builder with the output Surface.
+            mPreviewRequestBuilder
+                    = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder.addTarget(surface);
+
+            // Here, we create a CameraCaptureSession for camera preview.
+            mCameraDevice.createCaptureSession(Arrays.asList(surface),
+                    new CameraCaptureSession.StateCallback() {
+
+                        @Override
+                        public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
+                            // The camera is already closed
+                            if (null == mCameraDevice) {
+                                return;
+                            }
+
+                            // When the session is ready, we start displaying the preview.
+                            mCaptureSession = cameraCaptureSession;
+                            try {
+                                // Auto focus should be continuous for camera preview.
+                                mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
+                                        CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
+                                // Flash is automatically enabled when necessary.
+                                setAutoFlash(mPreviewRequestBuilder);
+
+                                // Finally, we start displaying the camera preview.
+                                mPreviewRequest = mPreviewRequestBuilder.build();
+                                mCaptureSession.setRepeatingRequest(mPreviewRequest,
+                                        null, mBackgroundHandler);
+                            } catch (CameraAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onConfigureFailed(
+                                @NonNull CameraCaptureSession cameraCaptureSession) {
+                            Log.d(TAG, "onConfigureFailed: ");
+                        }
+                    }, null
+            );
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
+
+    private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
+                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
+
+        // Collect the supported resolutions that are at least as big as the preview Surface
+        List<Size> bigEnough = new ArrayList<>();
+        // Collect the supported resolutions that are smaller than the preview Surface
+        List<Size> notBigEnough = new ArrayList<>();
+        int w = aspectRatio.getWidth();
+        int h = aspectRatio.getHeight();
+        for (Size option : choices) {
+            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
+                    option.getHeight() == option.getWidth() * h / w) {
+                if (option.getWidth() >= textureViewWidth &&
+                        option.getHeight() >= textureViewHeight) {
+                    bigEnough.add(option);
+                } else {
+                    notBigEnough.add(option);
+                }
+            }
+        }
+
+        // Pick the smallest of those big enough. If there is no one big enough, pick the
+        // largest of those not big enough.
+        if (bigEnough.size() > 0) {
+            return Collections.min(bigEnough, new CompareSizesByArea());
+        } else if (notBigEnough.size() > 0) {
+            return Collections.max(notBigEnough, new CompareSizesByArea());
+        } else {
+            Log.e(TAG, "Couldn't find any suitable preview size");
+            return choices[0];
+        }
+    }
+
+    private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
+        if (mFlashSupported) {
+            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
+                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+        }
+    }
+
 
 }
