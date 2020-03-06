@@ -1,6 +1,6 @@
 package com.hongtao.live.live;
 
-import android.graphics.SurfaceTexture;
+import android.view.WindowManager;
 
 import com.hongtao.live.util.CameraHelper;
 import com.hongtao.live.view.AutoFitTextureView;
@@ -25,9 +25,9 @@ public class LivePresenter implements LiveContract.Presenter {
     }
 
     @Override
-    public void startCameraPreview(AutoFitTextureView autoFitTextureView, int width, int height) {
-        mCameraHelper = new CameraHelper(autoFitTextureView);
-        mCameraHelper.openFrontCamera(width, height);
+    public void startCameraPreview(AutoFitTextureView autoFitTextureView, WindowManager windowManager) {
+        mCameraHelper = new CameraHelper(autoFitTextureView, windowManager);
+        mCameraHelper.openBackCamera();
     }
 
     @Override

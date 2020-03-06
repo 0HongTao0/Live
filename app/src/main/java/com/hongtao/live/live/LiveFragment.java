@@ -41,7 +41,7 @@ public class LiveFragment extends Fragment implements LiveContract.View, Texture
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-        mPresenter.startCameraPreview(mLiveView, width, height);
+        mPresenter.startCameraPreview(mLiveView, getActivity().getWindowManager());
     }
 
     @Override

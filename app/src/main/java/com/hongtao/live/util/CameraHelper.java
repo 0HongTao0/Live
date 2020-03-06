@@ -4,17 +4,22 @@ package com.hongtao.live.util;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Matrix;
+import android.graphics.RectF;
+import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
+import android.view.WindowManager;
 
 import com.hongtao.live.LiveApplication;
 import com.hongtao.live.view.AutoFitTextureView;
@@ -22,6 +27,7 @@ import com.hongtao.live.view.AutoFitTextureView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -34,7 +40,23 @@ import androidx.core.app.ActivityCompat;
  */
 public class CameraHelper {
     private static final String TAG = "CameraHelper";
+
+    private static final int STATE_PREVIEW = 0;
+
+    private static final int STATE_WAITING_LOCK = 1;
+
+    private static final int STATE_WAITING_PRECAPTURE = 2;
+
+    private static final int STATE_WAITING_NON_PRECAPTURE = 3;
+
+    private static final int STATE_PICTURE_TAKEN = 4;
+
+    private static final int MAX_PREVIEW_WIDTH = 1920;
+
+    private static final int MAX_PREVIEW_HEIGHT = 1080;
+
     private CameraManager mCameraManager;
+    private WindowManager mWindowManager;
     private String currentCameraId;
     private String frontCameraId;
     private String backCameraId;
@@ -54,9 +76,14 @@ public class CameraHelper {
 
     private boolean mFlashSupported;
 
-    public CameraHelper(AutoFitTextureView autoFitTextureView) {
+    private int mSensorOrientation;
+
+    private Size mPreviewSize;
+
+    public CameraHelper(AutoFitTextureView autoFitTextureView, WindowManager windowManager) {
         this.mCameraManager = (CameraManager) LiveApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
         this.mAutoFitTextureView = autoFitTextureView;
+        this.mWindowManager = windowManager;
         init();
     }
 
@@ -79,7 +106,7 @@ public class CameraHelper {
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 
-    private void openCamera(String cameraId, final int width, final int height) {
+    private void openCamera(String cameraId) {
         try {
             if (ActivityCompat.checkSelfPermission(LiveApplication.getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -89,7 +116,7 @@ public class CameraHelper {
                 public void onOpened(@NonNull CameraDevice camera) {
                     Log.d(TAG, "onOpened: ");
                     mCameraDevice = camera;
-                    startPreview(width, height);
+                    startPreview();
                 }
 
                 @Override
@@ -111,53 +138,69 @@ public class CameraHelper {
         }
     }
 
-    public void openFrontCamera(int width, int height) {
-        openCamera(frontCameraId, width, height);
+    public void openFrontCamera() {
+        CameraCharacteristics characteristics
+                = null;
+        try {
+            characteristics = mCameraManager.getCameraCharacteristics(frontCameraId);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+
+        StreamConfigurationMap map = characteristics.get(
+                CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        if (map == null) {
+            return;
+        }
+        mPreviewSize = getOptimalSize(map.getOutputSizes(SurfaceTexture.class), mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
+        configureTransform(mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
+        openCamera(frontCameraId);
     }
 
-    public void openBackCamera(int width, int height) {
-        openCamera(backCameraId, width, height);
+    public void openBackCamera() {
+        CameraCharacteristics characteristics
+                = null;
+        try {
+            characteristics = mCameraManager.getCameraCharacteristics(backCameraId);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+
+        StreamConfigurationMap map = characteristics.get(
+                CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+        if (map == null) {
+            return;
+        }
+        mPreviewSize = getOptimalSize(map.getOutputSizes(SurfaceTexture.class), mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
+        configureTransform(mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
+        openCamera(backCameraId);
     }
 
-    public void startPreview(int width, int height) {
+    public void startPreview() {
         try {
             assert mAutoFitTextureView != null;
-
-            // We configure the size of default buffer to be the size of camera preview we want.
-            mAutoFitTextureView.getSurfaceTexture().setDefaultBufferSize(width, height);
-
-            // This is the output Surface we need to start preview.
+            mAutoFitTextureView.getSurfaceTexture().setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
             Surface surface = new Surface(mAutoFitTextureView.getSurfaceTexture());
-
-            // We set up a CaptureRequest.Builder with the output Surface.
             mPreviewRequestBuilder
                     = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(surface);
-
-            // Here, we create a CameraCaptureSession for camera preview.
             mCameraDevice.createCaptureSession(Arrays.asList(surface),
                     new CameraCaptureSession.StateCallback() {
 
                         @Override
                         public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
-                            // The camera is already closed
                             if (null == mCameraDevice) {
                                 return;
                             }
-
-                            // When the session is ready, we start displaying the preview.
                             mCaptureSession = cameraCaptureSession;
                             try {
-                                // Auto focus should be continuous for camera preview.
                                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-                                // Flash is automatically enabled when necessary.
                                 setAutoFlash(mPreviewRequestBuilder);
-
-                                // Finally, we start displaying the camera preview.
                                 mPreviewRequest = mPreviewRequestBuilder.build();
                                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
-                                        null, mBackgroundHandler);
+                                        new CameraCaptureSession.CaptureCallback() {
+                                        }, mBackgroundHandler);
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
                             }
@@ -175,37 +218,53 @@ public class CameraHelper {
         }
     }
 
-    private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
-                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
+    private void configureTransform(int viewWidth, int viewHeight) {
+        if (null == mAutoFitTextureView || null == mPreviewSize || null == mWindowManager) {
+            return;
+        }
+        int rotation = mWindowManager.getDefaultDisplay().getRotation();
+        Matrix matrix = new Matrix();
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
+        RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
+        float centerX = viewRect.centerX();
+        float centerY = viewRect.centerY();
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
+            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
+            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            float scale = Math.max(
+                    (float) viewHeight / mPreviewSize.getHeight(),
+                    (float) viewWidth / mPreviewSize.getWidth());
+            matrix.postScale(scale, scale, centerX, centerY);
+            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+        } else if (Surface.ROTATION_180 == rotation) {
+            matrix.postRotate(180, centerX, centerY);
+        }
+        mAutoFitTextureView.setTransform(matrix);
+    }
 
-        // Collect the supported resolutions that are at least as big as the preview Surface
-        List<Size> bigEnough = new ArrayList<>();
-        // Collect the supported resolutions that are smaller than the preview Surface
-        List<Size> notBigEnough = new ArrayList<>();
-        int w = aspectRatio.getWidth();
-        int h = aspectRatio.getHeight();
-        for (Size option : choices) {
-            if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
-                    option.getHeight() == option.getWidth() * h / w) {
-                if (option.getWidth() >= textureViewWidth &&
-                        option.getHeight() >= textureViewHeight) {
-                    bigEnough.add(option);
-                } else {
-                    notBigEnough.add(option);
+
+    private Size getOptimalSize(Size[] sizeMap, int width, int height) {
+        List<Size> sizeList = new ArrayList<>();
+        for (Size option : sizeMap) {
+            if (width > height) {
+                if (option.getWidth() > width && option.getHeight() > height) {
+                    sizeList.add(option);
+                }
+            } else {
+                if (option.getWidth() > height && option.getHeight() > width) {
+                    sizeList.add(option);
                 }
             }
         }
-
-        // Pick the smallest of those big enough. If there is no one big enough, pick the
-        // largest of those not big enough.
-        if (bigEnough.size() > 0) {
-            return Collections.min(bigEnough, new CompareSizesByArea());
-        } else if (notBigEnough.size() > 0) {
-            return Collections.max(notBigEnough, new CompareSizesByArea());
-        } else {
-            Log.e(TAG, "Couldn't find any suitable preview size");
-            return choices[0];
+        if (sizeList.size() > 0) {
+            return Collections.min(sizeList, new Comparator<Size>() {
+                @Override
+                public int compare(Size lhs, Size rhs) {
+                    return Long.signum(lhs.getWidth() * lhs.getHeight() - rhs.getWidth() * rhs.getHeight());
+                }
+            });
         }
+        return sizeMap[0];
     }
 
     private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
@@ -214,6 +273,4 @@ public class CameraHelper {
                     CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
         }
     }
-
-
 }
