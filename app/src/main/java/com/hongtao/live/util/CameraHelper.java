@@ -4,6 +4,7 @@ package com.hongtao.live.util;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -14,6 +15,8 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
+import android.media.ImageReader;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -22,6 +25,7 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import com.hongtao.live.LiveApplication;
+import com.hongtao.live.media.listener.CameraNVDataListener;
 import com.hongtao.live.view.AutoFitTextureView;
 
 import java.util.ArrayList;
@@ -38,22 +42,8 @@ import androidx.core.app.ActivityCompat;
  *
  * @author HongTao
  */
-public class CameraHelper {
+public class CameraHelper implements ImageReader.OnImageAvailableListener {
     private static final String TAG = "CameraHelper";
-
-    private static final int STATE_PREVIEW = 0;
-
-    private static final int STATE_WAITING_LOCK = 1;
-
-    private static final int STATE_WAITING_PRECAPTURE = 2;
-
-    private static final int STATE_WAITING_NON_PRECAPTURE = 3;
-
-    private static final int STATE_PICTURE_TAKEN = 4;
-
-    private static final int MAX_PREVIEW_WIDTH = 1920;
-
-    private static final int MAX_PREVIEW_HEIGHT = 1080;
 
     private CameraManager mCameraManager;
     private WindowManager mWindowManager;
@@ -69,21 +59,25 @@ public class CameraHelper {
 
     private CaptureRequest mPreviewRequest;
 
+    private ImageReader mImageReader;
+
     private CameraCaptureSession mCaptureSession;
 
     private HandlerThread mBackgroundThread;
     private Handler mBackgroundHandler;
 
-    private boolean mFlashSupported;
-
-    private int mSensorOrientation;
-
     private Size mPreviewSize;
 
-    public CameraHelper(AutoFitTextureView autoFitTextureView, WindowManager windowManager) {
+    private int cameraWidth = 1080;
+    private int cameraHeight = 1920;
+
+    private CameraNVDataListener mCameraNVDataListener;
+
+    public CameraHelper(AutoFitTextureView autoFitTextureView, WindowManager windowManager, CameraNVDataListener cameraNVDataListener) {
         this.mCameraManager = (CameraManager) LiveApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
         this.mAutoFitTextureView = autoFitTextureView;
         this.mWindowManager = windowManager;
+        this.mCameraNVDataListener = cameraNVDataListener;
         init();
     }
 
@@ -152,9 +146,10 @@ public class CameraHelper {
         if (map == null) {
             return;
         }
-        mPreviewSize = getOptimalSize(map.getOutputSizes(SurfaceTexture.class), mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
+        mPreviewSize = getOptimalSize(map.getOutputSizes(SurfaceTexture.class), cameraWidth, cameraHeight);
         configureTransform(mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
         openCamera(frontCameraId);
+        currentCameraId = frontCameraId;
     }
 
     public void openBackCamera() {
@@ -171,20 +166,23 @@ public class CameraHelper {
         if (map == null) {
             return;
         }
-        mPreviewSize = getOptimalSize(map.getOutputSizes(SurfaceTexture.class), mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
+        mPreviewSize = getOptimalSize(map.getOutputSizes(SurfaceTexture.class), cameraWidth, cameraHeight);
         configureTransform(mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight());
         openCamera(backCameraId);
+        currentCameraId = backCameraId;
     }
 
     public void startPreview() {
         try {
+            mImageReader = ImageReader.newInstance(mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight(), ImageFormat.YUV_420_888, 10);//YUV_420_888
+            mImageReader.setOnImageAvailableListener(this, mBackgroundHandler);
             assert mAutoFitTextureView != null;
             mAutoFitTextureView.getSurfaceTexture().setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
             Surface surface = new Surface(mAutoFitTextureView.getSurfaceTexture());
-            mPreviewRequestBuilder
-                    = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            mPreviewRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mPreviewRequestBuilder.addTarget(surface);
-            mCameraDevice.createCaptureSession(Arrays.asList(surface),
+            mPreviewRequestBuilder.addTarget(mImageReader.getSurface());
+            mCameraDevice.createCaptureSession(Arrays.asList(surface, mImageReader.getSurface()),
                     new CameraCaptureSession.StateCallback() {
 
                         @Override
@@ -196,7 +194,6 @@ public class CameraHelper {
                             try {
                                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-                                setAutoFlash(mPreviewRequestBuilder);
                                 mPreviewRequest = mPreviewRequestBuilder.build();
                                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                                         new CameraCaptureSession.CaptureCallback() {
@@ -211,7 +208,7 @@ public class CameraHelper {
                                 @NonNull CameraCaptureSession cameraCaptureSession) {
                             Log.d(TAG, "onConfigureFailed: ");
                         }
-                    }, null
+                    }, mBackgroundHandler
             );
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -264,13 +261,43 @@ public class CameraHelper {
                 }
             });
         }
+        Log.d(TAG, "getOptimalSize: sizeMap = " + sizeMap[0].toString());
         return sizeMap[0];
     }
 
-    private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
-        if (mFlashSupported) {
-            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
+    public Size getPreviewSize() {
+        return mPreviewSize;
+    }
+
+    public int getCameraWidth() {
+        return mPreviewSize.getWidth();
+    }
+
+    public int getCameraHeight() {
+        return mPreviewSize.getHeight();
+    }
+
+    public int getMorientation() {
+        int morientation = 0;
+        try {
+            morientation = mCameraManager.getCameraCharacteristics(currentCameraId).get(CameraCharacteristics.SENSOR_ORIENTATION);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
         }
+        return morientation;
+    }
+
+    @Override
+    public void onImageAvailable(ImageReader reader) {
+        Log.d(TAG, "onImageAvailable: ");
+        Image image = reader.acquireLatestImage();
+        if (image == null) return;
+        byte[] cameraI420 = ImageUtils.getBytesFromImageAsType(image, ImageUtils.NV21);
+
+        if (mCameraNVDataListener != null) {
+            mCameraNVDataListener.onCallback(cameraI420);
+        }
+
+        image.close();
     }
 }
