@@ -63,8 +63,8 @@ public class CameraHelper implements ImageReader.OnImageAvailableListener {
 
     private CameraCaptureSession mCaptureSession;
 
-    private HandlerThread mBackgroundThread;
-    private Handler mBackgroundHandler;
+    private HandlerThread mCameraThread;
+    private Handler mCameraHandler;
 
     private Size mPreviewSize;
 
@@ -95,9 +95,9 @@ public class CameraHelper implements ImageReader.OnImageAvailableListener {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
-        mBackgroundThread = new HandlerThread("CameraThread");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        mCameraThread = new HandlerThread("CameraThread");
+        mCameraThread.start();
+        mCameraHandler = new Handler(mCameraThread.getLooper());
     }
 
     private void openCamera(String cameraId) {
@@ -126,7 +126,7 @@ public class CameraHelper implements ImageReader.OnImageAvailableListener {
                     camera.close();
                     mCameraDevice = null;
                 }
-            }, mBackgroundHandler);
+            }, mCameraHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -175,7 +175,7 @@ public class CameraHelper implements ImageReader.OnImageAvailableListener {
     public void startPreview() {
         try {
             mImageReader = ImageReader.newInstance(mAutoFitTextureView.getWidth(), mAutoFitTextureView.getHeight(), ImageFormat.YUV_420_888, 10);//YUV_420_888
-            mImageReader.setOnImageAvailableListener(this, mBackgroundHandler);
+            mImageReader.setOnImageAvailableListener(this, mCameraHandler);
             assert mAutoFitTextureView != null;
             mAutoFitTextureView.getSurfaceTexture().setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
             Surface surface = new Surface(mAutoFitTextureView.getSurfaceTexture());
@@ -197,7 +197,7 @@ public class CameraHelper implements ImageReader.OnImageAvailableListener {
                                 mPreviewRequest = mPreviewRequestBuilder.build();
                                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
                                         new CameraCaptureSession.CaptureCallback() {
-                                        }, mBackgroundHandler);
+                                        }, mCameraHandler);
                             } catch (CameraAccessException e) {
                                 e.printStackTrace();
                             }
@@ -208,7 +208,7 @@ public class CameraHelper implements ImageReader.OnImageAvailableListener {
                                 @NonNull CameraCaptureSession cameraCaptureSession) {
                             Log.d(TAG, "onConfigureFailed: ");
                         }
-                    }, mBackgroundHandler
+                    }, mCameraHandler
             );
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -292,10 +292,10 @@ public class CameraHelper implements ImageReader.OnImageAvailableListener {
         Log.d(TAG, "onImageAvailable: ");
         Image image = reader.acquireLatestImage();
         if (image == null) return;
-        byte[] cameraI420 = ImageUtils.getBytesFromImageAsType(image, ImageUtils.NV21);
+        byte[] cameraNV21 = ImageUtils.getBytesFromImageAsType(image, ImageUtils.NV21);
 
         if (mCameraNVDataListener != null) {
-            mCameraNVDataListener.onCallback(cameraI420);
+            mCameraNVDataListener.onCallback(cameraNV21);
         }
 
         image.close();

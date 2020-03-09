@@ -1,5 +1,7 @@
 package com.hongtao.live.media;
 
+import android.util.Log;
+
 import com.hongtao.live.StreamProcessManager;
 import com.hongtao.live.media.data.AudioData;
 import com.hongtao.live.media.data.VideoData;
@@ -54,6 +56,7 @@ public class MediaEncoder {
 
     //摄像头的YUV420P数据，put到队列中，生产者模型
     public void putVideoData(VideoData videoData) {
+        Log.d(TAG, "putVideoData: ");
         try {
             videoQueue.put(videoData);
         } catch (InterruptedException e) {
@@ -63,6 +66,7 @@ public class MediaEncoder {
 
     //麦克风PCM音频数据，put到队列中，生产者模型
     public void putAudioData(AudioData audioData) {
+        Log.d(TAG, "putAudioData: ");
         try {
             audioQueue.put(audioData);
         } catch (InterruptedException e) {
@@ -81,6 +85,7 @@ public class MediaEncoder {
     }
 
     public void startVideoEncode() {
+        Log.d(TAG, "startVideoEncode: ");
         if (videoEncoderLoop) {
             throw new RuntimeException("必须先停止");
         }
@@ -106,7 +111,7 @@ public class MediaEncoder {
                             for (int i = 0; i < segment.length; i++) {
                                 totalLength += segment[i];
                             }
-                            //Log.i("RiemannLee", "###############totalLength " + totalLength);
+                            Log.d(TAG, "###############totalLength " + totalLength);
                             //编码后的h264数据
                             byte[] encodeData = new byte[totalLength];
                             System.arraycopy(outbuffer, 0, encodeData, 0, encodeData.length);
@@ -127,6 +132,7 @@ public class MediaEncoder {
     }
 
     public void startAudioEncode() {
+        Log.d(TAG, "startAudioEncode: ");
         if (audioEncoderLoop) {
             throw new RuntimeException("必须先停止");
         }

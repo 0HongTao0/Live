@@ -161,27 +161,29 @@ public class MediaPublisher {
                 offset = 3;
             }
             int type = segmentByte[offset] & 0x1f;
-            //Log.d("RiemannLee", "type= " + type);
+            Log.d(TAG, "type= " + type + "    videoId = " + videoID);
             //获取到NALU的type，SPS，PPS，SEI，还是关键帧
             if (type == NAL_SPS) {
                 spsLen = segment[i] - 4;
                 sps = new byte[spsLen];
                 System.arraycopy(segmentByte, 4, sps, 0, spsLen);
-                //Log.e("RiemannLee", "NAL_SPS spsLen " + spsLen);
+                Log.d(TAG, "NAL_SPS spsLen " + spsLen);
             } else if (type == NAL_PPS) {
                 ppsLen = segment[i] - 4;
                 pps = new byte[ppsLen];
                 System.arraycopy(segmentByte, 4, pps, 0, ppsLen);
-                //Log.e("RiemannLee", "NAL_PPS ppsLen " + ppsLen);
+                Log.d(TAG, "NAL_PPS ppsLen " + ppsLen);
                 sendVideoSpsAndPPS(sps, spsLen, pps, ppsLen, 0);
             } else {
                 //如果是关键帧，则在发送该帧之前先发送SPS和PPS
+                Log.d(TAG, "onEncoderVideoData: videoId = " + videoID);
                 sendVideoData(segmentByte, segmentLength, videoID++);
             }
         }
     }
 
     private void sendVideoSpsAndPPS(final byte[] sps, final int spsLen, final byte[] pps, final int ppsLen, final long timeStamp) {
+        Log.d(TAG, "sendVideoSpsAndPPS: ");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -196,6 +198,7 @@ public class MediaPublisher {
     }
 
     private void sendVideoData(final byte[] data, final int dataLen, final long timeStamp) {
+        Log.d(TAG, "sendVideoData: ");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -210,6 +213,7 @@ public class MediaPublisher {
     }
 
     private void sendAudioSpec(final long timeStamp) {
+        Log.d(TAG, "sendAudioSpec: ");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -224,6 +228,7 @@ public class MediaPublisher {
     }
 
     private void sendAudioData(final byte[] data, final int dataLen, final long timeStamp) {
+        Log.d(TAG, "sendAudioData: ");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -238,6 +243,7 @@ public class MediaPublisher {
     }
 
     private void onEncoderAudioData(byte[] encodeAudioData, int size) {
+        Log.d(TAG, "onEncoderAudioData: ");
         if (!isSendAudioSpec) {
             sendAudioSpec(0);
             isSendAudioSpec = true;

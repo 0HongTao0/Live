@@ -3,6 +3,7 @@ package com.hongtao.live.media;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.util.Log;
 
 import java.util.Arrays;
 
@@ -63,6 +64,7 @@ public class AudioRecoderManager {
                         //每次录音读取4K数据
                         System.arraycopy(audioData, 0, ralAudio, 0, readsize);
                         if (audioDataListener != null) {
+                            Log.d(TAG, "run: audioDataLength = " + ralAudio.length);
                             //把录音的数据抛给MediaEncoder去编码AAC音频数据
                             audioDataListener.audioData(ralAudio);
                         }

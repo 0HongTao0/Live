@@ -2,7 +2,6 @@ package com.hongtao.live.util;
 
 import android.graphics.ImageFormat;
 import android.media.Image;
-import android.util.Log;
 
 import java.nio.ByteBuffer;
 
@@ -114,11 +113,11 @@ public class ImageUtils {
                     break;
             }
             return yuvBytes;
-        } catch (final Exception e) {
+        } catch (Exception e) {
             if (image != null) {
                 image.close();
             }
-            Log.i(TAG, e.toString());
+            e.printStackTrace();
         }
         return null;
     }

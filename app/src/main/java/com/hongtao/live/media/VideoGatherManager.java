@@ -69,7 +69,7 @@ public class VideoGatherManager {
                         //自此，我们得到了YUV420P标准数据，这个过程实际上就是NV21转化为YUV420P数据
                         //注意，有些机器是NV12格式，只是数据存储不一样，我们一样可以用libyuv库的接口转化
                         if (yuvDataListener != null) {
-                            yuvDataListener.onYUVDataReceiver(cropData, cropWidth, cropHeight);
+                            yuvDataListener.onYUVDataReceiver(cropData, mCameraHelper.getCameraWidth(), mCameraHelper.getCameraHeight());
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();

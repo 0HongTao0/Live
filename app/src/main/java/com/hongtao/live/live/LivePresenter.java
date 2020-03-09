@@ -1,5 +1,6 @@
 package com.hongtao.live.live;
 
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.hongtao.live.media.MediaPublisher;
@@ -14,6 +15,7 @@ import com.hongtao.live.view.AutoFitTextureView;
  * @author HongTao
  */
 public class LivePresenter implements LiveContract.Presenter {
+    private static final String TAG = "LivePresenter";
     private LiveContract.View mView;
 
     private CameraHelper mCameraHelper;
@@ -37,11 +39,14 @@ public class LivePresenter implements LiveContract.Presenter {
     public void startCameraPreview(AutoFitTextureView autoFitTextureView, WindowManager windowManager) {
         this.mAutoFitTextureView = autoFitTextureView;
         mMediaPublisher = new MediaPublisher();
-        mMediaPublisher.setRtmpUrl("rtmp://192.168.1.103:1935/abcs/r");
+        mMediaPublisher.setRtmpUrl("rtmp://192.168.0.101:1935/abcs/r");
         mCameraHelper = new CameraHelper(autoFitTextureView, windowManager, new CameraNVDataListener() {
             @Override
             public void onCallback(byte[] data) {
-                if (mVideoGatherManager != null) mVideoGatherManager.putData(data);
+                if (mVideoGatherManager != null) {
+                    Log.d(TAG, "onCallback: data length " + data.length);
+                    mVideoGatherManager.putData(data);
+                }
             }
         });
         mCameraHelper.openBackCamera();
