@@ -1,13 +1,12 @@
 package com.hongtao.live.live;
 
+import android.app.Activity;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.WindowManager;
 
-import com.hongtao.live.media.MediaPublisher;
-import com.hongtao.live.media.VideoGatherManager;
-import com.hongtao.live.media.listener.CameraNVDataListener;
-import com.hongtao.live.util.CameraHelper;
-import com.hongtao.live.view.AutoFitTextureView;
+import com.hongtao.live.LivePusherNew;
+import com.hongtao.live.listener.LiveStateChangeListener;
 
 /**
  * Created 2020/3/5.
@@ -16,15 +15,10 @@ import com.hongtao.live.view.AutoFitTextureView;
  */
 public class LivePresenter implements LiveContract.Presenter {
     private static final String TAG = "LivePresenter";
+    private final static String LIVE_URL = "rtmp://192.168.0.104/abcs/r";
     private LiveContract.View mView;
 
-    private CameraHelper mCameraHelper;
-
-    private VideoGatherManager mVideoGatherManager;
-
-    private AutoFitTextureView mAutoFitTextureView;
-
-    private MediaPublisher mMediaPublisher;
+    private LivePusherNew mLivePusher;
 
     public LivePresenter(LiveContract.View view) {
         this.mView = view;
@@ -36,25 +30,15 @@ public class LivePresenter implements LiveContract.Presenter {
     }
 
     @Override
-    public void startCameraPreview(AutoFitTextureView autoFitTextureView, WindowManager windowManager) {
-        this.mAutoFitTextureView = autoFitTextureView;
-        mMediaPublisher = new MediaPublisher();
-        mMediaPublisher.setRtmpUrl("rtmp://192.168.0.101:1935/abcs/r");
-        mCameraHelper = new CameraHelper(autoFitTextureView, windowManager, new CameraNVDataListener() {
+    public void startCameraPreview(Activity activity, TextureView autoFitTextureView, WindowManager windowManager) {
+        Log.d(TAG, "startCameraPreview: ");
+        mLivePusher = new LivePusherNew(activity, autoFitTextureView);
+        mLivePusher.startPush(LIVE_URL, new LiveStateChangeListener() {
             @Override
-            public void onCallback(byte[] data) {
-                if (mVideoGatherManager != null) {
-                    Log.d(TAG, "onCallback: data length " + data.length);
-                    mVideoGatherManager.putData(data);
-                }
+            public void onError(String msg) {
+                Log.d(TAG, "onError: " + msg);
             }
         });
-        mCameraHelper.openBackCamera();
-        mVideoGatherManager = new VideoGatherManager(mAutoFitTextureView, mCameraHelper);
-        mMediaPublisher.initVideoGather(mVideoGatherManager);
-        mMediaPublisher.initAudioGather();
-        mMediaPublisher.startGather();
-        mMediaPublisher.startMediaEncoder();
     }
 
     @Override

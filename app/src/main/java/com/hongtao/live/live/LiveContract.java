@@ -1,9 +1,10 @@
 package com.hongtao.live.live;
 
+import android.app.Activity;
+import android.view.TextureView;
 import android.view.WindowManager;
 
 import com.hongtao.live.base.BaseContract;
-import com.hongtao.live.view.AutoFitTextureView;
 
 /**
  * Created 2020/3/4.
@@ -17,7 +18,7 @@ public interface LiveContract {
     interface Presenter extends BaseContract.BasePresenter {
         void initLiveManager();
 
-        void startCameraPreview(AutoFitTextureView autoFitTextureView, WindowManager windowManager);
+        void startCameraPreview(Activity activity, TextureView autoFitTextureView, WindowManager windowManager);
 
         void startLive();
 
