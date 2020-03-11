@@ -23,12 +23,19 @@ public class LiveFragment extends Fragment implements LiveContract.View, View.On
     private LivePresenter mPresenter;
     private TextureView mLiveView;
 
+    private View mBtnStart;
+    private View mBtnStop;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_live, container, false);
         mLiveView = rootView.findViewById(R.id.live_texture_view);
         rootView.findViewById(R.id.live_iv_switch_camera).setOnClickListener(this);
+        mBtnStart = rootView.findViewById(R.id.live_iv_start);
+        mBtnStart.setOnClickListener(this);
+        mBtnStop = rootView.findViewById(R.id.live_iv_stop);
+        mBtnStop.setOnClickListener(this);
         mPresenter = new LivePresenter(this);
         mPresenter.startCameraPreview(getActivity(), mLiveView);
         return rootView;
@@ -37,7 +44,6 @@ public class LiveFragment extends Fragment implements LiveContract.View, View.On
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.startLive();
     }
 
     @Override
@@ -61,6 +67,24 @@ public class LiveFragment extends Fragment implements LiveContract.View, View.On
             case R.id.live_iv_switch_camera:
                 mPresenter.switchCamera();
                 break;
+            case R.id.live_iv_start:
+                mPresenter.startLive();
+                break;
+            case R.id.live_iv_stop:
+                mPresenter.stopLive();
+                break;
         }
+    }
+
+    @Override
+    public void showStartBtn() {
+        mBtnStart.setVisibility(View.VISIBLE);
+        mBtnStop.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showStopBtn() {
+        mBtnStop.setVisibility(View.VISIBLE);
+        mBtnStart.setVisibility(View.GONE);
     }
 }

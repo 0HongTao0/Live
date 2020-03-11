@@ -12,6 +12,10 @@ import com.hongtao.live.base.BaseContract;
  */
 public interface LiveContract {
     interface View extends BaseContract.BaseView {
+        void showStartBtn();
+
+        void showStopBtn();
+
     }
 
     interface Presenter extends BaseContract.BasePresenter {

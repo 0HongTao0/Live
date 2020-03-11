@@ -32,7 +32,7 @@ public class LivePusherNew {
     //视频参数
     private static final int VIDEO_WIDTH = 640;//分辨率设置
     private static final int VIDEO_HEIGHT = 480;
-    private static final int VIDER_BIT_RATE = 800_000;//kb/s
+    private static final int VIDEO_BIT_RATE = 800_000;//kb/s
     private static final int VIDEO_FRAME_RATE = 10;//fps
 
     //音频参数
@@ -59,7 +59,7 @@ public class LivePusherNew {
 //    }
 
     public LivePusherNew(Activity activity, TextureView textureView) {
-        VideoParam videoParam = new VideoParam(VIDEO_WIDTH, VIDEO_HEIGHT, Integer.valueOf(Camera2Helper.CAMERA_ID_BACK), VIDER_BIT_RATE, VIDEO_FRAME_RATE);
+        VideoParam videoParam = new VideoParam(VIDEO_WIDTH, VIDEO_HEIGHT, Integer.valueOf(Camera2Helper.CAMERA_ID_BACK), VIDEO_BIT_RATE, VIDEO_FRAME_RATE);
         AudioParam audioParam = new AudioParam(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, NUM_CHANNELS);
 
         native_init();

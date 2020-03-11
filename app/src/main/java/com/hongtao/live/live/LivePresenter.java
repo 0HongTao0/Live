@@ -40,13 +40,16 @@ public class LivePresenter implements LiveContract.Presenter {
             @Override
             public void onError(String msg) {
                 Log.d(TAG, "onError: " + msg);
+                mView.showStartBtn();
             }
         });
+        mView.showStopBtn();
     }
 
     @Override
     public void stopLive() {
         mLivePusher.stopPush();
+        mView.showStartBtn();
     }
 
     @Override

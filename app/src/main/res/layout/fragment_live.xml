@@ -20,4 +20,25 @@
         android:layout_marginEnd="@dimen/live_btn_margin"
         android:layout_marginBottom="@dimen/live_btn_margin"/>
 
+    <View
+        android:id="@+id/live_iv_start"
+        android:layout_width="@dimen/live_btn_width"
+        android:layout_height="@dimen/live_btn_height"
+        android:background="@drawable/ic_live_start"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="@dimen/live_btn_margin"
+        android:layout_marginBottom="@dimen/live_btn_margin"/>
+
+    <View
+        android:id="@+id/live_iv_stop"
+        android:layout_width="@dimen/live_btn_width"
+        android:layout_height="@dimen/live_btn_height"
+        android:background="@drawable/ic_live_stop"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="@dimen/live_btn_margin"
+        android:layout_marginBottom="@dimen/live_btn_margin"
+        android:visibility="gone"/>
+
 </RelativeLayout>
