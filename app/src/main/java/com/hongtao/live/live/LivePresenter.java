@@ -14,7 +14,7 @@ import com.hongtao.live.listener.LiveStateChangeListener;
  */
 public class LivePresenter implements LiveContract.Presenter {
     private static final String TAG = "LivePresenter";
-    private final static String LIVE_URL = "rtmp://192.168.0.104/abcs/r";
+    private final static String LIVE_URL = "rtmp://192.168.0.113/abcs/r";
     private LiveContract.View mView;
 
     private LivePusherNew mLivePusher;
@@ -56,7 +56,7 @@ public class LivePresenter implements LiveContract.Presenter {
 
     @Override
     public void switchCamera() {
-
+        mLivePusher.switchCamera();
     }
 
     @Override

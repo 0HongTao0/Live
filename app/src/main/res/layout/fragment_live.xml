@@ -10,4 +10,14 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"/>
 
+    <View
+        android:id="@+id/live_iv_switch_camera"
+        android:layout_width="@dimen/live_btn_width"
+        android:layout_height="@dimen/live_btn_height"
+        android:background="@drawable/ic_live_switch_camera"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/live_btn_margin"
+        android:layout_marginBottom="@dimen/live_btn_margin"/>
+
 </RelativeLayout>

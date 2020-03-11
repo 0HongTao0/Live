@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
  *
  * @author HongTao
  */
-public class LiveFragment extends Fragment implements LiveContract.View{
+public class LiveFragment extends Fragment implements LiveContract.View, View.OnClickListener {
     private static final String TAG = "LiveFragment";
     private LivePresenter mPresenter;
     private TextureView mLiveView;
@@ -28,6 +28,7 @@ public class LiveFragment extends Fragment implements LiveContract.View{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_live, container, false);
         mLiveView = rootView.findViewById(R.id.live_texture_view);
+        rootView.findViewById(R.id.live_iv_switch_camera).setOnClickListener(this);
         mPresenter = new LivePresenter(this);
         mPresenter.startCameraPreview(getActivity(), mLiveView);
         return rootView;
@@ -51,6 +52,15 @@ public class LiveFragment extends Fragment implements LiveContract.View{
         super.onDestroy();
         if (mPresenter != null) {
             mPresenter.release();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.live_iv_switch_camera:
+                mPresenter.switchCamera();
+                break;
         }
     }
 }
