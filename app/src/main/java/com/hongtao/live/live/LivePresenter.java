@@ -3,7 +3,6 @@ package com.hongtao.live.live;
 import android.app.Activity;
 import android.util.Log;
 import android.view.TextureView;
-import android.view.WindowManager;
 
 import com.hongtao.live.LivePusherNew;
 import com.hongtao.live.listener.LiveStateChangeListener;
@@ -30,9 +29,13 @@ public class LivePresenter implements LiveContract.Presenter {
     }
 
     @Override
-    public void startCameraPreview(Activity activity, TextureView autoFitTextureView, WindowManager windowManager) {
+    public void startCameraPreview(Activity activity, TextureView autoFitTextureView) {
         Log.d(TAG, "startCameraPreview: ");
         mLivePusher = new LivePusherNew(activity, autoFitTextureView);
+    }
+
+    @Override
+    public void startLive() {
         mLivePusher.startPush(LIVE_URL, new LiveStateChangeListener() {
             @Override
             public void onError(String msg) {
@@ -42,13 +45,8 @@ public class LivePresenter implements LiveContract.Presenter {
     }
 
     @Override
-    public void startLive() {
-
-    }
-
-    @Override
     public void stopLive() {
-
+        mLivePusher.stopPush();
     }
 
     @Override
@@ -69,5 +67,11 @@ public class LivePresenter implements LiveContract.Presenter {
     @Override
     public void switchToCamera() {
 
+    }
+
+    public void release() {
+        if (mLivePusher != null) {
+            mLivePusher.release();
+        }
     }
 }

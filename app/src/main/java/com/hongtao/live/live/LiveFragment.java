@@ -1,6 +1,7 @@
 package com.hongtao.live.live;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
@@ -27,13 +28,29 @@ public class LiveFragment extends Fragment implements LiveContract.View{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_live, container, false);
         mLiveView = rootView.findViewById(R.id.live_texture_view);
+        mPresenter = new LivePresenter(this);
+        mPresenter.startCameraPreview(getActivity(), mLiveView);
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter = new LivePresenter(this);
-        mPresenter.startCameraPreview(getActivity(), mLiveView, getActivity().getWindowManager());
+        mPresenter.startLive();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: ");
+        mPresenter.stopLive();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mPresenter != null) {
+            mPresenter.release();
+        }
     }
 }
