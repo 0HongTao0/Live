@@ -1,5 +1,7 @@
 package com.hongtao.live;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -18,6 +20,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 public class MainActivity extends BaseActivity {
     private final static String TAG = "MainActivity";
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     @Override
     public int getLayoutId() {
