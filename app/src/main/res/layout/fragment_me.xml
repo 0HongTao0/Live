@@ -1,13 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="fragment_me"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/me_iv_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/me_top_bg_height"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg_me_top" />
+
+        <ImageView
+            android:id="@+id/me_iv_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/me_iv_top"
+            android:background="#E0E0E0" />
+
+        <ImageView
+            android:id="@+id/me_iv_avatar"
+            android:layout_width="@dimen/me_avatar_width"
+            android:layout_height="@dimen/me_avatar_height"
+            android:layout_below="@id/me_iv_top"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/me_avatar_margin_top"
+            android:src="@drawable/ic_default_avatar" />
+
+        <TextView
+            android:id="@+id/me_tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/me_iv_avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/me_user_name_margin_top"
+            android:text="像风一样的男子"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/me_text_size"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/me_iv_avatar"
+            android:layout_marginStart="@dimen/me_text_margin_outside"
+            android:layout_marginEnd="@dimen/me_text_margin_outside"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_text_margin_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/me_tv_user_id"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/me_tv_user_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/me_text_margin_inside"
+                    android:text="935245421"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/me_divider_margin"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_text_margin_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/me_tv_gender"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/me_tv_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/me_text_margin_inside"
+                    android:text="男"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/me_divider_margin"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_text_margin_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/me_tv_birthday"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/me_tv_birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/me_text_margin_inside"
+                    android:text="2000-1-1"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/me_divider_margin"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_text_margin_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/me_tv_job"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/me_tv_job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/me_text_margin_inside"
+                    android:text="兼职网红"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/me_divider_margin"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_text_margin_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/me_tv_address"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/me_tv_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/me_text_margin_inside"
+                    android:text="广东省-阳春市-春城镇"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/me_divider_margin"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_text_margin_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/me_tv_introduce"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/me_tv_introduce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/me_text_margin_inside"
+                    android:text="这人懒的什么都没留下"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/me_divider_margin"
+                android:background="@color/divider" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/me_text_margin_top">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/me_tv_live_introduce"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/me_tv_live_introduce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/me_text_margin_inside"
+                    android:text="来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！"
+                    android:textSize="@dimen/me_text_size"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/me_divider_margin"
+                android:background="@color/divider"
+                android:layout_marginBottom="@dimen/me_divider_margin"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</ScrollView>
