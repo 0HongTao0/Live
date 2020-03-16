@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login">
+
+    <ImageView
+        android:id="@+id/login_iv_logo"
+        android:layout_width="@dimen/login_logo_width"
+        android:layout_height="@dimen/login_logo_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:src="@drawable/app_logo" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/login_et_user_id"
+        android:layout_width="@dimen/login_edit_view_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_iv_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:background="@drawable/bg_edit_text"
+        android:drawableStart="@drawable/ic_user"
+        android:drawablePadding="@dimen/login_edit_drawable_padding"
+        android:gravity="start|center"
+        android:letterSpacing="0.2"
+        android:padding="@dimen/login_edit_text_padding"
+        android:text="935245421"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/login_et_password"
+        android:layout_width="@dimen/login_edit_view_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_et_user_id"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_edit_text_margin_top"
+        android:background="@drawable/bg_edit_text"
+        android:drawableStart="@drawable/ic_password"
+        android:drawablePadding="@dimen/login_edit_drawable_padding"
+        android:gravity="start|center"
+        android:inputType="textPassword"
+        android:letterSpacing="0.2"
+        android:padding="@dimen/login_edit_text_padding"
+        android:text="935245421"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/login_btn_login"
+        android:layout_width="@dimen/login_btn_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/login_et_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_edit_text_margin_top"
+        android:background="@drawable/bg_btn"
+        android:text="@string/login_btn_login"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
+
+</RelativeLayout>

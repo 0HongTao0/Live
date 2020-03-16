@@ -4,4 +4,6 @@
     <string name="bottom_nv_live">直播</string>
     <string name="bottom_nv_home">首页</string>
     <string name="bottom_nv_me">我的</string>
+
+    <string name="login_btn_login">登录</string>
 </resources>
