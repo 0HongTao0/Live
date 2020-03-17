@@ -13,7 +13,7 @@
             android:id="@+id/me_iv_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/me_top_bg_height"
-            android:background="#78909C"/>
+            android:background="#78909C" />
 
         <ImageView
             android:id="@+id/me_iv_avatar"
@@ -25,13 +25,13 @@
             android:src="@drawable/ic_default_avatar" />
 
         <TextView
-            android:id="@+id/me_tv_user_name"
+            android:id="@+id/me_tv_user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@id/me_iv_avatar"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/me_user_name_margin_top"
-            android:text="像风一样的男子"
+            android:text="935245421"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/me_text_size"
             android:textStyle="bold" />
@@ -53,16 +53,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/me_tv_user_id"
+                    android:text="@string/me_tv_user_nick"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/me_tv_user_id"
+                    android:id="@+id/me_tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="935245421"
+                    android:text="像风一样的男子"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -252,8 +252,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_marginTop="@dimen/me_divider_margin"
-                android:background="@color/divider"
-                android:layout_marginBottom="@dimen/me_divider_margin"/>
+                android:layout_marginBottom="@dimen/me_divider_margin"
+                android:background="@color/divider" />
 
         </LinearLayout>
 
