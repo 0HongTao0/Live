@@ -17,6 +17,7 @@ public class LiveApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = getApplicationContext();
+        UserManager.getInstance().init();
     }
 
     public static Context getContext() {

@@ -2,6 +2,7 @@ package com.hongtao.live.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,11 +11,13 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.hongtao.live.MainActivity;
 import com.hongtao.live.R;
+import com.hongtao.live.UserManager;
 import com.hongtao.live.base.BaseActivity;
 import com.hongtao.live.module.Content;
 import com.hongtao.live.module.LoginData;
 import com.hongtao.live.net.ServiceGenerator;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -37,6 +40,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!"".equals(UserManager.getInstance().getToken())){
+            finish();
+            MainActivity.start(this);
+        }
     }
 
     @Override
@@ -71,6 +83,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         @Override
                         public void onNext(LoginData loginData) {
                             if (loginData.getCode() == Content.Code.CODE_LOGIN_SUCCESS) {
+                                UserManager.getInstance().saveToken(loginData.getToken());
                                 finish();
                                 MainActivity.start(LoginActivity.this);
                             } else {
