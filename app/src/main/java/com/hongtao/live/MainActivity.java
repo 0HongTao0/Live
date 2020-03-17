@@ -62,17 +62,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 Log.d(TAG, "onPageSelected: " + position);
-                switch (position) {
-                    case 0:
-                        bottomNavigationView.getMenu().getItem(0).setChecked(true);
-                        break;
-                    case 1:
-                        bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                        break;
-                    case 2:
-                        bottomNavigationView.getMenu().getItem(2).setChecked(true);
-                        break;
-                }
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
             }
 
             @Override

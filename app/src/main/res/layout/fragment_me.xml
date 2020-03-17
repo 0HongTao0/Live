@@ -2,25 +2,18 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#E0E0E0">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
+        <View
             android:id="@+id/me_iv_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/me_top_bg_height"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_me_top" />
-
-        <ImageView
-            android:id="@+id/me_iv_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/me_iv_top"
-            android:background="#E0E0E0" />
+            android:background="#78909C"/>
 
         <ImageView
             android:id="@+id/me_iv_avatar"
