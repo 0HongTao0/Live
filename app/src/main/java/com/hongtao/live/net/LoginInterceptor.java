@@ -57,6 +57,7 @@ public class LoginInterceptor implements Interceptor {
         String data = handleResponse(responseString);
         Log.d(TAG, "intercept: data = " + data);
         if (CONTENT_OFFLINE.equals(data)) {
+            UserManager.getInstance().offline();
             Toast.makeText(LiveApplication.getContext(), "登录过期，请重新登录。", Toast.LENGTH_SHORT).show();
             LoginActivity.start(LiveApplication.getContext());
             return response.newBuilder().body(responseBody.create(responseBody.contentType(), "")).build();

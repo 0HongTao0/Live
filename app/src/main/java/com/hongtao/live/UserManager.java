@@ -54,7 +54,17 @@ public class UserManager {
     }
 
     public String getToken() {
+        if ("".equals(mToken)){
+            mToken = mSharedPreferences.getString(KEY_TOKEN, "");
+        }
         return mToken;
+    }
+
+    public void offline() {
+        mToken = "";
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(KEY_TOKEN, mToken);
+        editor.apply();
     }
 
     private void checkInit() {
