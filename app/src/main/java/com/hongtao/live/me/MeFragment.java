@@ -53,6 +53,11 @@ public class MeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         MeApi meApi = ServiceGenerator.createService(MeApi.class);
         meApi.getUser()
                 .observeOn(AndroidSchedulers.mainThread())

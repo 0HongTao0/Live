@@ -3,6 +3,7 @@ package com.hongtao.live.live;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import androidx.fragment.app.Fragment;
 public class LiveFragment extends Fragment implements LiveContract.View, View.OnClickListener {
     private static final String TAG = "LiveFragment";
     private LivePresenter mPresenter;
-    private TextureView mLiveView;
+    private SurfaceView mLiveView;
 
     private View mBtnStart;
     private View mBtnStop;

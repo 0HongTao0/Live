@@ -2,7 +2,7 @@ package com.hongtao.live.live;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.TextureView;
+import android.view.SurfaceView;
 
 import com.hongtao.live.LivePusherNew;
 import com.hongtao.live.listener.LiveStateChangeListener;
@@ -14,7 +14,7 @@ import com.hongtao.live.listener.LiveStateChangeListener;
  */
 public class LivePresenter implements LiveContract.Presenter {
     private static final String TAG = "LivePresenter";
-    private final static String LIVE_URL = "rtmp://192.168.0.113:1935/abcs/r";
+    private final static String LIVE_URL = "rtmp://192.168.0.105:1935/abcs/r";
     private LiveContract.View mView;
 
     private LivePusherNew mLivePusher;
@@ -29,9 +29,10 @@ public class LivePresenter implements LiveContract.Presenter {
     }
 
     @Override
-    public void startCameraPreview(Activity activity, TextureView autoFitTextureView) {
+    public void startCameraPreview(Activity activity, SurfaceView surfaceView) {
         Log.d(TAG, "startCameraPreview: ");
-        mLivePusher = new LivePusherNew(activity, autoFitTextureView);
+        mLivePusher = new LivePusherNew(activity);
+        mLivePusher.setPreviewDisplay(surfaceView.getHolder());
     }
 
     @Override

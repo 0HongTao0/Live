@@ -3,14 +3,13 @@ package com.hongtao.live;
 import android.app.Activity;
 import android.media.AudioFormat;
 import android.view.SurfaceHolder;
-import android.view.TextureView;
 
 import com.hongtao.live.camera2.Camera2Helper;
 import com.hongtao.live.listener.LiveStateChangeListener;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
 import com.hongtao.live.stream.AudioStream;
-import com.hongtao.live.stream.VideoStreamNew;
+import com.hongtao.live.stream.VideoStream;
 
 public class LivePusherNew {
 
@@ -46,26 +45,28 @@ public class LivePusherNew {
     }
 
     private AudioStream audioStream;
-//    private VideoStream videoStream;
-    private VideoStreamNew videoStream;
+    private VideoStream videoStream;
+//    private VideoStreamNew videoStream;
 
     private LiveStateChangeListener liveStateChangeListener;
 
-//    public LivePusherNew(Activity activity, VideoParam videoParam, AudioParam audioParam) {
-//        native_init();
-//        videoStream = new VideoStream(this, activity, videoParam.getWidth(), videoParam.getHeight(),
-//                videoParam.getBitRate(), videoParam.getFrameRate(), videoParam.getCameraId());
-//        audioStream = new AudioStream(this, audioParam);
-//    }
-
-    public LivePusherNew(Activity activity, TextureView textureView) {
+    public LivePusherNew(Activity activity) {
         VideoParam videoParam = new VideoParam(VIDEO_WIDTH, VIDEO_HEIGHT, Integer.valueOf(Camera2Helper.CAMERA_ID_BACK), VIDEO_BIT_RATE, VIDEO_FRAME_RATE);
         AudioParam audioParam = new AudioParam(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, NUM_CHANNELS);
-
         native_init();
-        videoStream = new VideoStreamNew(this, textureView, videoParam, activity);
+        videoStream = new VideoStream(this, activity, videoParam.getWidth(), videoParam.getHeight(),
+                videoParam.getBitRate(), videoParam.getFrameRate(), videoParam.getCameraId());
         audioStream = new AudioStream(this, audioParam);
     }
+
+//    public LivePusherNew(Activity activity, TextureView textureView) {
+//        VideoParam videoParam = new VideoParam(VIDEO_WIDTH, VIDEO_HEIGHT, Integer.valueOf(Camera2Helper.CAMERA_ID_BACK), VIDEO_BIT_RATE, VIDEO_FRAME_RATE);
+//        AudioParam audioParam = new AudioParam(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, NUM_CHANNELS);
+//
+//        native_init();
+//        videoStream = new VideoStreamNew(this, textureView, videoParam, activity);
+//        audioStream = new AudioStream(this, audioParam);
+//    }
 
     public void setPreviewDisplay(SurfaceHolder surfaceHolder) {
         videoStream.setPreviewDisplay(surfaceHolder);

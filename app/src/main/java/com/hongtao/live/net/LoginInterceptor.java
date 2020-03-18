@@ -1,5 +1,6 @@
 package com.hongtao.live.net;
 
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,8 +43,8 @@ public class LoginInterceptor implements Interceptor {
             if (!UserManager.getInstance().getToken().equals("")) {
                 newRequest = addTokenHeader(request, UserManager.getInstance().getToken());
             } else {
-                Toast.makeText(LiveApplication.getContext(), "未登录，请先登录。", Toast.LENGTH_SHORT).show();
                 LoginActivity.start(LiveApplication.getContext());
+                Toast.makeText(LiveApplication.getContext(), "未登录，请先登录。", Toast.LENGTH_SHORT).show();
                 return chain.proceed(newRequest);
             }
         }
@@ -57,9 +58,10 @@ public class LoginInterceptor implements Interceptor {
         String data = handleResponse(responseString);
         Log.d(TAG, "intercept: data = " + data);
         if (CONTENT_OFFLINE.equals(data)) {
+            Looper.prepare();
             UserManager.getInstance().offline();
-            Toast.makeText(LiveApplication.getContext(), "登录过期，请重新登录。", Toast.LENGTH_SHORT).show();
             LoginActivity.start(LiveApplication.getContext());
+            Toast.makeText(LiveApplication.getContext(), "登录过期，请重新登录。", Toast.LENGTH_SHORT).show();
             return response.newBuilder().body(responseBody.create(responseBody.contentType(), "")).build();
         }
         // 重新构建 responseBody
