@@ -12,7 +12,7 @@ import retrofit2.http.GET;
  */
 public interface MeApi {
 
-    @GET("Me/user")
+    @GET("me/user")
     Observable<User> getUser(
     );
 }
