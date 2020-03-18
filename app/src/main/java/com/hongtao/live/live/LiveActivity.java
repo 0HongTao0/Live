@@ -1,25 +1,18 @@
 package com.hongtao.live.live;
 
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.hongtao.live.R;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import com.hongtao.live.base.BaseActivity;
 
 /**
  * Created 2020/3/4.
  *
  * @author HongTao
  */
-public class LiveFragment extends Fragment implements LiveContract.View, View.OnClickListener {
+public class LiveActivity extends BaseActivity implements LiveContract.View, View.OnClickListener {
     private static final String TAG = "LiveFragment";
     private LivePresenter mPresenter;
     private SurfaceView mLiveView;
@@ -27,20 +20,6 @@ public class LiveFragment extends Fragment implements LiveContract.View, View.On
     private View mBtnStart;
     private View mBtnStop;
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_live, container, false);
-        mLiveView = rootView.findViewById(R.id.live_texture_view);
-        rootView.findViewById(R.id.live_iv_switch_camera).setOnClickListener(this);
-        mBtnStart = rootView.findViewById(R.id.live_iv_start);
-        mBtnStart.setOnClickListener(this);
-        mBtnStop = rootView.findViewById(R.id.live_iv_stop);
-        mBtnStop.setOnClickListener(this);
-        mPresenter = new LivePresenter(this);
-        mPresenter.startCameraPreview(getActivity(), mLiveView);
-        return rootView;
-    }
 
     @Override
     public void onResume() {
@@ -87,5 +66,22 @@ public class LiveFragment extends Fragment implements LiveContract.View, View.On
     public void showStopBtn() {
         mBtnStop.setVisibility(View.VISIBLE);
         mBtnStart.setVisibility(View.GONE);
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_live;
+    }
+
+    @Override
+    public void initView() {
+        mLiveView = findViewById(R.id.live_texture_view);
+        findViewById(R.id.live_iv_switch_camera).setOnClickListener(this);
+        mBtnStart = findViewById(R.id.live_iv_start);
+        mBtnStart.setOnClickListener(this);
+        mBtnStop = findViewById(R.id.live_iv_stop);
+        mBtnStop.setOnClickListener(this);
+        mPresenter = new LivePresenter(this);
+        mPresenter.startCameraPreview(this, mLiveView);
     }
 }

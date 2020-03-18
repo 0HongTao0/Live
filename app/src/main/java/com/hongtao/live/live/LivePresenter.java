@@ -14,7 +14,7 @@ import com.hongtao.live.listener.LiveStateChangeListener;
  */
 public class LivePresenter implements LiveContract.Presenter {
     private static final String TAG = "LivePresenter";
-    private final static String LIVE_URL = "rtmp://192.168.0.105:1935/abcs/r";
+    private final static String LIVE_URL = "rtmp://192.168.0.105:1935/Live/935245421";
     private LiveContract.View mView;
 
     private LivePusherNew mLivePusher;

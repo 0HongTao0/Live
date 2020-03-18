@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hongtao.live.base.BaseActivity;
 import com.hongtao.live.home.HomeFragment;
-import com.hongtao.live.live.LiveFragment;
 import com.hongtao.live.me.MeFragment;
 
 import java.util.ArrayList;
@@ -40,14 +39,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.item_bottom_live:
+                    case R.id.item_bottom_home:
                         viewPager2.setCurrentItem(0);
                         break;
-                    case R.id.item_bottom_home:
-                        viewPager2.setCurrentItem(1);
-                        break;
                     case R.id.item_bottom_me:
-                        viewPager2.setCurrentItem(2);
+                        viewPager2.setCurrentItem(1);
                         break;
                 }
                 return false;
@@ -71,7 +67,6 @@ public class MainActivity extends BaseActivity {
             }
         });
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new LiveFragment());
         fragments.add(new HomeFragment());
         fragments.add(new MeFragment());
         final MainVpAdapter mainVpAdapter = new MainVpAdapter(this, fragments);

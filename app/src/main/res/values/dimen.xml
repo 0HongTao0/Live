@@ -27,5 +27,7 @@
     <dimen name="me_text_margin_outside">40dp</dimen>
     <dimen name="me_text_margin_inside">100dp</dimen>
     <dimen name="me_text_size">12sp</dimen>
+    <dimen name="me_btn_margin_outside">80dp</dimen>
+    <dimen name="me_btn_margin_bottom">20dp</dimen>
 
 </resources>

@@ -70,4 +70,8 @@ public class UserManager {
     private void checkInit() {
         if (!isInit) throw new IllegalStateException("user manager 没有初始化");
     }
+
+    public boolean isLogin() {
+        return !"".equals(mToken);
+    }
 }

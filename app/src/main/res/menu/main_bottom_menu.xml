@@ -2,11 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_bottom_live"
-        android:icon="@drawable/ic_main_bottom_live"
-        android:title="@string/bottom_nv_live"/>
-
-    <item
         android:id="@+id/item_bottom_home"
         android:icon="@drawable/ic_main_bottom_home"
         android:title="@string/bottom_nv_home"/>

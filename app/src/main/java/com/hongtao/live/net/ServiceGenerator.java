@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServiceGenerator {
     // App 中的 BaseUrl，若更改 Url，即可在此直接修改。
-    private static final String BASE_URL = "http://192.168.0.113:8080/Live/";
+    private static final String BASE_URL = "http://192.168.0.105:8080/Live/";
     // Gson 转换器
     private static GsonConverterFactory gsonFactory = GsonConverterFactory.create();
 

@@ -13,7 +13,7 @@
             android:id="@+id/me_iv_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/me_top_bg_height"
-            android:background="#78909C" />
+            android:background="@drawable/bg_me_top" />
 
         <ImageView
             android:id="@+id/me_iv_avatar"
@@ -21,8 +21,7 @@
             android:layout_height="@dimen/me_avatar_height"
             android:layout_below="@id/me_iv_top"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/me_avatar_margin_top"
-            android:src="@drawable/ic_default_avatar" />
+            android:layout_marginTop="@dimen/me_avatar_margin_top" />
 
         <TextView
             android:id="@+id/me_tv_user_id"
@@ -31,12 +30,12 @@
             android:layout_above="@id/me_iv_avatar"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/me_user_name_margin_top"
-            android:text="935245421"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/me_text_size"
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/me_ll_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/me_iv_avatar"
@@ -62,7 +61,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="像风一样的男子"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -92,7 +90,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="男"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -122,7 +119,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="2000-1-1"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -152,7 +148,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="兼职网红"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -182,7 +177,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="广东省-阳春市-春城镇"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -212,7 +206,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="这人懒的什么都没留下"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -242,7 +235,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/me_text_margin_inside"
-                    android:text="来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！来呀，直播间里面很好玩哦！"
                     android:textSize="@dimen/me_text_size"
                     android:textStyle="bold" />
 
@@ -256,6 +248,35 @@
                 android:background="@color/divider" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/me_btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/me_ll_message"
+            android:layout_marginStart="@dimen/me_btn_margin_outside"
+            android:layout_marginEnd="@dimen/me_btn_margin_outside"
+            android:layout_marginBottom="@dimen/me_btn_margin_bottom"
+            android:background="@drawable/bg_me_logout"
+            android:letterSpacing="0.4"
+            android:text="@string/me_btn_logout"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/me_btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/me_ll_message"
+            android:layout_marginStart="@dimen/me_btn_margin_outside"
+            android:layout_marginEnd="@dimen/me_btn_margin_outside"
+            android:layout_marginBottom="@dimen/me_btn_margin_bottom"
+            android:background="@drawable/bg_me_login"
+            android:letterSpacing="0.6"
+            android:text="@string/me_btn_login"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
