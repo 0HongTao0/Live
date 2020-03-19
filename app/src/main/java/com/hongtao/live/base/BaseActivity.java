@@ -2,7 +2,6 @@ package com.hongtao.live.base;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.view.WindowManager;
 
 import com.hongtao.live.util.PermissionsUtils;
 
@@ -24,7 +23,6 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         final String[] PERMISSIONS = new String[]{Manifest.permission.CAMERA,Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.INTERNET};
         PermissionsUtils.checkAndRequestMorePermissions(this, PERMISSIONS, REQUEST_CODE_PERMISSIONS,
                 new PermissionsUtils.PermissionRequestSuccessCallBack() {
