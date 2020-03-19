@@ -25,15 +25,23 @@
         android:textSize="@dimen/home_room_tv_size"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/room_iv_hot"
+        android:layout_width="@dimen/home_room_iv_hot_width"
+        android:layout_height="@dimen/home_room_iv_hot_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/home_room_iv_hot_margin_start"
+        android:layout_marginBottom="@dimen/home_room_margin_bottom"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_room_hot" />
+
     <TextView
         android:id="@+id/room_tv_num"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/home_room_tv_num_height"
-        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/home_room_tv_num_margin_end"
         android:layout_marginBottom="@dimen/home_room_margin_bottom"
-        android:drawableStart="@drawable/ic_room_watch"
+        android:layout_toEndOf="@id/room_iv_hot"
         android:gravity="center"
         android:text="8933"
         android:textColor="@color/colorWhite"

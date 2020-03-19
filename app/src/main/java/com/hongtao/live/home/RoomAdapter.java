@@ -49,6 +49,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.VH> {
         holder.mTvRoomIntroduction.setText(room.getRoomIntroduction());
         Glide.with(holder.mIvAvatar.getContext())
                 .load(room.getAvatar())
+                .centerCrop()
                 .transform(new GreyPicTransform())
                 .into(holder.mIvAvatar);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -1,15 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center">
+    android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_rv_rooms"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_title_height"
+            android:background="@color/colorPrimaryDark">
 
-</LinearLayout>
+            <View
+                android:id="@+id/home_iv_hot"
+                android:layout_width="@dimen/home_iv_hot_width"
+                android:layout_height="@dimen/home_iv_hot_height"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/home_iv_hot_margin_start"
+                android:background="@drawable/ic_home_hot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/home_iv_hot"
+                android:text="@string/home_tv_title"
+                android:textColor="@color/yellow"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/home_et_search"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/home_et_search_height"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/home_et_margin_start"
+                android:layout_marginEnd="@dimen/home_et_margin_end"
+                android:background="@drawable/bg_home_et_search"
+                android:paddingStart="@dimen/home_et_padding_start_end"
+                android:paddingEnd="@dimen/home_et_padding_start_end" />
+
+            <View
+                android:layout_width="@dimen/home_iv_search_width"
+                android:layout_height="@dimen/home_iv_search_height"
+                android:layout_alignEnd="@id/home_et_search"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/home_iv_search_margin_end"
+                android:background="@drawable/ic_home_search"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <View
+                android:id="@+id/home_iv_attention"
+                android:layout_width="@dimen/home_iv_attention_width"
+                android:layout_height="@dimen/home_iv_attention_height"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/home_margin"
+                android:background="@drawable/ic_home_attention"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_rv_rooms"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_home_rv">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider" />
+
+    </LinearLayout>
+</ScrollView>

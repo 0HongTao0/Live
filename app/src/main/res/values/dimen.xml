@@ -33,17 +33,32 @@
     <!--home-->
     <dimen name="home_room_rv_item_height">160dp</dimen>
     <dimen name="home_room_rv_item_margin">5dp</dimen>
+    <dimen name="home_room_item_corner">8dp</dimen>
     <dimen name="home_room_iv_avatar_margin_start_end">8dp</dimen>
     <dimen name="home_room_margin_start_end">10dp</dimen>
     <dimen name="home_room_margin_bottom">28dp</dimen>
-    <dimen name="home_room_iv_watch_width">20dp</dimen>
-    <dimen name="home_room_iv_watch_height">20dp</dimen>
+    <dimen name="home_room_iv_hot_width">16dp</dimen>
+    <dimen name="home_room_iv_hot_height">16dp</dimen>
     <dimen name="home_room_iv_margin_bottom">20dp</dimen>
     <dimen name="home_room_iv_margin_end">48dp</dimen>
     <dimen name="home_room_tv_num_height">20dp</dimen>
-    <dimen name="home_room_tv_num_margin_end">16dp</dimen>
+    <dimen name="home_room_iv_hot_margin_start">120dp</dimen>
     <dimen name="home_room_tv_introduction_height">20dp</dimen>
     <dimen name="home_room_tv_size">10sp</dimen>
+    <dimen name="home_title_height">50dp</dimen>
+    <dimen name="home_margin">10dp</dimen>
+    <dimen name="home_iv_attention_width">25dp</dimen>
+    <dimen name="home_iv_attention_height">25dp</dimen>
+    <dimen name="home_et_margin_end">90dp</dimen>
+    <dimen name="home_et_margin_start">100dp</dimen>
+    <dimen name="home_et_search_height">30dp</dimen>
+    <dimen name="home_et_padding_start_end">12dp</dimen>
+    <dimen name="home_iv_search_height">20dp</dimen>
+    <dimen name="home_iv_search_width">20dp</dimen>
+    <dimen name="home_iv_search_margin_end">-30dp</dimen>
+    <dimen name="home_iv_hot_width">20dp</dimen>
+    <dimen name="home_iv_hot_height">20dp</dimen>
+    <dimen name="home_iv_hot_margin_start">10dp</dimen>
 
 
 </resources>
