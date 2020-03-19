@@ -8,8 +8,10 @@ import com.hongtao.live.LiveApplication;
 import com.hongtao.live.UserManager;
 import com.hongtao.live.login.LoginActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 
@@ -76,7 +78,12 @@ public class LoginInterceptor implements Interceptor {
             JSONObject resultJsonObject = new JSONObject(responseString);
             int status = resultJsonObject.getInt(CONTENT_STATUS);
             if (status == com.hongtao.live.module.Response.CODE_SUCCESS) {
-                result = resultJsonObject.getJSONObject(CONTENT_DATA).toString();
+                Object object = new JSONTokener(resultJsonObject.get(CONTENT_DATA).toString()).nextValue();
+                if (object instanceof  JSONObject) {
+                    result = resultJsonObject.getJSONObject(CONTENT_DATA).toString();
+                } else if (object instanceof JSONArray) {
+                    result = resultJsonObject.getJSONArray(CONTENT_DATA).toString();
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -91,9 +98,6 @@ public class LoginInterceptor implements Interceptor {
     }
 
     private boolean urlNeedToken(HttpUrl url) {
-        if (!url.toString().contains("loginAction")) {
-            return true;
-        }
-        return false;
+        return !url.toString().contains("loginAction") && !url.toString().contains("getRooms");
     }
 }

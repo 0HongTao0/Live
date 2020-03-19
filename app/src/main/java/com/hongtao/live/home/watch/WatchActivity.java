@@ -1,11 +1,14 @@
 package com.hongtao.live.home.watch;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
+import com.hongtao.live.module.Room;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
@@ -18,6 +21,14 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
  */
 public class WatchActivity extends BaseActivity {
     private static final String TAG = "WatchActivity";
+    private static final String KEY_ROOM = "key_room";
+
+    public static void start(Context context, Room room) {
+        Intent intent = new Intent(context, WatchActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_ROOM, room);
+        context.startActivity(intent);
+    }
 
     private StandardGSYVideoPlayer videoPlayer;
 
@@ -31,10 +42,11 @@ public class WatchActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        Room room = getIntent().getParcelableExtra(KEY_ROOM);
         videoPlayer =  (StandardGSYVideoPlayer)findViewById(R.id.video_player);
 
-        String source1 = "rtmp://192.168.0.105:1935/abcs/r";
-        videoPlayer.setUp(source1, true, "测试视频");
+        String source1 = room.getUrl();
+        videoPlayer.setUp(source1, true, room.getNick());
 
         //增加封面
         ImageView imageView = new ImageView(this);

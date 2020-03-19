@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/home_room_rv_item_height"
+    android:layout_margin="@dimen/home_room_rv_item_margin"
+    android:background="@drawable/bg_room_item">
+
+    <ImageView
+        android:id="@+id/room_iv_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/home_room_iv_margin_bottom"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_me_top" />
+
+    <TextView
+        android:id="@+id/room_tv_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/home_room_margin_start_end"
+        android:layout_marginBottom="@dimen/home_room_margin_bottom"
+        android:text="孟磊"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/home_room_tv_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/room_tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/home_room_tv_num_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/home_room_tv_num_margin_end"
+        android:layout_marginBottom="@dimen/home_room_margin_bottom"
+        android:drawableStart="@drawable/ic_room_watch"
+        android:gravity="center"
+        android:text="8933"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/home_room_tv_size" />
+
+    <TextView
+        android:id="@+id/room_tv_room_introduction"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_room_tv_introduction_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/home_room_margin_start_end"
+        android:layout_marginEnd="@dimen/home_room_margin_start_end"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:maxLines="1"
+        android:text="LPL春季赛DMOvsWE火速上线的撒打算asdasd" />
+
+
+</RelativeLayout>

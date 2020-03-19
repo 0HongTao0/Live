@@ -14,6 +14,15 @@ public interface Content {
         public static final String MSG_LOGIN_FAIL = "登录失败，请检查账号密码。";
         public static final String MSG_REGISTERED_SUCCESS = "注册成功,请登录。";
         public static final String MSG_REGISTERED_FAIL_SAME_ID = "ID已存在";
+
+        public static final String MSG_ME_GET_SUCCESS = "获取用户信息成功";
+
+        public static final String MSG_ROOM_GET_SUCCESS = "直播间存在,获取信息成功";
+        public static final String MSG_ROOM_GET_FAIL = "直播间不存在,需要创建直播间";
+        public static final String MSG_ROOM_CREATE_SUCCESS = "创建直播间成功";
+        public static final String MSG_ROOM_UPDATE_SUCCESS = "更新直播间成功";
+
+
     }
 
     class Code{
@@ -21,5 +30,11 @@ public interface Content {
         public static final int CODE_LOGIN_FAIL = -1;
         public static final int CODE_REGISTERED_SUCCESS = 1;
         public static final int CODE_REGISTERED_FAIL_SAME_ID = -1;
+
+        public static final int CODE_ROOM_EXIST = 1;
+        public static final int CODE_ROOM_NOT_EXIST = -1;
+        public static final int CODE_ROOM_CREATE = 2;
+        public static final int CODE_ROOM_UPDATE = 3;
+
     }
 }
