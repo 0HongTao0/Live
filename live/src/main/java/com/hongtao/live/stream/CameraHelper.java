@@ -3,12 +3,18 @@ package com.hongtao.live.stream;
 import android.app.Activity;
 import android.graphics.ImageFormat;
 import android.hardware.Camera;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import java.util.List;
 
-public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallback {
+import static android.content.Context.SENSOR_SERVICE;
+
+public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallback, SensorEventListener {
 
     private Activity mActivity;
     private int mHeight;
@@ -22,11 +28,15 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
     private OnChangedSizeListener mOnChangedSizeListener;
     private byte[] bytes;
 
+    private SensorManager mSensorManager;
+
     CameraHelper(Activity activity, int cameraId, int width, int height) {
         mActivity = activity;
         mCameraId = cameraId;
         mWidth = width;
         mHeight = height;
+        mSensorManager = (SensorManager) mActivity.getSystemService(SENSOR_SERVICE);
+        mSensorManager.registerListener(this, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
     }
 
     void switchCamera() {
@@ -56,6 +66,7 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
             mCamera = Camera.open(mCameraId);
             Camera.Parameters parameters = mCamera.getParameters();
             parameters.setPreviewFormat(ImageFormat.NV21);
+            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
             setPreviewSize(parameters);
             setPreviewOrientation(parameters);
             mCamera.setParameters(parameters);
@@ -201,6 +212,17 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
         }
     }
 
+    public void autoFocus() {
+        if (null != mCamera) {
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera) {
+
+                }
+            });
+        }
+    }
+
 
     void setOnChangedSizeListener(OnChangedSizeListener listener) {
         mOnChangedSizeListener = listener;
@@ -209,6 +231,43 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
     public void release() {
         mSurfaceHolder.removeCallback(this);
         stopPreview();
+    }
+
+    //第一次实例化的时候是不需要的
+    private boolean mInitialized = false;
+    private float mLastX = 0f;
+    private float mLastY = 0f;
+    private float mLastZ = 0f;
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
+
+        if (!mInitialized) {
+            mLastX = x;
+            mLastY = y;
+            mLastZ = z;
+            mInitialized = true;
+        }
+
+        float deltaX = Math.abs(mLastX - x);
+        float deltaY = Math.abs(mLastY - y);
+        float deltaZ = Math.abs(mLastZ - z);
+
+        if (deltaX > 0.6 || deltaY > 0.6 || deltaZ > 0.6) {
+            autoFocus();
+        }
+
+        mLastX = x;
+        mLastY = y;
+        mLastZ = z;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
     }
 
     public interface OnChangedSizeListener {
