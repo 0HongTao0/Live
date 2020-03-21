@@ -1,11 +1,15 @@
 package com.hongtao.live.live;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
 
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
+import com.hongtao.live.home.watch.WatchActivity;
+import com.hongtao.live.module.Room;
 
 /**
  * Created 2020/3/4.
@@ -14,6 +18,16 @@ import com.hongtao.live.base.BaseActivity;
  */
 public class LiveActivity extends BaseActivity implements LiveContract.View, View.OnClickListener {
     private static final String TAG = "LiveFragment";
+
+    private static final String KEY_ROOM = "key_room";
+
+    public static void start(Context context, Room room) {
+        Intent intent = new Intent(context, LiveActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(KEY_ROOM, room);
+        context.startActivity(intent);
+    }
+
     private LivePresenter mPresenter;
     private SurfaceView mLiveView;
 
@@ -81,7 +95,7 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
         mBtnStart.setOnClickListener(this);
         mBtnStop = findViewById(R.id.live_iv_stop);
         mBtnStop.setOnClickListener(this);
-        mPresenter = new LivePresenter(this);
+        mPresenter = new LivePresenter(this, getIntent().getParcelableExtra(KEY_ROOM));
         mPresenter.startCameraPreview(this, mLiveView);
     }
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/room_dialog_margin"
+    android:layout_marginEnd="@dimen/room_dialog_margin"
+    android:background="@drawable/bg_room_create_dialog"
+    android:padding="@dimen/room_dialog_padding">
+
+    <ImageView
+        android:id="@+id/room_dialog_iv_avatar"
+        android:layout_width="@dimen/room_dialog_iv_avatar_width"
+        android:layout_height="@dimen/room_dialog_iv_avatar_height" />
+
+    <TextView
+        android:id="@+id/room_dialog_tv_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/room_dialog_tv_nick_margin"
+        android:layout_marginTop="@dimen/room_dialog_tv_nick_margin"
+        android:layout_toEndOf="@id/room_dialog_iv_avatar"
+        android:text="像风一样的男子"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:id="@+id/room_dialog_tv_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_dialog_iv_avatar"
+        android:layout_marginTop="@dimen/room_dialog_tv_margin_top"
+        android:text="@string/room_dialog_et_room_name"
+        android:textColor="@color/colorWhite" />
+
+    <EditText
+        android:id="@+id/room_dialog_et_room_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_dialog_iv_avatar"
+        android:layout_marginStart="@dimen/room_dialog_et_margin_start"
+        android:layout_marginTop="@dimen/room_dialog_et_margin_top"
+        android:layout_toEndOf="@id/room_dialog_tv_room_name"
+        android:background="@drawable/bg_room_dialog_et"
+        android:maxLines="1"
+        android:paddingStart="@dimen/room_dialog_et_padding"
+        android:paddingEnd="@dimen/room_dialog_et_padding" />
+
+    <TextView
+        android:id="@+id/room_dialog_tv_room_introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_dialog_tv_room_name"
+        android:layout_marginTop="@dimen/room_dialog_tv_margin_top"
+        android:text="@string/room_dialog_et_room_introduction"
+        android:textColor="@color/colorWhite" />
+
+    <EditText
+        android:id="@+id/room_dialog_et_room_introduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_dialog_tv_room_name"
+        android:layout_marginStart="@dimen/room_dialog_et_margin_start"
+        android:layout_marginTop="@dimen/room_dialog_et_margin_top"
+        android:layout_toEndOf="@id/room_dialog_tv_room_name"
+        android:background="@drawable/bg_room_dialog_et"
+        android:gravity="start"
+        android:minLines="3"
+        android:paddingStart="@dimen/room_dialog_et_padding"
+        android:paddingEnd="@dimen/room_dialog_et_padding" />
+
+    <Button
+        android:id="@+id/room_dialog_btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/room_dialog_btn_height"
+        android:layout_below="@id/room_dialog_et_room_introduction"
+        android:layout_marginTop="@dimen/room_dialog_btn_margin_top"
+        android:background="@drawable/bg_room_create_dialog_btn_cancel"
+        android:paddingStart="@dimen/room_dialog_btn_padding"
+        android:paddingEnd="@dimen/room_dialog_btn_padding"
+        android:text="@string/room_dialog_btn_cancel" />
+
+    <Button
+        android:id="@+id/room_dialog_btn_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/room_dialog_btn_height"
+        android:layout_below="@id/room_dialog_et_room_introduction"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/room_dialog_btn_margin_top"
+        android:background="@drawable/bg_room_create_dialog_btn_confirm"
+        android:paddingStart="@dimen/room_dialog_btn_padding"
+        android:paddingEnd="@dimen/room_dialog_btn_padding"
+        android:text="@string/room_dialog_btn_confirm" />
+
+</RelativeLayout>

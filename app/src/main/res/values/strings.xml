@@ -20,4 +20,9 @@
 
     <string name="home_tv_title">热门精选</string>
 
+    <string name="room_dialog_et_room_name">直播间</string>
+    <string name="room_dialog_et_room_introduction">简介</string>
+    <string name="room_dialog_btn_confirm">确认</string>
+    <string name="room_dialog_btn_cancel">取消</string>
+
 </resources>

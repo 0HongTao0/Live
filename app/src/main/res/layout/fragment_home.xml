@@ -39,6 +39,7 @@
                 android:layout_marginStart="@dimen/home_et_margin_start"
                 android:layout_marginEnd="@dimen/home_et_margin_end"
                 android:background="@drawable/bg_home_et_search"
+                android:maxLines="1"
                 android:paddingStart="@dimen/home_et_padding_start_end"
                 android:paddingEnd="@dimen/home_et_padding_start_end" />
 

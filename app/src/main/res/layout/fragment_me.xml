@@ -16,12 +16,25 @@
             android:background="@drawable/bg_me_top" />
 
         <ImageView
+            android:id="@+id/me_iv_live"
+            android:layout_width="@dimen/me_iv_live_width"
+            android:layout_height="@dimen/me_iv_live_height"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/me_iv_live_margin"
+            android:layout_marginEnd="@dimen/me_iv_live_margin"
+            android:background="@drawable/ic_me_live"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <ImageView
             android:id="@+id/me_iv_avatar"
             android:layout_width="@dimen/me_avatar_width"
             android:layout_height="@dimen/me_avatar_height"
             android:layout_below="@id/me_iv_top"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/me_avatar_margin_top" />
+            android:layout_marginTop="@dimen/me_avatar_margin_top"
+            android:clickable="true"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/me_tv_user_id"

@@ -6,6 +6,7 @@ import android.view.SurfaceView;
 
 import com.hongtao.live.LivePusherNew;
 import com.hongtao.live.listener.LiveStateChangeListener;
+import com.hongtao.live.module.Room;
 
 /**
  * Created 2020/3/5.
@@ -14,13 +15,14 @@ import com.hongtao.live.listener.LiveStateChangeListener;
  */
 public class LivePresenter implements LiveContract.Presenter {
     private static final String TAG = "LivePresenter";
-    private final static String LIVE_URL = "rtmp://192.168.0.105:1935/Live/935245421";
     private LiveContract.View mView;
 
     private LivePusherNew mLivePusher;
+    private Room mRoom;
 
-    public LivePresenter(LiveContract.View view) {
+    public LivePresenter(LiveContract.View view, Room room) {
         this.mView = view;
+        this.mRoom = room;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class LivePresenter implements LiveContract.Presenter {
 
     @Override
     public void startLive() {
-        mLivePusher.startPush(LIVE_URL, new LiveStateChangeListener() {
+        mLivePusher.startPush(mRoom.getUrl(), new LiveStateChangeListener() {
             @Override
             public void onError(String msg) {
                 Log.d(TAG, "onError: " + msg);

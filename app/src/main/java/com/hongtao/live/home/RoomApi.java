@@ -5,7 +5,10 @@ import com.hongtao.live.module.Room;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 /**
  * Created 2020/3/19.
@@ -15,4 +18,18 @@ import retrofit2.http.GET;
 public interface RoomApi {
     @GET("room/getRooms")
     Observable<List<Room>> getRooms();
+
+    @GET("room/checkRoom")
+    Observable<Room> checkRoom();
+
+    @FormUrlEncoded
+    @POST("room/createRoom")
+    Observable<Room> createRoom(@Field("roomName") String roomName,
+                                @Field("roomIntroduction") String roomIntroduction);
+
+    @FormUrlEncoded
+    @POST("room/updateRoom")
+    Observable<Room> updateRoom(@Field("roomId") int roomId,
+                                @Field("roomName") String roomName,
+                                @Field("roomIntroduction") String roomIntroduction);
 }

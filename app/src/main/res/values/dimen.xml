@@ -29,6 +29,9 @@
     <dimen name="me_text_size">12sp</dimen>
     <dimen name="me_btn_margin_outside">80dp</dimen>
     <dimen name="me_btn_margin_bottom">20dp</dimen>
+    <dimen name="me_iv_live_width">35dp</dimen>
+    <dimen name="me_iv_live_height">35dp</dimen>
+    <dimen name="me_iv_live_margin">15dp</dimen>
 
     <!--home-->
     <dimen name="home_room_rv_item_height">160dp</dimen>
@@ -60,5 +63,19 @@
     <dimen name="home_iv_hot_height">20dp</dimen>
     <dimen name="home_iv_hot_margin_start">10dp</dimen>
 
+    <!--create Room dialog-->
+    <dimen name="room_dialog_margin">20dp</dimen>
+    <dimen name="room_dialog_iv_avatar_width">40dp</dimen>
+    <dimen name="room_dialog_iv_avatar_height">40dp</dimen>
+    <dimen name="room_dialog_padding">10dp</dimen>
+    <dimen name="room_dialog_tv_nick_margin">10dp</dimen>
+    <dimen name="room_dialog_et_margin_start">10dp</dimen>
+    <dimen name="room_dialog_tv_margin_top">12dp</dimen>
+    <dimen name="room_dialog_et_margin_top">10dp</dimen>
+    <dimen name="room_dialog_et_padding">10dp</dimen>
+    <dimen name="room_dialog_btn_margin_top">10dp</dimen>
+    <dimen name="room_dialog_btn_margin_start_end">20dp</dimen>
+    <dimen name="room_dialog_btn_height">35dp</dimen>
+    <dimen name="room_dialog_btn_padding">20dp</dimen>
 
 </resources>
