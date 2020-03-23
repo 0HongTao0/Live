@@ -9,6 +9,8 @@ import com.hongtao.live.live.LiveActivity;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
 import com.hongtao.live.net.ServiceGenerator;
+import com.hongtao.live.param.AudioParam;
+import com.hongtao.live.param.VideoParam;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -153,7 +155,7 @@ public class MePresenter implements MeContract.Presenter {
     }
 
     @Override
-    public void startLiving(Context context, Room room) {
-        LiveActivity.start(context, room);
+    public void startLiving(Context context, Room room, VideoParam videoParam, AudioParam audioParam) {
+        LiveActivity.start(context, room, videoParam, audioParam);
     }
 }

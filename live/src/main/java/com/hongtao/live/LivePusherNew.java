@@ -31,9 +31,10 @@ public class LivePusherNew {
     //视频参数
     private static final int VIDEO_WIDTH = 640;//分辨率设置
     private static final int VIDEO_HEIGHT = 480;
-    private static final int VIDEO_BIT_RATE = 800_000;//kb/s
+    private static final int VIDEO_BIT_RATE = 800000;//kb/s
     private static final int VIDEO_FRAME_RATE = 10;//fps
-
+    private static final int VIDEO_RATE_CONTROL = VideoParam.RATE_CONTROL_X264_RC_ABR; //=RC_ABR 恒定码率
+    private static final int VIDEO_PROFILE = VideoParam.PROFILE_BASELINE; //BASELINE 基本画质
     //音频参数
     private static final int SAMPLE_RATE = 44100;//采样率：Hz
     private static final int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_STEREO;//立体声道
@@ -55,7 +56,14 @@ public class LivePusherNew {
         AudioParam audioParam = new AudioParam(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, NUM_CHANNELS);
         native_init();
         videoStream = new VideoStream(this, activity, videoParam.getWidth(), videoParam.getHeight(),
-                videoParam.getBitRate(), videoParam.getFrameRate(), videoParam.getCameraId());
+                videoParam.getBitRate(), videoParam.getFrameRate(), videoParam.getCameraId(), VIDEO_RATE_CONTROL, VIDEO_PROFILE);
+        audioStream = new AudioStream(this, audioParam);
+    }
+
+    public LivePusherNew(Activity activity, VideoParam videoParam, AudioParam audioParam) {
+        native_init();
+        videoStream = new VideoStream(this, activity, videoParam.getWidth(), videoParam.getHeight(),
+                videoParam.getBitRate(), videoParam.getFrameRate(), videoParam.getCameraId(), videoParam.getRateControl(), videoParam.getProfile());
         audioStream = new AudioStream(this, audioParam);
     }
 
@@ -143,12 +151,12 @@ public class LivePusherNew {
         }
     }
 
-    public void setVideoCodecInfo(int width, int height, int fps, int bitrate) {
-        native_setVideoCodecInfo(width, height, fps, bitrate);
+    public void setVideoCodecInfo(int width, int height, int fps, int bitrate, int rateControl, int profile) {
+        native_setVideoCodecInfo(width, height, fps, bitrate, rateControl, profile);
     }
 
-    public void setAudioCodecInfo(int sampleRateInHz, int channels) {
-        native_setAudioCodecInfo(sampleRateInHz, channels);
+    public void setAudioCodecInfo(int sampleRateInHz, int channels, int accType) {
+        native_setAudioCodecInfo(sampleRateInHz, channels, accType);
     }
 
     public void start(String path) {
@@ -175,9 +183,9 @@ public class LivePusherNew {
 
     private native void native_start(String path);
 
-    private native void native_setVideoCodecInfo(int width, int height, int fps, int bitrate);
+    private native void native_setVideoCodecInfo(int width, int height, int fps, int bitrate, int rateControl, int profile);
 
-    private native void native_setAudioCodecInfo(int sampleRateInHz, int channels);
+    private native void native_setAudioCodecInfo(int sampleRateInHz, int channels, int accType);
 
     private native int getInputSamples();
 

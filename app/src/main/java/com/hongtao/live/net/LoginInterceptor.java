@@ -1,6 +1,5 @@
 package com.hongtao.live.net;
 
-import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -60,7 +59,6 @@ public class LoginInterceptor implements Interceptor {
         String data = handleResponse(responseString);
         Log.d(TAG, "intercept: data = " + data);
         if (CONTENT_OFFLINE.equals(data)) {
-            Looper.prepare();
             UserManager.getInstance().offline();
             LoginActivity.start(LiveApplication.getContext());
             Toast.makeText(LiveApplication.getContext(), "登录过期，请重新登录。", Toast.LENGTH_SHORT).show();

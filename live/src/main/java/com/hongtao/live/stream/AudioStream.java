@@ -29,7 +29,7 @@ public class AudioStream {
             channelConfig = AudioFormat.CHANNEL_IN_MONO;
         }
 
-        mLivePusher.setAudioCodecInfo(audioParam.getSampleRate(), audioParam.getNumChannels());
+        mLivePusher.setAudioCodecInfo(audioParam.getSampleRate(), audioParam.getNumChannels(), audioParam.getAccType());
         inputSamples = mLivePusher.getInputSample() * 2;
 
         int minBufferSize = AudioRecord.getMinBufferSize(audioParam.getSampleRate(),

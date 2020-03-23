@@ -17,6 +17,8 @@ import com.hongtao.live.login.LoginActivity;
 import com.hongtao.live.module.Content;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
+import com.hongtao.live.param.AudioParam;
+import com.hongtao.live.param.VideoParam;
 import com.hongtao.live.util.DateUtil;
 
 import androidx.annotation.NonNull;
@@ -105,11 +107,16 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
                 .into(mIvAvatar);
     }
 
+    private VideoParam mVideoParam;
+    private AudioParam mAudioParam;
+
     @Override
     public void showCreateRoomDialog(Room room) {
         new CreateRoomDialog(getContext(), R.style.createRoomDialog, room, new CreateRoomDialog.Callback() {
             @Override
-            public void onConfirm(Room room) {
+            public void onConfirm(Room room, VideoParam videoParam, AudioParam audioParam) {
+                mVideoParam = videoParam;
+                mAudioParam = audioParam;
                 if (room.getCode() == Content.Code.CODE_ROOM_NOT_EXIST) {
                     mMePresenter.createRoom(room.getRoomName(), room.getRoomIntroduction());
                 } else if (room.getCode() == Content.Code.CODE_ROOM_EXIST) {
@@ -126,7 +133,10 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
 
     @Override
     public void startLiveActivity(Room room) {
-        mMePresenter.startLiving(getContext(), room);
+        if (null == mVideoParam || null == mAudioParam) {
+            throw new IllegalStateException("video param and audio param not init");
+        }
+        mMePresenter.startLiving(getContext(), room, mVideoParam, mAudioParam);
     }
 
     @Override

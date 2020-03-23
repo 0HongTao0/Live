@@ -5,6 +5,8 @@ import android.content.Context;
 import com.hongtao.live.base.BaseContract;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
+import com.hongtao.live.param.AudioParam;
+import com.hongtao.live.param.VideoParam;
 
 /**
  * Created 2020/3/19.
@@ -35,6 +37,6 @@ public interface MeContract {
 
         void updateRoom(Room room);
 
-        void startLiving(Context context, Room room);
+        void startLiving(Context context, Room room, VideoParam videoParam, AudioParam audioParam);
     }
 }

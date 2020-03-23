@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.view.SurfaceView;
 
 import com.hongtao.live.base.BaseContract;
+import com.hongtao.live.param.AudioParam;
+import com.hongtao.live.param.VideoParam;
 
 /**
  * Created 2020/3/4.
@@ -21,7 +23,9 @@ public interface LiveContract {
     interface Presenter extends BaseContract.BasePresenter {
         void initLiveManager();
 
-        void startCameraPreview(Activity activity, SurfaceView surfaceView);
+        void startCameraPreviewDefault(Activity activity, SurfaceView surfaceView);
+
+        void startCameraPreview(Activity activity, SurfaceView surfaceView, VideoParam videoParam, AudioParam audioParam);
 
         void startLive();
 

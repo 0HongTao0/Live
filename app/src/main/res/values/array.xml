@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="spinner_rate_control">
+        <item>RC_ABR(平均码率)</item>
+        <item>RC_CQP(恒定质量)</item>
+        <item>RC_CRF(恒定码率)</item>
+    </string-array>
+
+    <string-array name="spinner_profile">
+        <item>BASELINE</item>
+        <item>MAIN</item>
+        <item>HIGH </item>
+        <item>HIGH10</item>
+        <item>HIGH422</item>
+        <item>HIGH444</item>
+    </string-array>
+
+    <string-array name="spinner_sample_rate">
+        <item>44100Hz</item>
+        <item>22050Hz</item>
+        <item>16000Hz </item>
+        <item>11025Hz</item>
+    </string-array>
+
+    <string-array name="spinner_channel_config">
+        <item>立体声道</item>
+        <item>左声道</item>
+        <item>右声道</item>
+        <item>前声道</item>
+        <item>后声道 </item>
+    </string-array>
+
+    <string-array name="spinner_acc_type">
+        <item>ACC_LOW</item>
+        <item>ACC_MAIN</item>
+        <item>ACC_SSR</item>
+        <item>ACC_LTP</item>
+    </string-array>
+
+    <string-array name="spinner_camera_resolution">
+        <item>720*480</item>
+        <item>640*480</item>
+        <item>800*600</item>
+        <item>960*540</item>
+        <item>1280*720</item>
+    </string-array>
+
+</resources>

@@ -19,7 +19,7 @@ void AudioStream::setAudioCallback(AudioCallback audioCallback) {
     this->audioCallback = audioCallback;
 }
 
-void AudioStream::setAudioEncInfo(int samplesInHZ, int channels) {
+void AudioStream::setAudioEncInfo(int samplesInHZ, int channels, int accType) {
     //打开编码器
     mChannels = channels;
     //一次最大能输入编码器的样本数量 (一个样本是16位 2字节)
@@ -34,7 +34,7 @@ void AudioStream::setAudioEncInfo(int samplesInHZ, int channels) {
     //指定为 mpeg4 标准
     config->mpegVersion = MPEG4;
     //lc 标准
-    config->aacObjectType = LOW;
+    config->aacObjectType = static_cast<unsigned int>(accType);
     //16位
     config->inputFormat = FAAC_INPUT_16BIT;
     // 编码出原始数据

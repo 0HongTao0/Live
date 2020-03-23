@@ -21,7 +21,7 @@ VideoStream::~VideoStream() {
     }
 }
 
-void VideoStream::setVideoEncInfo(int width, int height, int fps, int bitrate) {
+void VideoStream::setVideoEncInfo(int width, int height, int fps, int bitrate, int rateControl, int profile) {
     pthread_mutex_lock(&mutex);
     mWidth = width;
     mHeight = height;
@@ -50,7 +50,7 @@ void VideoStream::setVideoEncInfo(int width, int height, int fps, int bitrate) {
     //无b帧
     param.i_bframe = 0;
     //参数i_rc_method表示码率控制，CQP(恒定质量)，CRF(恒定码率)，ABR(平均码率)
-    param.rc.i_rc_method = X264_RC_ABR;
+    param.rc.i_rc_method = rateControl;
     //码率(比特率,单位Kbps)
     param.rc.i_bitrate = bitrate / 1000;
     //瞬时最大码率
@@ -72,7 +72,7 @@ void VideoStream::setVideoEncInfo(int width, int height, int fps, int bitrate) {
     //多线程
     param.i_threads = 1;
 
-    x264_param_apply_profile(&param, "baseline");
+    x264_param_apply_profile(&param, x264_profile_names[profile]);
     //打开编码器
     videoCodec = x264_encoder_open(&param);
     pic_in = new x264_picture_t;

@@ -117,6 +117,7 @@ public class VideoStreamNew implements TextureView.SurfaceTextureListener, Camer
 
     /**
      * nv21摄像头数据
+     *
      * @param y plane of y
      * @param u plane of u
      * @param v plane of v
@@ -133,7 +134,7 @@ public class VideoStreamNew implements TextureView.SurfaceTextureListener, Camer
         Log.e(TAG, "onCameraOpened previewSize=" + previewSize.toString());
         if (mLivePusher != null && mVideoParam != null) {
             mLivePusher.setVideoCodecInfo(previewSize.getWidth(), previewSize.getHeight(),
-                    mVideoParam.getFrameRate(), mVideoParam.getBitRate());
+                    mVideoParam.getFrameRate(), mVideoParam.getBitRate(), mVideoParam.getRateControl(), mVideoParam.getProfile());
         }
     }
 

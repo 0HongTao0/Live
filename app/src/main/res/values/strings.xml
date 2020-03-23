@@ -24,5 +24,22 @@
     <string name="room_dialog_et_room_introduction">简介</string>
     <string name="room_dialog_btn_confirm">确认</string>
     <string name="room_dialog_btn_cancel">取消</string>
+    <string name="room_dialog_sw_advance">高级设置</string>
+    <string name="room_dialog_camera">摄像头</string>
+    <string name="room_dialog_camera_back">后置</string>
+    <string name="room_dialog_camera_front">前置</string>
+    <string name="room_dialog_resolution">分辨率</string>
+    <string name="room_dialog_bit_rate">比特率（kb/s）</string>
+    <string name="room_dialog_et_bit_rate_default">800000</string>
+    <string name="room_dialog_frame_rate">帧率（fps）</string>
+    <string name="room_dialog_rate_control">码率控制</string>
+    <string name="room_dialog_profile">画质</string>
+    <string name="room_dialog_sample_rate">采样率（Hz）</string>
+    <string name="room_dialog_advance_video_param">视频参数</string>
+    <string name="room_dialog_audio_param">音频参数</string>
+    <string name="room_dialog_channel_config">声道</string>
+    <string name="room_dialog_acc_type">ACC编码类型</string>
+    <string name="room_dialog_et_frame_rate_default">10</string>
+
 
 </resources>

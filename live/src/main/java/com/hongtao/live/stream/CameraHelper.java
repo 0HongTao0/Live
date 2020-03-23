@@ -66,7 +66,9 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
             mCamera = Camera.open(mCameraId);
             Camera.Parameters parameters = mCamera.getParameters();
             parameters.setPreviewFormat(ImageFormat.NV21);
-            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            if (mCameraId == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            }
             setPreviewSize(parameters);
             setPreviewOrientation(parameters);
             mCamera.setParameters(parameters);

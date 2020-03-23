@@ -15,7 +15,7 @@ public:
     ~VideoStream();
 
     //创建x264编码器
-    void setVideoEncInfo(int width, int height, int fps, int bitrate);
+    void setVideoEncInfo(int width, int height, int fps, int bitrate, int rateControl, int profile);
 
     void encodeData(int8_t *data);
 

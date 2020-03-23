@@ -67,11 +67,306 @@
         android:paddingStart="@dimen/room_dialog_et_padding"
         android:paddingEnd="@dimen/room_dialog_et_padding" />
 
+
+    <ScrollView
+        android:id="@+id/room_dialog_sv_advance"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/room_dialog_advance_sw_height"
+        android:layout_below="@id/room_dialog_et_room_introduction"
+        android:layout_marginTop="@dimen/room_dialog_sw_margin_top">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/room_dialog_advance_video_param"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_camera"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/room_dialog_camera_back"
+                    android:textColor="@color/black" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/room_dialog_sw_camera_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/room_dialog_camera_front"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_resolution"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/room_dialog_sp_resolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_camera_resolution"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/room_dialog_advance_text_size" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_bit_rate"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/room_dialog_et_bit_rate"
+                    android:layout_width="@dimen/room_dialog_et_advance_width"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_room_dialog_et"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/room_dialog_advance_et_padding"
+                    android:paddingEnd="@dimen/room_dialog_advance_et_padding"
+                    android:text="@string/room_dialog_et_bit_rate_default"
+                    android:textAlignment="viewEnd" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_frame_rate"
+                    android:textColor="@color/black" />
+
+                <EditText
+                    android:id="@+id/room_dialog_et_frame_rate"
+                    android:layout_width="@dimen/room_dialog_et_advance_width"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_room_dialog_et"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/room_dialog_advance_et_padding"
+                    android:paddingEnd="@dimen/room_dialog_advance_et_padding"
+                    android:text="@string/room_dialog_et_frame_rate_default"
+                    android:textAlignment="viewEnd" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_rate_control"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/room_dialog_sp_rate_control"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_rate_control"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/room_dialog_advance_text_size" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_profile"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/room_dialog_sp_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_profile"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/room_dialog_advance_text_size" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+                android:background="@color/divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/room_dialog_audio_param"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_sample_rate"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/room_dialog_sp_sample_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_sample_rate"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/room_dialog_advance_text_size" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_channel_config"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/room_dialog_sp_channel_config"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_channel_config"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/room_dialog_advance_text_size" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/room_dialog_divider_margin_top_bottom"
+                android:layout_marginBottom="@dimen/room_dialog_divider_margin_top_bottom"
+                android:background="@color/divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/room_dialog_acc_type"
+                    android:textColor="@color/black" />
+
+                <Spinner
+                    android:id="@+id/room_dialog_sp_acc_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinner_acc_type"
+                    android:textAlignment="viewEnd"
+                    android:textSize="@dimen/room_dialog_advance_text_size" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
     <Button
         android:id="@+id/room_dialog_btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/room_dialog_btn_height"
-        android:layout_below="@id/room_dialog_et_room_introduction"
+        android:layout_below="@id/room_dialog_sv_advance"
         android:layout_marginTop="@dimen/room_dialog_btn_margin_top"
         android:background="@drawable/bg_room_create_dialog_btn_cancel"
         android:paddingStart="@dimen/room_dialog_btn_padding"
@@ -82,7 +377,7 @@
         android:id="@+id/room_dialog_btn_confirm"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/room_dialog_btn_height"
-        android:layout_below="@id/room_dialog_et_room_introduction"
+        android:layout_below="@id/room_dialog_sv_advance"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/room_dialog_btn_margin_top"
         android:background="@drawable/bg_room_create_dialog_btn_confirm"

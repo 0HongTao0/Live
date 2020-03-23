@@ -155,9 +155,9 @@ RTMP_PUSHER_FUNC(void, native_1init) {
 }
 
 RTMP_PUSHER_FUNC(void, native_1setVideoCodecInfo,
-        jint width, jint height, jint fps, jint bitrate) {
+        jint width, jint height, jint fps, jint bitrate, jint rateControl, jint profile) {
     if (videoStream) {
-        videoStream->setVideoEncInfo(width, height, fps, bitrate);
+        videoStream->setVideoEncInfo(width, height, fps, bitrate, rateControl, profile);
     }
 }
 
@@ -196,9 +196,9 @@ RTMP_PUSHER_FUNC(void, native_1pushVideoNew, jbyteArray y, jbyteArray u, jbyteAr
     env->ReleaseByteArrayElements(v, v_plane, 0);
 }
 
-RTMP_PUSHER_FUNC(void, native_1setAudioCodecInfo, jint sampleRateInHz, jint channels) {
+RTMP_PUSHER_FUNC(void, native_1setAudioCodecInfo, jint sampleRateInHz, jint channels, jint accType) {
     if (audioStream) {
-        audioStream->setAudioEncInfo(sampleRateInHz, channels);
+        audioStream->setAudioEncInfo(sampleRateInHz, channels, accType);
     }
 }
 

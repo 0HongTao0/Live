@@ -7,6 +7,8 @@ import android.view.SurfaceView;
 import com.hongtao.live.LivePusherNew;
 import com.hongtao.live.listener.LiveStateChangeListener;
 import com.hongtao.live.module.Room;
+import com.hongtao.live.param.AudioParam;
+import com.hongtao.live.param.VideoParam;
 
 /**
  * Created 2020/3/5.
@@ -31,9 +33,17 @@ public class LivePresenter implements LiveContract.Presenter {
     }
 
     @Override
-    public void startCameraPreview(Activity activity, SurfaceView surfaceView) {
+    public void startCameraPreviewDefault(Activity activity, SurfaceView surfaceView) {
         Log.d(TAG, "startCameraPreview: ");
         mLivePusher = new LivePusherNew(activity);
+        mLivePusher.setPreviewDisplay(surfaceView.getHolder());
+    }
+
+    @Override
+    public void startCameraPreview(Activity activity, SurfaceView surfaceView, VideoParam videoParam, AudioParam audioParam) {
+        Log.d(TAG, "startCameraPreview: " + videoParam.toString());
+        Log.d(TAG, "startCameraPreview: " + audioParam.toString());
+        mLivePusher = new LivePusherNew(activity, videoParam, audioParam);
         mLivePusher.setPreviewDisplay(surfaceView.getHolder());
     }
 

@@ -14,12 +14,16 @@ public class VideoStream implements Camera.PreviewCallback, CameraHelper.OnChang
     private CameraHelper cameraHelper;
     private int mBitrate;
     private int mFps;
+    private int mRateControl;
+    private int mProfile;
     private boolean isLiving;
 
-    public VideoStream(LivePusherNew livePusher, Activity activity, int width, int height, int bitrate, int fps, int cameraId) {
+    public VideoStream(LivePusherNew livePusher, Activity activity, int width, int height, int bitrate, int fps, int cameraId, int rateControl, int profile) {
         mLivePusher = livePusher;
         mBitrate = bitrate;
         mFps = fps;
+        mRateControl = rateControl;
+        mProfile = profile;
         cameraHelper = new CameraHelper(activity, cameraId, width, height);
         cameraHelper.setPreviewCallback(this);
         cameraHelper.setOnChangedSizeListener(this);
@@ -49,7 +53,7 @@ public class VideoStream implements Camera.PreviewCallback, CameraHelper.OnChang
 
     @Override
     public void onChanged(int w, int h) {
-        mLivePusher.setVideoCodecInfo(w, h, mFps, mBitrate);
+        mLivePusher.setVideoCodecInfo(w, h, mFps, mBitrate, mRateControl, mProfile);
     }
 
     public void startLive() {

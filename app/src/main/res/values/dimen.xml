@@ -77,5 +77,13 @@
     <dimen name="room_dialog_btn_margin_start_end">20dp</dimen>
     <dimen name="room_dialog_btn_height">35dp</dimen>
     <dimen name="room_dialog_btn_padding">20dp</dimen>
+    <dimen name="room_dialog_sw_margin_top">10dp</dimen>
+    <dimen name="room_dialog_tv_advance_margin_top">12dp</dimen>
+    <dimen name="room_dialog_et_advance_width">120dp</dimen>
+    <dimen name="room_dialog_divider_margin_top_bottom">2dp</dimen>
+    <dimen name="room_dialog_advance_text_size">10sp</dimen>
+    <dimen name="room_dialog_advance_et_padding">4dp</dimen>
+    <dimen name="room_dialog_advance_sw_height">180dp</dimen>
+
 
 </resources>
