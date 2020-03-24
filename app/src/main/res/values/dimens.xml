@@ -85,5 +85,19 @@
     <dimen name="room_dialog_advance_et_padding">4dp</dimen>
     <dimen name="room_dialog_advance_sw_height">180dp</dimen>
 
+    <!--watch-->
+    <dimen name="watch_iv_avatar_width_height">30dp</dimen>
+    <dimen name="watch_avatar_margin_top_start">20dp</dimen>
+    <dimen name="watch_nick_margin_start">5dp</dimen>
+    <dimen name="watch_nick_margin_top">20dp</dimen>
+    <dimen name="watch_room_introduction_margin_start">5dp</dimen>
+    <dimen name="watch_room_introduction_text_size">10sp</dimen>
+    <dimen name="watch_room_bg_height">50dp</dimen>
+    <dimen name="watch_room_bg_margin_top">10dp</dimen>
+    <dimen name="watch_room_bg_margin_start_end">10dp</dimen>
+    <dimen name="watch_attention_margin_end">20dp</dimen>
+    <dimen name="watch_attention_margin_top">22dp</dimen>
+    <dimen name="watch_attention_padding">4dp</dimen>
+
 
 </resources>

@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
 import com.hongtao.live.module.Room;
@@ -18,7 +22,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
  *
  * @author HongTao
  */
-public class WatchActivity extends BaseActivity {
+public class WatchActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "WatchActivity";
     private static final String KEY_ROOM = "key_room";
 
@@ -31,6 +35,9 @@ public class WatchActivity extends BaseActivity {
 
     private StandardGSYVideoPlayer videoPlayer;
 
+    private ImageView mIvAvatar;
+    private TextView mTvNick, mTvIntroduction, mTvAttention;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_watch;
@@ -39,7 +46,19 @@ public class WatchActivity extends BaseActivity {
     @Override
     public void initView() {
         Room room = getIntent().getParcelableExtra(KEY_ROOM);
-        videoPlayer =  (StandardGSYVideoPlayer)findViewById(R.id.video_player);
+        videoPlayer = (StandardGSYVideoPlayer) findViewById(R.id.video_player);
+        mIvAvatar = findViewById(R.id.watch_iv_avatar);
+        mTvNick = findViewById(R.id.watch_tv_nick);
+        mTvIntroduction = findViewById(R.id.watch_tv_room_introduction);
+        mTvAttention = findViewById(R.id.watch_tv_attention);
+        mTvAttention.setOnClickListener(this);
+
+        mTvNick.setText(room.getNick());
+        mTvIntroduction.setText(room.getRoomIntroduction());
+        Glide.with(mIvAvatar.getContext())
+                .load(room.getAvatar())
+                .apply(RequestOptions.bitmapTransform(new CircleCrop()))//圆形
+                .into(mIvAvatar);
 
         String source1 = "rtmp://192.168.0.107:1935/Live/935245421";
         videoPlayer.setUp(source1, true, room.getNick());
@@ -89,5 +108,10 @@ public class WatchActivity extends BaseActivity {
         //释放所有
         videoPlayer.setVideoAllCallBack(null);
         super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

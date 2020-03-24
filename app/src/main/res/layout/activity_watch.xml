@@ -11,4 +11,54 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/watch_room_bg_height"
+        android:layout_marginStart="@dimen/watch_room_bg_margin_start_end"
+        android:layout_marginTop="@dimen/watch_room_bg_margin_top"
+        android:layout_marginEnd="@dimen/watch_room_bg_margin_start_end"
+        android:background="@drawable/bg_watch_room" />
+
+    <ImageView
+        android:id="@+id/watch_iv_avatar"
+        android:layout_width="@dimen/watch_iv_avatar_width_height"
+        android:layout_height="@dimen/watch_iv_avatar_width_height"
+        android:layout_marginStart="@dimen/watch_avatar_margin_top_start"
+        android:layout_marginTop="@dimen/watch_avatar_margin_top_start" />
+
+    <TextView
+        android:id="@+id/watch_tv_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/watch_nick_margin_start"
+        android:layout_marginTop="@dimen/watch_nick_margin_top"
+        android:layout_toEndOf="@id/watch_iv_avatar"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/watch_tv_room_introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/watch_tv_nick"
+        android:layout_marginStart="@dimen/watch_room_introduction_margin_start"
+        android:layout_toEndOf="@id/watch_iv_avatar"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/watch_room_introduction_text_size" />
+
+    <TextView
+        android:id="@+id/watch_tv_attention"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/watch_attention_margin_top"
+        android:layout_marginEnd="@dimen/watch_attention_margin_end"
+        android:background="@drawable/bg_watch_tv_attention"
+        android:enabled="true"
+        android:focusable="true"
+        android:padding="@dimen/watch_attention_padding"
+        android:text="@string/watch_iv_attention"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
 </RelativeLayout>
