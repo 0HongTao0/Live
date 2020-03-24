@@ -2,7 +2,6 @@ package com.hongtao.live.home.watch;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -10,7 +9,7 @@ import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
 import com.hongtao.live.module.Room;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
-import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 
 
@@ -32,9 +31,6 @@ public class WatchActivity extends BaseActivity {
 
     private StandardGSYVideoPlayer videoPlayer;
 
-    private OrientationUtils orientationUtils;
-
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_watch;
@@ -45,29 +41,21 @@ public class WatchActivity extends BaseActivity {
         Room room = getIntent().getParcelableExtra(KEY_ROOM);
         videoPlayer =  (StandardGSYVideoPlayer)findViewById(R.id.video_player);
 
-        String source1 = room.getUrl();
+        String source1 = "rtmp://192.168.0.107:1935/Live/935245421";
         videoPlayer.setUp(source1, true, room.getNick());
+        GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_FULL);
 
         //增加封面
         ImageView imageView = new ImageView(this);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setImageResource(R.mipmap.ic_launcher);
         videoPlayer.setThumbImageView(imageView);
+        videoPlayer.setIsTouchWiget(false);
+
         //增加title
-        videoPlayer.getTitleTextView().setVisibility(View.VISIBLE);
+        videoPlayer.getTitleTextView().setVisibility(View.GONE);
         //设置返回键
-        videoPlayer.getBackButton().setVisibility(View.VISIBLE);
-        //设置旋转
-        orientationUtils = new OrientationUtils(this, videoPlayer);
-        //设置全屏按键功能,这是使用的是选择屏幕，而不是全屏
-        videoPlayer.getFullscreenButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                orientationUtils.resolveByClick();
-            }
-        });
-        //是否可以滑动调整
-        videoPlayer.setIsTouchWiget(true);
+        videoPlayer.getBackButton().setVisibility(View.GONE);
         //设置返回按键功能
         videoPlayer.getBackButton().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,17 +82,10 @@ public class WatchActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         GSYVideoManager.releaseAllVideos();
-        if (orientationUtils != null)
-            orientationUtils.releaseListener();
     }
 
     @Override
     public void onBackPressed() {
-        //先返回正常状态
-        if (orientationUtils.getScreenType() == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            videoPlayer.getFullscreenButton().performClick();
-            return;
-        }
         //释放所有
         videoPlayer.setVideoAllCallBack(null);
         super.onBackPressed();
