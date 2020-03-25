@@ -22,7 +22,8 @@ public interface Content {
         public static final String MSG_ROOM_CREATE_SUCCESS = "创建直播间成功";
         public static final String MSG_ROOM_UPDATE_SUCCESS = "更新直播间成功";
 
-
+        public static final String MSG_MESSAGE_SEND_SUCCESS = "发送信息成功";
+        public static final String MSG_MESSAGE_GET_SUCCESS = "获取信息成功";
     }
 
     class Code{
@@ -36,5 +37,6 @@ public interface Content {
         public static final int CODE_ROOM_CREATE = 2;
         public static final int CODE_ROOM_UPDATE = 3;
 
+        public static final int CODE_MESSAGE_SEND_SUCCESS = 1;
     }
 }

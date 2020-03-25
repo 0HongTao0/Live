@@ -98,6 +98,16 @@
     <dimen name="watch_attention_margin_end">20dp</dimen>
     <dimen name="watch_attention_margin_top">22dp</dimen>
     <dimen name="watch_attention_padding">4dp</dimen>
+    <dimen name="watch_chat_rv_margin_start_bottom">10dp</dimen>
+    <dimen name="watch_chat_rv_width">150dp</dimen>
+    <dimen name="watch_chat_rv_height">200dp</dimen>
+    <dimen name="watch_et_message_margin_start_bottom">10dp</dimen>
+    <dimen name="watch_tv_send_padding">4dp</dimen>
+    <dimen name="watch_tv_send_margin_bottom_start">10dp</dimen>
+    <dimen name="watch_et_message_padding">10dp</dimen>
+    <dimen name="watch_message_iv_width_height">10dp</dimen>
+    <dimen name="watch_message_tv_nick_size">8sp</dimen>
+    <dimen name="watch_message_item_margin_top_bottom">2dp</dimen>
 
 
 </resources>

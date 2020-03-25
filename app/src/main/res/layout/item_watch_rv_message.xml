@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/watch_message_item_margin_top_bottom"
+    android:layout_marginBottom="@dimen/watch_message_item_margin_top_bottom">
+
+    <ImageView
+        android:id="@+id/watch_message_iv_avatar"
+        android:layout_width="@dimen/watch_message_iv_width_height"
+        android:layout_height="@dimen/watch_message_iv_width_height" />
+
+    <TextView
+        android:id="@+id/watch_message_tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="肥仔:这是一条有灵魂的信息，这是一条有灵魂的信息这是一条有灵魂的信息这是一条有灵魂的信息这是一条有灵魂的信息这是一条有灵魂的信息"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/watch_message_tv_nick_size"
+        android:textStyle="bold" />
+
+</LinearLayout>

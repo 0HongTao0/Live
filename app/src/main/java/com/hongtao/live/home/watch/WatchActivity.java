@@ -1,8 +1,12 @@
 package com.hongtao.live.home.watch;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,10 +15,21 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
+import com.hongtao.live.module.Message;
 import com.hongtao.live.module.Room;
+import com.hongtao.live.net.ServiceGenerator;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+
+import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -33,10 +48,28 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
         context.startActivity(intent);
     }
 
-    private StandardGSYVideoPlayer videoPlayer;
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            List<Message> messages = (List<Message>) intent.getSerializableExtra(MessageService.KEY_MESSAGE);
+            MessageAdapter messageAdapter = new MessageAdapter(messages);
+            LinearLayoutManager manager = new LinearLayoutManager(context) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
+            mRvMessage.setLayoutManager(manager);
+            mRvMessage.setAdapter(messageAdapter);
+            mRvMessage.scrollToPosition(messages.size() - 1);
+            Log.d(TAG, "onReceive: " + messages.toString());
+        }
+    };
 
-    private ImageView mIvAvatar;
-    private TextView mTvNick, mTvIntroduction, mTvAttention;
+    private StandardGSYVideoPlayer videoPlayer;
+    private EditText mEtMessage;
+    private RecyclerView mRvMessage;
+    private Room mRoom;
 
     @Override
     public int getLayoutId() {
@@ -45,22 +78,38 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void initView() {
-        Room room = getIntent().getParcelableExtra(KEY_ROOM);
-        videoPlayer = (StandardGSYVideoPlayer) findViewById(R.id.video_player);
-        mIvAvatar = findViewById(R.id.watch_iv_avatar);
-        mTvNick = findViewById(R.id.watch_tv_nick);
-        mTvIntroduction = findViewById(R.id.watch_tv_room_introduction);
-        mTvAttention = findViewById(R.id.watch_tv_attention);
-        mTvAttention.setOnClickListener(this);
+        mRoom = getIntent().getParcelableExtra(KEY_ROOM);
+        initMessageReceiver();
+        initViewData(mRoom);
+        startMessageService(mRoom);
+    }
 
-        mTvNick.setText(room.getNick());
-        mTvIntroduction.setText(room.getRoomIntroduction());
-        Glide.with(mIvAvatar.getContext())
+    private void initMessageReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MessageService.ACTION_MESSAGE);
+        registerReceiver(mBroadcastReceiver, intentFilter);
+    }
+
+    private void initViewData(Room room) {
+        videoPlayer = (StandardGSYVideoPlayer) findViewById(R.id.video_player);
+        ImageView ivAvatar = findViewById(R.id.watch_iv_avatar);
+        TextView tvNick = findViewById(R.id.watch_tv_nick);
+        TextView tvIntroduction = findViewById(R.id.watch_tv_room_introduction);
+        TextView tvAttention = findViewById(R.id.watch_tv_attention);
+        tvAttention.setOnClickListener(this);
+        TextView tvSend = findViewById(R.id.watch_tv_send);
+        tvSend.setOnClickListener(this);
+        mEtMessage = findViewById(R.id.watch_et_message);
+        mRvMessage = findViewById(R.id.watch_rv_message);
+
+        tvNick.setText(room.getNick());
+        tvIntroduction.setText(room.getRoomIntroduction());
+        Glide.with(ivAvatar.getContext())
                 .load(room.getAvatar())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))//圆形
-                .into(mIvAvatar);
+                .into(ivAvatar);
 
-        String source1 = "rtmp://192.168.0.107:1935/Live/935245421";
+        String source1 = mRoom.getUrl();
         videoPlayer.setUp(source1, true, room.getNick());
         GSYVideoType.setShowType(GSYVideoType.SCREEN_TYPE_FULL);
 
@@ -85,6 +134,12 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
         videoPlayer.startPlayLogic();
     }
 
+    private void startMessageService(Room room) {
+        Intent intent = new Intent(this, MessageService.class);
+        intent.putExtra(MessageService.KEY_ROOM_ID, mRoom.getRoomId());
+        startService(intent);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -101,6 +156,9 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
     protected void onDestroy() {
         super.onDestroy();
         GSYVideoManager.releaseAllVideos();
+        if (null != mBroadcastReceiver) {
+            unregisterReceiver(mBroadcastReceiver);
+        }
     }
 
     @Override
@@ -112,6 +170,36 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.watch_tv_attention:
+                break;
+            case R.id.watch_tv_send:
+                MessageApi messageApi = ServiceGenerator.createService(MessageApi.class);
+                messageApi.sendMessage(mRoom.getRoomId(), mEtMessage.getText().toString(), 1)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<Object>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                Log.d(TAG, "onSubscribe: ");
+                            }
 
+                            @Override
+                            public void onNext(Object object) {
+                                mEtMessage.setText("");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.d(TAG, "onComplete: ");
+                            }
+                        });
+                break;
+        }
     }
 }

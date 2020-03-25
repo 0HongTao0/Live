@@ -3,7 +3,9 @@
     android:id="@+id/activity_play"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000">
+    android:background="#000000"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <com.hongtao.live.home.watch.VideoPlayerNoTouch
         android:id="@+id/video_player"
@@ -60,5 +62,43 @@
         android:text="@string/watch_iv_attention"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/watch_et_message"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/watch_et_message_margin_start_bottom"
+        android:layout_marginBottom="@dimen/watch_et_message_margin_start_bottom"
+        android:background="@drawable/bg_watch_et_message"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:maxLines="1"
+        android:paddingStart="@dimen/watch_et_message_padding"
+        android:paddingEnd="@dimen/watch_et_message_padding" />
+
+    <TextView
+        android:id="@+id/watch_tv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/watch_tv_send_margin_bottom_start"
+        android:layout_marginBottom="@dimen/watch_tv_send_margin_bottom_start"
+        android:layout_toEndOf="@id/watch_et_message"
+        android:background="@drawable/bg_watch_tv_attention"
+        android:padding="@dimen/watch_tv_send_padding"
+        android:text="@string/watch_tv_send"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/watch_rv_message"
+        android:layout_width="@dimen/watch_chat_rv_width"
+        android:layout_height="@dimen/watch_chat_rv_height"
+        android:layout_above="@id/watch_et_message"
+        android:overScrollMode="always"
+        android:layout_marginStart="@dimen/watch_chat_rv_margin_start_bottom"
+        android:layout_marginBottom="@dimen/watch_chat_rv_margin_start_bottom"
+        android:background="@drawable/bg_watch_rv_message" />
 
 </RelativeLayout>

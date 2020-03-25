@@ -96,6 +96,6 @@ public class LoginInterceptor implements Interceptor {
     }
 
     private boolean urlNeedToken(HttpUrl url) {
-        return !url.toString().contains("loginAction") && !url.toString().contains("getRooms");
+        return !url.toString().contains("loginAction") && !url.toString().contains("getRooms") && !url.toString().contains("/chat/getMessage");
     }
 }
