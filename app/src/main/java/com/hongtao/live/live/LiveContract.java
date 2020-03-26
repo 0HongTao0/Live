@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.SurfaceView;
 
 import com.hongtao.live.base.BaseContract;
+import com.hongtao.live.module.Room;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
 
@@ -18,6 +19,7 @@ public interface LiveContract {
 
         void showStopBtn();
 
+        void clearMessageEt();
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -38,5 +40,7 @@ public interface LiveContract {
         void switchToDesktop();
 
         void switchToCamera();
+
+        void sendMessage(Room room, String message);
     }
 }

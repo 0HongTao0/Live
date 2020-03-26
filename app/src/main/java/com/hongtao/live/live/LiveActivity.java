@@ -1,16 +1,27 @@
 package com.hongtao.live.live;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.EditText;
 
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
+import com.hongtao.live.home.watch.MessageAdapter;
+import com.hongtao.live.home.watch.MessageService;
+import com.hongtao.live.module.Message;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
+
+import java.util.List;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created 2020/3/4.
@@ -24,6 +35,27 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
 
     private static final String KEY_VIDEO_PARAM = "key_video_param";
     private static final String KEY_AUDIO_PARAM = "key_audio_param";
+    private RecyclerView mRvMessage;
+    private EditText mEtMessage;
+    private Room mRoom;
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            List<Message> messages = (List<Message>) intent.getSerializableExtra(MessageService.KEY_MESSAGE);
+            MessageAdapter messageAdapter = new MessageAdapter(messages);
+            LinearLayoutManager manager = new LinearLayoutManager(context) {
+                @Override
+                public boolean canScrollVertically() {
+                    return false;
+                }
+            };
+            mRvMessage.setLayoutManager(manager);
+            mRvMessage.setAdapter(messageAdapter);
+            mRvMessage.scrollToPosition(messages.size() - 1);
+            Log.d(TAG, "onReceive: " + messages.toString());
+        }
+    };
 
     public static void start(Context context, Room room) {
         Intent intent = new Intent(context, LiveActivity.class);
@@ -51,6 +83,7 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.startLive();
     }
 
     @Override
@@ -66,6 +99,9 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
         if (mPresenter != null) {
             mPresenter.release();
         }
+        if (mBroadcastReceiver != null) {
+            unregisterReceiver(mBroadcastReceiver);
+        }
     }
 
     @Override
@@ -79,6 +115,9 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
                 break;
             case R.id.live_iv_stop:
                 mPresenter.stopLive();
+                break;
+            case R.id.chat_tv_send:
+                mPresenter.sendMessage(mRoom, mEtMessage.getText().toString());
                 break;
         }
     }
@@ -96,6 +135,11 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
     }
 
     @Override
+    public void clearMessageEt() {
+        mEtMessage.setText("");
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.fragment_live;
     }
@@ -103,17 +147,34 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
     @Override
     public void initView() {
         Intent intent = getIntent();
+        mRoom = intent.getParcelableExtra(KEY_ROOM);
         mLiveView = findViewById(R.id.live_texture_view);
         findViewById(R.id.live_iv_switch_camera).setOnClickListener(this);
         mBtnStart = findViewById(R.id.live_iv_start);
         mBtnStart.setOnClickListener(this);
         mBtnStop = findViewById(R.id.live_iv_stop);
         mBtnStop.setOnClickListener(this);
-        mPresenter = new LivePresenter(this, getIntent().getParcelableExtra(KEY_ROOM));
+        mEtMessage = findViewById(R.id.chat_et_message);
+        findViewById(R.id.chat_tv_send).setOnClickListener(this);
+        mRvMessage = findViewById(R.id.chat_rv_message);
+        mPresenter = new LivePresenter(this, mRoom);
         mPresenter.startCameraPreview(this
                 , mLiveView
                 , (VideoParam) intent.getExtras().get(KEY_VIDEO_PARAM)
                 , (AudioParam) intent.getExtras().get(KEY_AUDIO_PARAM));
-//        mPresenter.startCameraPreviewDefault(this, mLiveView);
+        initMessageReceiver();
+        startMessageService(mRoom);
+    }
+
+    private void initMessageReceiver() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MessageService.ACTION_MESSAGE);
+        registerReceiver(mBroadcastReceiver, intentFilter);
+    }
+
+    private void startMessageService(Room room) {
+        Intent intent = new Intent(this, MessageService.class);
+        intent.putExtra(MessageService.KEY_ROOM_ID, room.getRoomId());
+        startService(intent);
     }
 }

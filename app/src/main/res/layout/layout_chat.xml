@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_rv_message"
+        android:layout_width="@dimen/chat_rv_width"
+        android:layout_height="@dimen/chat_rv_height"
+        android:layout_marginStart="@dimen/chat_rv_margin_start_bottom"
+        android:layout_marginBottom="@dimen/chat_rv_margin_start_bottom"
+        android:background="@drawable/bg_chat_rv_message"
+        android:overScrollMode="always" />
+
+    <EditText
+        android:id="@+id/chat_et_message"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chat_rv_message"
+        android:layout_marginStart="@dimen/chat_et_message_margin_start_bottom"
+        android:layout_marginBottom="@dimen/chat_et_message_margin_start_bottom"
+        android:background="@drawable/bg_chat_et_message"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:maxLines="1"
+        android:paddingStart="@dimen/chat_et_message_padding"
+        android:paddingEnd="@dimen/chat_et_message_padding" />
+
+    <TextView
+        android:id="@+id/chat_tv_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/chat_rv_message"
+        android:layout_marginStart="@dimen/chat_tv_send_margin_bottom_start"
+        android:layout_marginBottom="@dimen/chat_tv_send_margin_bottom_start"
+        android:layout_toEndOf="@id/chat_et_message"
+        android:background="@drawable/bg_chat_tv_attention"
+        android:padding="@dimen/chat_tv_send_padding"
+        android:text="@string/chat_tv_send"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold" />
+
+</RelativeLayout>

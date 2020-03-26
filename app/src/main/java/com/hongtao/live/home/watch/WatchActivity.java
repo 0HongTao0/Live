@@ -97,10 +97,10 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
         TextView tvIntroduction = findViewById(R.id.watch_tv_room_introduction);
         TextView tvAttention = findViewById(R.id.watch_tv_attention);
         tvAttention.setOnClickListener(this);
-        TextView tvSend = findViewById(R.id.watch_tv_send);
+        TextView tvSend = findViewById(R.id.chat_tv_send);
         tvSend.setOnClickListener(this);
-        mEtMessage = findViewById(R.id.watch_et_message);
-        mRvMessage = findViewById(R.id.watch_rv_message);
+        mEtMessage = findViewById(R.id.chat_et_message);
+        mRvMessage = findViewById(R.id.chat_rv_message);
 
         tvNick.setText(room.getNick());
         tvIntroduction.setText(room.getRoomIntroduction());
@@ -173,7 +173,7 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.watch_tv_attention:
                 break;
-            case R.id.watch_tv_send:
+            case R.id.chat_tv_send:
                 MessageApi messageApi = ServiceGenerator.createService(MessageApi.class);
                 messageApi.sendMessage(mRoom.getRoomId(), mEtMessage.getText().toString(), 1)
                         .observeOn(AndroidSchedulers.mainThread())

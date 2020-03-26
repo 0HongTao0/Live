@@ -5,10 +5,17 @@ import android.util.Log;
 import android.view.SurfaceView;
 
 import com.hongtao.live.LivePusherNew;
+import com.hongtao.live.home.watch.MessageApi;
 import com.hongtao.live.listener.LiveStateChangeListener;
 import com.hongtao.live.module.Room;
+import com.hongtao.live.net.ServiceGenerator;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created 2020/3/5.
@@ -83,6 +90,35 @@ public class LivePresenter implements LiveContract.Presenter {
     @Override
     public void switchToCamera() {
 
+    }
+
+    @Override
+    public void sendMessage(Room room, String message) {
+        MessageApi messageApi = ServiceGenerator.createService(MessageApi.class);
+        messageApi.sendMessage(mRoom.getRoomId(), message, 1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<Object>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(Object object) {
+                        mView.clearMessageEt();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
     }
 
     public void release() {
