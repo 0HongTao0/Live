@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -136,19 +137,21 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
 
     private void startMessageService(Room room) {
         Intent intent = new Intent(this, MessageService.class);
-        intent.putExtra(MessageService.KEY_ROOM_ID, mRoom.getRoomId());
+        intent.putExtra(MessageService.KEY_ROOM_ID, room.getRoomId());
         startService(intent);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         videoPlayer.onVideoPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         videoPlayer.onVideoResume();
     }
 

@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.hongtao.live.R;
@@ -83,6 +84,7 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
     @Override
     public void onResume() {
         super.onResume();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mPresenter.startLive();
     }
 
@@ -91,6 +93,7 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
         super.onPause();
         Log.d(TAG, "onPause: ");
         mPresenter.stopLive();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     @Override
