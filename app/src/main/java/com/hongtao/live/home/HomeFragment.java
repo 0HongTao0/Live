@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 
 import com.hongtao.live.R;
 import com.hongtao.live.module.Room;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
@@ -29,12 +32,21 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
     private RecyclerView mRvRoom;
 
     private RoomAdapter mRoomAdapter;
+    private SmartRefreshLayout mSrlRefresh;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         mRvRoom = rootView.findViewById(R.id.home_rv_rooms);
+        mSrlRefresh = rootView.findViewById(R.id.home_srl_refresh);
+        mSrlRefresh.setEnableLoadMore(false);
+        mSrlRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                mHomePresenter.getRoomList();
+            }
+        });
         mHomePresenter = new HomePresenter(this);
         mHomePresenter.getRoomList();
         return rootView;
@@ -46,6 +58,9 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
         mRoomAdapter.setOnClickListener(this);
         mRvRoom.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRvRoom.setAdapter(mRoomAdapter);
+        if (mSrlRefresh != null) {
+            mSrlRefresh.finishRefresh();
+        }
     }
 
     @Override
