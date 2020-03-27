@@ -95,9 +95,14 @@
     <dimen name="watch_room_bg_height">50dp</dimen>
     <dimen name="watch_room_bg_margin_top">10dp</dimen>
     <dimen name="watch_room_bg_margin_start_end">10dp</dimen>
-    <dimen name="watch_attention_margin_end">20dp</dimen>
-    <dimen name="watch_attention_margin_top">22dp</dimen>
-    <dimen name="watch_attention_padding">4dp</dimen>
+    <dimen name="watch_attention_get_off_margin_end">20dp</dimen>
+    <dimen name="watch_attention_get_off_margin_top">22dp</dimen>
+    <dimen name="watch_attention_get_off_padding">4dp</dimen>
+    <dimen name="watch_message_iv_width_height">10dp</dimen>
+    <dimen name="watch_message_tv_nick_size">8sp</dimen>
+    <dimen name="watch_message_item_margin_top_bottom">2dp</dimen>
+
+    <!--chat-->
     <dimen name="chat_rv_margin_start_bottom">10dp</dimen>
     <dimen name="chat_rv_width">150dp</dimen>
     <dimen name="chat_rv_height">200dp</dimen>
@@ -105,9 +110,21 @@
     <dimen name="chat_tv_send_padding">4dp</dimen>
     <dimen name="chat_tv_send_margin_bottom_start">10dp</dimen>
     <dimen name="chat_et_message_padding">10dp</dimen>
-    <dimen name="watch_message_iv_width_height">10dp</dimen>
-    <dimen name="watch_message_tv_nick_size">8sp</dimen>
-    <dimen name="watch_message_item_margin_top_bottom">2dp</dimen>
+
+    <!--attention-->
+    <dimen name="attention_iv_avatar_width_height">60dp</dimen>
+    <dimen name="attention_iv_margin_start_end_top">10dp</dimen>
+    <dimen name="attention_tv_nick_margin_top">10dp</dimen>
+    <dimen name="attention_iv_gender">14dp</dimen>
+    <dimen name="attention_iv_gender_margin_top">10dp</dimen>
+    <dimen name="attention_iv_is_living_width_height">20dp</dimen>
+    <dimen name="attention_iv_is_living_margin_top_end">10dp</dimen>
+    <dimen name="attention_tv_room_name_size">10sp</dimen>
+    <dimen name="attention_tv_room_name_margin_top">4dp</dimen>
+    <dimen name="attention_tv_room_introduction_size">10sp</dimen>
+    <dimen name="attention_tv_room_introduction_margin_end">50dp</dimen>
+    <dimen name="attention_tv_time_size">10sp</dimen>
+    <dimen name="attention_tv_time_margin_top_end">10dp</dimen>
 
 
 </resources>

@@ -22,6 +22,7 @@ public class Room implements Parcelable {
      * roomIntroduction : 一起来聊车
      * url : rtmp://192.168.0.105:1935/Live/QOE889
      * roomId : 888
+     * attention : true
      */
 
     private int code;
@@ -34,6 +35,7 @@ public class Room implements Parcelable {
     private String roomIntroduction;
     private String url;
     private int roomId;
+    private boolean attention;
 
     public int getCode() {
         return code;
@@ -115,6 +117,34 @@ public class Room implements Parcelable {
         this.roomId = roomId;
     }
 
+    public Room() {
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "code=" + code +
+                ", avatar='" + avatar + '\'' +
+                ", nick='" + nick + '\'' +
+                ", userId='" + userId + '\'' +
+                ", living=" + living +
+                ", num=" + num +
+                ", roomName='" + roomName + '\'' +
+                ", roomIntroduction='" + roomIntroduction + '\'' +
+                ", url='" + url + '\'' +
+                ", roomId=" + roomId +
+                ", attention=" + attention +
+                '}';
+    }
+
+    public boolean isAttention() {
+        return attention;
+    }
+
+    public void setAttention(boolean attention) {
+        this.attention = attention;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -132,9 +162,7 @@ public class Room implements Parcelable {
         dest.writeString(this.roomIntroduction);
         dest.writeString(this.url);
         dest.writeInt(this.roomId);
-    }
-
-    public Room() {
+        dest.writeByte(this.attention ? (byte) 1 : (byte) 0);
     }
 
     protected Room(Parcel in) {
@@ -148,9 +176,10 @@ public class Room implements Parcelable {
         this.roomIntroduction = in.readString();
         this.url = in.readString();
         this.roomId = in.readInt();
+        this.attention = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<Room> CREATOR = new Parcelable.Creator<Room>() {
+    public static final Creator<Room> CREATOR = new Creator<Room>() {
         @Override
         public Room createFromParcel(Parcel source) {
             return new Room(source);
@@ -162,19 +191,19 @@ public class Room implements Parcelable {
         }
     };
 
-    @Override
-    public String toString() {
-        return "Room{" +
-                "code=" + code +
-                ", avatar='" + avatar + '\'' +
-                ", nick='" + nick + '\'' +
-                ", userId='" + userId + '\'' +
-                ", living=" + living +
-                ", num=" + num +
-                ", roomName='" + roomName + '\'' +
-                ", roomIntroduction='" + roomIntroduction + '\'' +
-                ", url='" + url + '\'' +
-                ", roomId=" + roomId +
-                '}';
+    public static Room create(Attention attention) {
+        Room room = new Room();
+        room.setCode(1);
+        room.setAvatar(attention.getAvatar());
+        room.setNick(attention.getNick());
+        room.setUserId(attention.getUserId());
+        room.setLiving(attention.isLiving() ? 1 : 0);
+        room.setRoomName(attention.getRoomName());
+        room.setRoomIntroduction(attention.getRoomIntroduction());
+        room.setUrl(attention.getUrl());
+        room.setNum(attention.getNum());
+        room.setRoomId(attention.getRoomId());
+        room.setAttention(true);
+        return room;
     }
 }

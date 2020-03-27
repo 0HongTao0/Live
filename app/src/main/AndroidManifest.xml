@@ -37,7 +37,8 @@
 
         </activity>
 
-        <activity android:name=".live.LiveActivity"></activity>
+        <activity android:name=".live.LiveActivity" />
+        <activity android:name=".home.attention.AttentionActivity" />
 
         <activity android:name=".home.watch.WatchActivity">
 

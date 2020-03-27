@@ -53,15 +53,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/watch_attention_margin_top"
-        android:layout_marginEnd="@dimen/watch_attention_margin_end"
+        android:layout_marginTop="@dimen/watch_attention_get_off_margin_top"
+        android:layout_marginEnd="@dimen/watch_attention_get_off_margin_end"
         android:background="@drawable/bg_chat_tv_attention"
         android:enabled="true"
         android:focusable="true"
-        android:padding="@dimen/watch_attention_padding"
-        android:text="@string/watch_iv_attention"
+        android:padding="@dimen/watch_attention_get_off_padding"
+        android:text="@string/watch_tv_attention"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/watch_tv_get_off"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/watch_attention_get_off_margin_top"
+        android:layout_marginEnd="@dimen/watch_attention_get_off_margin_end"
+        android:background="@drawable/bg_chat_tv_attention"
+        android:enabled="true"
+        android:focusable="true"
+        android:padding="@dimen/watch_attention_get_off_padding"
+        android:text="@string/watch_tv_get_off"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <include
         layout="@layout/layout_chat"

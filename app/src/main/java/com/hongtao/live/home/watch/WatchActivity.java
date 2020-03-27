@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
+import com.hongtao.live.home.attention.AttentionApi;
 import com.hongtao.live.module.Message;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.net.ServiceGenerator;
@@ -69,6 +70,7 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
 
     private StandardGSYVideoPlayer videoPlayer;
     private EditText mEtMessage;
+    private TextView mTvAttention, mTvGetOff;
     private RecyclerView mRvMessage;
     private Room mRoom;
 
@@ -96,8 +98,10 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
         ImageView ivAvatar = findViewById(R.id.watch_iv_avatar);
         TextView tvNick = findViewById(R.id.watch_tv_nick);
         TextView tvIntroduction = findViewById(R.id.watch_tv_room_introduction);
-        TextView tvAttention = findViewById(R.id.watch_tv_attention);
-        tvAttention.setOnClickListener(this);
+        mTvAttention = findViewById(R.id.watch_tv_attention);
+        mTvAttention.setOnClickListener(this);
+        mTvGetOff = findViewById(R.id.watch_tv_get_off);
+        mTvGetOff.setOnClickListener(this);
         TextView tvSend = findViewById(R.id.chat_tv_send);
         tvSend.setOnClickListener(this);
         mEtMessage = findViewById(R.id.chat_et_message);
@@ -109,6 +113,11 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
                 .load(room.getAvatar())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))//圆形
                 .into(ivAvatar);
+        if (room.isAttention()) {
+            showGetOffTv();
+        } else {
+            showAttentionTv();
+        }
 
         String source1 = mRoom.getUrl();
         videoPlayer.setUp(source1, true, room.getNick());
@@ -158,10 +167,12 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
         GSYVideoManager.releaseAllVideos();
         if (null != mBroadcastReceiver) {
             unregisterReceiver(mBroadcastReceiver);
         }
+        stopService(new Intent(this, MessageService.class));
     }
 
     @Override
@@ -171,10 +182,72 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
         super.onBackPressed();
     }
 
+    private void showAttentionTv() {
+        mTvAttention.setVisibility(View.VISIBLE);
+        mTvGetOff.setVisibility(View.GONE);
+    }
+
+    private void showGetOffTv() {
+        mTvAttention.setVisibility(View.GONE);
+        mTvGetOff.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.watch_tv_attention:
+                AttentionApi attentionApi1 = ServiceGenerator.createService(AttentionApi.class);
+                attentionApi1.attentionRoom(mRoom.getRoomId())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<Object>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                Log.d(TAG, "onSubscribe: ");
+                            }
+
+                            @Override
+                            public void onNext(Object o) {
+                                showGetOffTv();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.d(TAG, "onComplete: ");
+                            }
+                        });
+                break;
+            case R.id.watch_tv_get_off:
+                AttentionApi attentionApi2 = ServiceGenerator.createService(AttentionApi.class);
+                attentionApi2.getOffRoom(mRoom.getRoomId())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<Object>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+                                Log.d(TAG, "onSubscribe: ");
+                            }
+
+                            @Override
+                            public void onNext(Object o) {
+                                showAttentionTv();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                Log.d(TAG, "onComplete: ");
+                            }
+                        });
                 break;
             case R.id.chat_tv_send:
                 MessageApi messageApi = ServiceGenerator.createService(MessageApi.class);

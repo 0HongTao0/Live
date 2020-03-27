@@ -31,6 +31,7 @@ public class MessageService extends Service {
 
     private static final int SLEEP_TIME = 2000;
     private int mRoomId = -1;
+    private boolean run = true;
 
     @Nullable
     @Override
@@ -47,7 +48,7 @@ public class MessageService extends Service {
             public void run() {
                 if (mRoomId == -1) throw new IllegalStateException("without room id");
                 MessageApi messageApi = ServiceGenerator.createService(MessageApi.class);
-                while (true) {
+                while (run) {
                     messageApi.getMessage(mRoomId)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
@@ -88,5 +89,12 @@ public class MessageService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
+        run = false;
+        super.onDestroy();
     }
 }

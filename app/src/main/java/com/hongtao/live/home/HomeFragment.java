@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hongtao.live.R;
+import com.hongtao.live.home.attention.AttentionActivity;
 import com.hongtao.live.module.Room;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -24,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  * @author HongTao
  */
-public class HomeFragment extends Fragment implements HomeContract.View, RoomAdapter.OnClickListener {
+public class HomeFragment extends Fragment implements HomeContract.View, RoomAdapter.OnClickListener, View.OnClickListener {
     private static final String TAG = "HomeFragment";
 
     private HomePresenter mHomePresenter;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         mRvRoom = rootView.findViewById(R.id.home_rv_rooms);
+        rootView.findViewById(R.id.home_iv_attention).setOnClickListener(this);
         mSrlRefresh = rootView.findViewById(R.id.home_srl_refresh);
         mSrlRefresh.setEnableLoadMore(false);
         mSrlRefresh.setOnRefreshListener(new OnRefreshListener() {
@@ -66,5 +68,14 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
     @Override
     public void onClickItem(Room room) {
         mHomePresenter.startWatchActivity(room, getContext());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.home_iv_attention:
+                AttentionActivity.start(getContext());
+                break;
+        }
     }
 }

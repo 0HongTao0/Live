@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/attention_iv_avatar"
+        android:layout_width="@dimen/attention_iv_avatar_width_height"
+        android:layout_height="@dimen/attention_iv_avatar_width_height"
+        android:layout_marginStart="@dimen/attention_iv_margin_start_end_top"
+        android:layout_marginTop="@dimen/attention_iv_margin_start_end_top"
+        android:layout_marginEnd="@dimen/attention_iv_margin_start_end_top" />
+
+    <TextView
+        android:id="@+id/attention_tv_nick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/attention_tv_nick_margin_top"
+        android:layout_toEndOf="@id/attention_iv_avatar"
+        android:text="像风一样的男子"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/attention_iv_gender"
+        android:layout_width="@dimen/attention_iv_gender"
+        android:layout_height="@dimen/attention_iv_gender"
+        android:layout_marginTop="@dimen/attention_iv_gender_margin_top"
+        android:layout_toEndOf="@id/attention_tv_nick" />
+
+    <TextView
+        android:id="@+id/attention_tv_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attention_tv_nick"
+        android:layout_alignStart="@id/attention_tv_nick"
+        android:layout_marginTop="@dimen/attention_tv_room_name_margin_top"
+        android:text="直播间：肥仔"
+        android:textSize="@dimen/attention_tv_room_name_size" />
+
+    <TextView
+        android:id="@+id/attention_tv_room_introduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attention_tv_room_name"
+        android:layout_alignStart="@id/attention_tv_room_name"
+        android:layout_marginEnd="@dimen/attention_tv_room_introduction_margin_end"
+        android:text="直播简介：一起来聊车一起来聊车一起来聊车一起来聊车一起来聊车一起来聊车"
+        android:textSize="@dimen/attention_tv_room_introduction_size" />
+
+    <ImageView
+        android:id="@+id/attention_iv_is_living"
+        android:layout_width="@dimen/attention_iv_is_living_width_height"
+        android:layout_height="@dimen/attention_iv_is_living_width_height"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/attention_iv_is_living_margin_top_end"
+        android:layout_marginEnd="@dimen/attention_iv_is_living_margin_top_end" />
+
+    <TextView
+        android:id="@+id/attention_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/attention_tv_room_introduction"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/attention_tv_time_margin_top_end"
+        android:layout_marginEnd="@dimen/attention_tv_time_margin_top_end"
+        android:text="关注时间：2020-03-25 18:13:13"
+        android:textSize="@dimen/attention_tv_time_size" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/attention_tv_time"
+        android:background="@color/divider" />
+</RelativeLayout>
