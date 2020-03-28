@@ -2,12 +2,17 @@ package com.hongtao.live.me;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.hongtao.live.LiveApplication;
 import com.hongtao.live.UserManager;
 import com.hongtao.live.home.RoomApi;
 import com.hongtao.live.live.LiveActivity;
+import com.hongtao.live.module.Content;
+import com.hongtao.live.module.NormalResponse;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
+import com.hongtao.live.money.MoneyApi;
 import com.hongtao.live.net.ServiceGenerator;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
@@ -157,5 +162,69 @@ public class MePresenter implements MeContract.Presenter {
     @Override
     public void startLiving(Context context, Room room, VideoParam videoParam, AudioParam audioParam) {
         LiveActivity.start(context, room, videoParam, audioParam);
+    }
+
+    @Override
+    public void recharge(float money) {
+        MoneyApi moneyApi = ServiceGenerator.createService(MoneyApi.class);
+        moneyApi.recharge(money)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_MONEY_RECHARGE_SUCCESS, Toast.LENGTH_SHORT).show();
+                        getUser();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void withdraw(float money) {
+        MoneyApi moneyApi = ServiceGenerator.createService(MoneyApi.class);
+        moneyApi.withdraw(money)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        if (normalResponse.getCode() == NormalResponse.CODE_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_MONEY_WITHDRAW_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        } else if (normalResponse.getCode() == NormalResponse.CODE_FAIL) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_MONEY_WITHDRAW_FAIL, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
     }
 }

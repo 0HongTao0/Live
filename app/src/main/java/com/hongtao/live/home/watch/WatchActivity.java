@@ -281,7 +281,7 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
                         });
                 break;
             case R.id.watch_iv_send_gift:
-                new SendGiftDialog(this, R.style.createRoomDialog, mRoom.getUserId(), mRoom.getRoomId()).show();
+                new SendGiftDialog(this, R.style.LiveDialog, mRoom.getUserId(), mRoom.getRoomId()).show();
                 break;
         }
     }

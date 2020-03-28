@@ -17,6 +17,9 @@
     <string name="me_tv_live_introduce">直播简介</string>
     <string name="me_btn_logout">退出登录</string>
     <string name="me_btn_login">登录</string>
+    <string name="me_tv_recharge">充值</string>
+    <string name="me_tv_withdraw">提现</string>
+    <string name="me_tv_record">记录</string>
 
     <string name="home_tv_title">热门精选</string>
 
@@ -48,6 +51,17 @@
 
 
     <string name="gift_dialog_title">送礼物</string>
+    <string name="money_dialog_tv_title_recharge">充值</string>
+    <string name="money_dialog_tv_title_withdraw">提现</string>
+    <string name="money_dialog_tv_yuan">元</string>
+    <string name="money_dialog_tv_amount">金额：</string>
+    <string name="money_dialog_btn_cancel">取消</string>
+    <string name="money_dialog_btn_confirm">确定</string>
+    <string name="money_dialog_tv_send_gift">送礼物</string>
+    <string name="money_dialog_tv_receive_gift">收礼物</string>
+    <string name="money_dialog_tv_recharge">充值</string>
+    <string name="money_dialog_tv_withdraw">提现</string>
+    <string name="money_record_dialog_title">余额记录</string>
 
 
 </resources>

@@ -7,18 +7,7 @@ package com.hongtao.live.module;
  */
 public class User {
 
-    /**
-     * address :
-     * id : 34
-     * nick : 123
-     * userId : 123
-     * job :
-     * birthday : 946656000000
-     * introduction : 这人懒的什么都没写下！
-     * gender : 1
-     * liveIntroduction : 来呀，直播间里面很好玩哦！
-     * avatar : https://raw.githubusercontent.com/0HongTao0/Blog/master/default_avatar.png
-     */
+
 
     private String address;
     private int id;
@@ -30,6 +19,7 @@ public class User {
     private int gender;
     private String liveIntroduction;
     private String avatar;
+    private double money;
 
     public String getAddress() {
         return address;
@@ -109,5 +99,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
 }

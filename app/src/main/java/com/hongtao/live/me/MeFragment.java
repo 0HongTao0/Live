@@ -17,6 +17,8 @@ import com.hongtao.live.login.LoginActivity;
 import com.hongtao.live.module.Content;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
+import com.hongtao.live.money.MoneyDialog;
+import com.hongtao.live.money.MoneyRecordDialog;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
 import com.hongtao.live.util.DateUtil;
@@ -30,12 +32,12 @@ import androidx.fragment.app.Fragment;
  *
  * @author HongTao
  */
-public class MeFragment extends Fragment implements View.OnClickListener, MeContract.View {
+public class MeFragment extends Fragment implements View.OnClickListener, MeContract.View, MoneyDialog.Callback {
     private static final String TAG = "MeFragment";
 
     private MePresenter mMePresenter;
 
-    private TextView mTvUserName, mTvUserId, mTvGender, mTvBirthday, mTvJob, mTvAddress, mTvIntroduce, mTvLiveIntroduce;
+    private TextView mTvUserName, mTvUserId, mTvGender, mTvBirthday, mTvJob, mTvAddress, mTvIntroduce, mTvLiveIntroduce, mTvMoney, mTvRecharge, mTvWithdraw, mTvRecord;
     private ImageView mIvAvatar, mIvLive;
     private Button mBtnLogin, mBtnLogout;
 
@@ -67,6 +69,13 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
         mBtnLogout = rootView.findViewById(R.id.me_btn_logout);
         mBtnLogin.setOnClickListener(this);
         mBtnLogout.setOnClickListener(this);
+        mTvMoney = rootView.findViewById(R.id.me_tv_money);
+        mTvRecharge = rootView.findViewById(R.id.me_tv_recharge);
+        mTvRecharge.setOnClickListener(this);
+        mTvWithdraw = rootView.findViewById(R.id.me_tv_withdraw);
+        mTvWithdraw.setOnClickListener(this);
+        mTvRecord = rootView.findViewById(R.id.me_tv_record);
+        mTvRecord.setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +86,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
     @Override
     public void onResume() {
         super.onResume();
+        mMePresenter.getUser();
     }
 
     @Override
@@ -101,6 +111,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
         mTvAddress.setText(user.getAddress());
         mTvIntroduce.setText(user.getIntroduction());
         mTvLiveIntroduce.setText(user.getLiveIntroduction());
+        mTvMoney.setText("余额：" + user.getMoney());
         Glide.with(mIvAvatar.getContext())
                 .load(user.getAvatar())
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))//圆形
@@ -112,7 +123,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
 
     @Override
     public void showCreateRoomDialog(Room room) {
-        new CreateRoomDialog(getContext(), R.style.createRoomDialog, room, new CreateRoomDialog.Callback() {
+        new CreateRoomDialog(getContext(), R.style.LiveDialog, room, new CreateRoomDialog.Callback() {
             @Override
             public void onConfirm(Room room, VideoParam videoParam, AudioParam audioParam) {
                 mVideoParam = videoParam;
@@ -168,6 +179,24 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
             case R.id.me_iv_live:
                 mMePresenter.checkRoom();
                 break;
+            case R.id.me_tv_recharge:
+                new MoneyDialog(getContext(), R.style.LiveDialog, MoneyDialog.TYPE_RECHARGE, this).show();
+                break;
+            case R.id.me_tv_withdraw:
+                new MoneyDialog(getContext(), R.style.LiveDialog, MoneyDialog.TYPE_WITHDRAW, this).show();
+                break;
+            case R.id.me_tv_record:
+                new MoneyRecordDialog(getContext(), R.style.LiveDialog).show();
+                break;
+        }
+    }
+
+    @Override
+    public void confirm(int type, float money) {
+        if (type == MoneyDialog.TYPE_RECHARGE) {
+            mMePresenter.recharge(money);
+        } else if (type == MoneyDialog.TYPE_WITHDRAW) {
+            mMePresenter.withdraw(money);
         }
     }
 }

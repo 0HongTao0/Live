@@ -37,6 +37,61 @@
             android:focusable="true" />
 
         <TextView
+            android:id="@+id/me_tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/me_iv_avatar"
+            android:layout_marginStart="@dimen/me_tv_money_margin_start"
+            android:layout_marginEnd="@dimen/me_tv_money_margin_end"
+            android:layout_marginBottom="@dimen/me_tv_money_margin_bottom"
+            android:layout_marginTop="@dimen/me_tv_money_margin_start_top"
+            android:text="余额：666.00"
+            android:textColor="@color/black"
+            android:textSize="@dimen/me_text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/me_tv_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/me_tv_money"
+            android:layout_marginTop="@dimen/me_tv_money_margin_top"
+            android:layout_marginEnd="@dimen/me_tv_recharge_margin_end"
+            android:layout_toEndOf="@id/me_tv_money"
+            android:background="@drawable/bg_tv_money"
+            android:padding="@dimen/me_tv_recharge_padding"
+            android:text="@string/me_tv_recharge"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/me_text_size" />
+
+        <TextView
+            android:id="@+id/me_tv_withdraw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/me_tv_money"
+            android:layout_marginTop="@dimen/me_tv_money_margin_top"
+            android:layout_marginEnd="@dimen/me_tv_withdraw_margin_end"
+            android:layout_toEndOf="@id/me_tv_recharge"
+            android:background="@drawable/bg_tv_money"
+            android:padding="@dimen/me_tv_recharge_padding"
+            android:text="@string/me_tv_withdraw"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/me_text_size" />
+
+        <TextView
+            android:id="@+id/me_tv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/me_tv_money"
+            android:layout_marginTop="@dimen/me_tv_money_margin_top"
+            android:layout_toEndOf="@id/me_tv_withdraw"
+            android:background="@drawable/bg_tv_money"
+            android:padding="@dimen/me_tv_recharge_padding"
+            android:text="@string/me_tv_record"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/me_text_size" />
+
+        <TextView
             android:id="@+id/me_tv_user_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +106,7 @@
             android:id="@+id/me_ll_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/me_iv_avatar"
+            android:layout_below="@id/me_tv_money"
             android:layout_marginStart="@dimen/me_text_margin_outside"
             android:layout_marginEnd="@dimen/me_text_margin_outside"
             android:orientation="vertical">

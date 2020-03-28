@@ -38,5 +38,9 @@ public interface MeContract {
         void updateRoom(Room room);
 
         void startLiving(Context context, Room room, VideoParam videoParam, AudioParam audioParam);
+
+        void recharge(float money);
+
+        void withdraw(float money);
     }
 }
