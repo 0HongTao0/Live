@@ -1,4 +1,4 @@
-package com.hongtao.live.home.watch;
+package com.hongtao.live.chat;
 
 import com.hongtao.live.module.Message;
 
@@ -24,7 +24,6 @@ public interface MessageApi {
     @POST("chat/sendMessage")
     Observable<Object> sendMessage(
             @Field("roomId") int roomId,
-            @Field("message") String message,
-            @Field("type") int type);
+            @Field("message") String message);
 
 }

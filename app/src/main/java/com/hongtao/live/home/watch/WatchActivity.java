@@ -16,7 +16,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
+import com.hongtao.live.chat.MessageAdapter;
+import com.hongtao.live.chat.MessageApi;
+import com.hongtao.live.chat.MessageService;
 import com.hongtao.live.home.attention.AttentionApi;
+import com.hongtao.live.home.watch.gift.SendGiftDialog;
 import com.hongtao.live.module.Message;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.net.ServiceGenerator;
@@ -106,6 +110,7 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
         tvSend.setOnClickListener(this);
         mEtMessage = findViewById(R.id.chat_et_message);
         mRvMessage = findViewById(R.id.chat_rv_message);
+        findViewById(R.id.watch_iv_send_gift).setOnClickListener(this);
 
         tvNick.setText(room.getNick());
         tvIntroduction.setText(room.getRoomIntroduction());
@@ -125,8 +130,7 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
 
         //增加封面
         ImageView imageView = new ImageView(this);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.mipmap.ic_launcher);
+        Glide.with(imageView).load(mRoom.getAvatar()).into(imageView);
         videoPlayer.setThumbImageView(imageView);
         videoPlayer.setIsTouchWiget(false);
 
@@ -251,7 +255,7 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.chat_tv_send:
                 MessageApi messageApi = ServiceGenerator.createService(MessageApi.class);
-                messageApi.sendMessage(mRoom.getRoomId(), mEtMessage.getText().toString(), 1)
+                messageApi.sendMessage(mRoom.getRoomId(), mEtMessage.getText().toString())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(new Observer<Object>() {
@@ -275,6 +279,9 @@ public class WatchActivity extends BaseActivity implements View.OnClickListener 
                                 Log.d(TAG, "onComplete: ");
                             }
                         });
+                break;
+            case R.id.watch_iv_send_gift:
+                new SendGiftDialog(this, R.style.createRoomDialog, mRoom.getUserId(), mRoom.getRoomId()).show();
                 break;
         }
     }

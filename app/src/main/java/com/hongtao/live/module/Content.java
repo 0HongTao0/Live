@@ -24,6 +24,14 @@ public interface Content {
 
         public static final String MSG_MESSAGE_SEND_SUCCESS = "发送信息成功";
         public static final String MSG_MESSAGE_GET_SUCCESS = "获取信息成功";
+
+        public static final String MSG_ATTENTION_ROOM_SUCCESS = "关注直播间成功";
+        public static final String MSG_GET_OFF_ATTENTION_ROOM_SUCCESS = "取消关注成功";
+        public static final String MSG_GET_ATTENTION_ROOM_SUCCESS = "获取关注成功";
+
+        public static final String MSG_GIFT_GET_SUCCESS = "获取礼物列表成功";
+        public static final String MSG_GIFT_SEND_SUCCESS = "送礼物成功";
+        public static final String MSG_GIFT_SEND_FAIL = "送礼物失败，余额不足";
     }
 
     class Code{
@@ -36,7 +44,5 @@ public interface Content {
         public static final int CODE_ROOM_NOT_EXIST = -1;
         public static final int CODE_ROOM_CREATE = 2;
         public static final int CODE_ROOM_UPDATE = 3;
-
-        public static final int CODE_MESSAGE_SEND_SUCCESS = 1;
     }
 }

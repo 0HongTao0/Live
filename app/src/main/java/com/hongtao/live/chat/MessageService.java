@@ -1,4 +1,4 @@
-package com.hongtao.live.home.watch;
+package com.hongtao.live.chat;
 
 import android.app.Service;
 import android.content.Intent;

@@ -44,7 +44,7 @@
 
         </activity>
 
-        <service android:name=".home.watch.MessageService" />
+        <service android:name=".chat.MessageService" />
 
 
     </application>

@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 
 import com.hongtao.live.LivePusherNew;
-import com.hongtao.live.home.watch.MessageApi;
+import com.hongtao.live.chat.MessageApi;
 import com.hongtao.live.listener.LiveStateChangeListener;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.net.ServiceGenerator;
@@ -95,7 +95,7 @@ public class LivePresenter implements LiveContract.Presenter {
     @Override
     public void sendMessage(Room room, String message) {
         MessageApi messageApi = ServiceGenerator.createService(MessageApi.class);
-        messageApi.sendMessage(mRoom.getRoomId(), message, 1)
+        messageApi.sendMessage(mRoom.getRoomId(), message)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Object>() {

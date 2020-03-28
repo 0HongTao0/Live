@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/send_gift_item_width_height"
+    android:layout_height="@dimen/send_gift_item_width_height">
+
+    <ImageView
+        android:id="@+id/send_gift_iv_pic"
+        android:layout_width="@dimen/send_gift_item_iv_width_height"
+        android:layout_height="@dimen/send_gift_item_iv_width_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/send_gift_iv_pic_margin_top" />
+
+    <TextView
+        android:id="@+id/send_gift_tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/send_gift_iv_pic"
+        android:layout_alignBottom="@id/send_gift_iv_pic"
+        android:text="12.88"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/send_gift_tv_price_size" />
+
+    <TextView
+        android:id="@+id/send_gift_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/send_gift_iv_pic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/send_gift_iv_name_margin_top"
+        android:text="火箭"
+        android:textColor="@color/colorPrimaryDark" />
+
+</RelativeLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/gift_dialog_margin_start_end"
+    android:layout_marginEnd="@dimen/gift_dialog_margin_start_end"
+    android:background="@drawable/bg_gift_send_dialog"
+    android:padding="@dimen/send_gift_padding">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gift_dialog_title"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/send_gift_iv_close"
+        android:layout_width="@dimen/send_gift_iv_width_height"
+        android:layout_height="@dimen/send_gift_iv_width_height"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_send_gift_close" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/send_gift_rv_gift"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/send_gift_iv_close"
+        android:layout_marginTop="@dimen/send_gift_rv_margin_top" />
+
+</RelativeLayout>

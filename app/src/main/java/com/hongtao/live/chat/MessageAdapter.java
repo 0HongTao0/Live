@@ -1,4 +1,4 @@
-package com.hongtao.live.home.watch;
+package com.hongtao.live.chat;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +46,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.VH> {
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))//圆形
                 .into(holder.mIvAvatar);
         holder.mTvMessage.setText(message.getNick() + ":" + message.getMessage());
+        if (message.getType() == 2) {
+            holder.mTvMessage.setTextColor(holder.mIvAvatar.getResources().getColor(R.color.colorPrimaryDark));
+        }
     }
 
     @Override

@@ -12,8 +12,8 @@ import android.widget.EditText;
 
 import com.hongtao.live.R;
 import com.hongtao.live.base.BaseActivity;
-import com.hongtao.live.home.watch.MessageAdapter;
-import com.hongtao.live.home.watch.MessageService;
+import com.hongtao.live.chat.MessageAdapter;
+import com.hongtao.live.chat.MessageService;
 import com.hongtao.live.module.Message;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.param.AudioParam;

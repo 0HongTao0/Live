@@ -79,6 +79,17 @@
         android:textStyle="bold"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/watch_iv_send_gift"
+        android:layout_width="@dimen/watch_iv_send_gift_width_height"
+        android:layout_height="@dimen/watch_iv_send_gift_width_height"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/watch_iv_send_gift_margin_end_bottom"
+        android:layout_marginBottom="@dimen/watch_iv_send_gift_margin_end_bottom"
+        android:background="@drawable/bg_watch_iv_send_gift"
+        android:src="@drawable/ic_send_gift" />
+
     <include
         layout="@layout/layout_chat"
         android:layout_width="wrap_content"
