@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="50dp"
+    android:layout_marginEnd="50dp"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:padding="@dimen/money_record_dialog_padding">
+
+
+    <TextView
+        android:id="@+id/alter_text_dialog_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alter_text_dialog_tv_nick"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/alter_text_dialog_divider_margin_bottom_top"
+        android:layout_marginBottom="@dimen/alter_text_dialog_divider_margin_bottom_top"
+        android:background="@color/divider" />
+
+    <EditText
+        android:id="@+id/alter_text_dialog_et_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_alter_text_dialog_et"
+        android:gravity="start"
+        android:maxLines="3"
+        android:minLines="3"
+        android:paddingStart="@dimen/alter_dialog_et_padding"
+        android:paddingEnd="@dimen/alter_dialog_et_padding" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/money_dialog_btn_margin_top">
+
+        <Button
+            android:id="@+id/alter_text_dialog_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/money_dialog_btn_height"
+            android:background="@drawable/bg_room_create_dialog_btn_cancel"
+            android:paddingStart="@dimen/money_dialog_btn_padding"
+            android:paddingEnd="@dimen/money_dialog_btn_padding"
+            android:text="@string/money_dialog_btn_cancel" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/alter_text_dialog_btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/money_dialog_btn_height"
+            android:background="@drawable/bg_room_create_dialog_btn_confirm"
+            android:paddingStart="@dimen/money_dialog_btn_padding"
+            android:paddingEnd="@dimen/money_dialog_btn_padding"
+            android:text="@string/money_dialog_btn_confirm" />
+    </LinearLayout>
+
+
+</LinearLayout>
+

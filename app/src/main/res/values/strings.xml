@@ -63,5 +63,11 @@
     <string name="money_dialog_tv_withdraw">提现</string>
     <string name="money_record_dialog_title">余额记录</string>
 
+    <string name="alter_text_dialog_tv_nick">修改昵称</string>
+    <string name="alter_text_dialog_tv_job">修改职业</string>
+    <string name="alter_text_dialog_tv_introduce">修改简介</string>
+    <string name="alter_text_dialog_tv_live_introduce">修改直播简介</string>
+
+
 
 </resources>

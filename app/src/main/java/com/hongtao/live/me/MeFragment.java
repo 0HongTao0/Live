@@ -32,12 +32,12 @@ import androidx.fragment.app.Fragment;
  *
  * @author HongTao
  */
-public class MeFragment extends Fragment implements View.OnClickListener, MeContract.View, MoneyDialog.Callback {
+public class MeFragment extends Fragment implements View.OnClickListener, MeContract.View, MoneyDialog.Callback, AlterTextDialog.Callback {
     private static final String TAG = "MeFragment";
 
     private MePresenter mMePresenter;
 
-    private TextView mTvUserName, mTvUserId, mTvGender, mTvBirthday, mTvJob, mTvAddress, mTvIntroduce, mTvLiveIntroduce, mTvMoney, mTvRecharge, mTvWithdraw, mTvRecord;
+    private TextView mTvNick, mTvUserId, mTvGender, mTvBirthday, mTvJob, mTvAddress, mTvIntroduce, mTvLiveIntroduce, mTvMoney, mTvRecharge, mTvWithdraw, mTvRecord;
     private ImageView mIvAvatar, mIvLive;
     private Button mBtnLogin, mBtnLogout;
 
@@ -54,14 +54,18 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
 
 
     private void initView(View rootView) {
-        mTvUserName = rootView.findViewById(R.id.me_tv_user_name);
+        mTvNick = rootView.findViewById(R.id.me_tv_nick);
+        mTvNick.setOnClickListener(this);
         mTvUserId = rootView.findViewById(R.id.me_tv_user_id);
         mTvGender = rootView.findViewById(R.id.me_tv_gender);
         mTvBirthday = rootView.findViewById(R.id.me_tv_birthday);
         mTvJob = rootView.findViewById(R.id.me_tv_job);
+        mTvJob.setOnClickListener(this);
         mTvAddress = rootView.findViewById(R.id.me_tv_address);
         mTvIntroduce = rootView.findViewById(R.id.me_tv_introduce);
+        mTvIntroduce.setOnClickListener(this);
         mTvLiveIntroduce = rootView.findViewById(R.id.me_tv_live_introduce);
+        mTvLiveIntroduce.setOnClickListener(this);
         mIvLive = rootView.findViewById(R.id.me_iv_live);
         mIvLive.setOnClickListener(this);
         mIvAvatar = rootView.findViewById(R.id.me_iv_avatar);
@@ -103,7 +107,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
 
     @Override
     public void showUser(User user) {
-        mTvUserName.setText(user.getNick());
+        mTvNick.setText(user.getNick());
         mTvUserId.setText(user.getUserId());
         mTvGender.setText(user.getGender() == 0 ? "女" : "男");
         mTvBirthday.setText(DateUtil.getDate(user.getBirthday()));
@@ -151,8 +155,13 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
     }
 
     @Override
+    public void showAlterTextDialog(String oldData, int type) {
+        new AlterTextDialog(getContext(), R.style.LiveDialog, type, oldData, this).show();
+    }
+
+    @Override
     public void showNullUser() {
-        mTvUserName.setText("");
+        mTvNick.setText("");
         mTvUserId.setText("");
         mTvGender.setText("");
         mTvBirthday.setText("");
@@ -188,6 +197,18 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
             case R.id.me_tv_record:
                 new MoneyRecordDialog(getContext(), R.style.LiveDialog).show();
                 break;
+            case R.id.me_tv_nick:
+                showAlterTextDialog(mTvNick.getText().toString(), AlterTextDialog.TYPE_NICK);
+                break;
+            case R.id.me_tv_job:
+                showAlterTextDialog(mTvJob.getText().toString(), AlterTextDialog.TYPE_JOB);
+                break;
+            case R.id.me_tv_introduce:
+                showAlterTextDialog(mTvIntroduce.getText().toString(), AlterTextDialog.TYPE_INTRODUCE);
+                break;
+            case R.id.me_tv_live_introduce:
+                showAlterTextDialog(mTvLiveIntroduce.getText().toString(), AlterTextDialog.TYPE_LIVE_INTRODUCE);
+                break;
         }
     }
 
@@ -197,6 +218,24 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
             mMePresenter.recharge(money);
         } else if (type == MoneyDialog.TYPE_WITHDRAW) {
             mMePresenter.withdraw(money);
+        }
+    }
+
+    @Override
+    public void confirm(String data, int type) {
+        switch (type) {
+            case AlterTextDialog.TYPE_NICK:
+                mMePresenter.alterNick(data);
+                break;
+            case AlterTextDialog.TYPE_JOB:
+                mMePresenter.alterJob(data);
+                break;
+            case AlterTextDialog.TYPE_INTRODUCE:
+                mMePresenter.alterIntroduction(data);
+                break;
+            case AlterTextDialog.TYPE_LIVE_INTRODUCE:
+                mMePresenter.alterLiveIntroduction(data);
+                break;
         }
     }
 }

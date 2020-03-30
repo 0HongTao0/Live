@@ -6,7 +6,7 @@ package com.hongtao.live.module;
  * @author HongTao
  */
 public interface Content {
-    class Message{
+    class Message {
         public static final String MSG_NO_TOKEN = "未携带token";
         public static final String MSG_TOKEN_EXPIRATION = "token过期";
 
@@ -16,6 +16,7 @@ public interface Content {
         public static final String MSG_REGISTERED_FAIL_SAME_ID = "ID已存在";
 
         public static final String MSG_ME_GET_SUCCESS = "获取用户信息成功";
+        public static final String MSG_ME_ALTER_SUCCESS = "修改成功";
 
         public static final String MSG_ROOM_GET_SUCCESS = "直播间存在,获取信息成功";
         public static final String MSG_ROOM_GET_FAIL = "直播间不存在,需要创建直播间";
@@ -36,10 +37,12 @@ public interface Content {
         public static final String MSG_MONEY_RECHARGE_SUCCESS = "充值成功";
         public static final String MSG_MONEY_WITHDRAW_SUCCESS = "提现成功";
         public static final String MSG_MONEY_WITHDRAW_FAIL = "提现失败，余额不足";
-        public static final String MSG_MONEY_GET_RECORDE_SUCCESS = "获取余额记录成功";
+        public static final String MSG_MONEY_GET_RECORD_SUCCESS = "获取余额记录成功";
+
+        public static final String MSG_ADDRESS_GET_SUCCESS = "获取地址成功";
     }
 
-    class Code{
+    class Code {
         public static final int CODE_LOGIN_SUCCESS = 1;
         public static final int CODE_LOGIN_FAIL = -1;
         public static final int CODE_REGISTERED_SUCCESS = 1;

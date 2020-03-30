@@ -25,7 +25,7 @@
             android:id="@+id/money_record_dialog_iv_close"
             android:layout_width="@dimen/money_record_dialog_iv_close_width_height"
             android:layout_height="@dimen/money_record_dialog_iv_close_width_height"
-            android:src="@drawable/ic_money_record_dialog_close" />
+            android:src="@drawable/ic_dialog_close" />
     </LinearLayout>
 
     <View

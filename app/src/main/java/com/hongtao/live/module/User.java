@@ -10,6 +10,7 @@ public class User {
 
 
     private String address;
+    private int addressId;
     private int id;
     private String nick;
     private String userId;
@@ -107,5 +108,31 @@ public class User {
 
     public void setMoney(double money) {
         this.money = money;
+    }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "address='" + address + '\'' +
+                ", addressId=" + addressId +
+                ", id=" + id +
+                ", nick='" + nick + '\'' +
+                ", userId='" + userId + '\'' +
+                ", job='" + job + '\'' +
+                ", birthday=" + birthday +
+                ", introduction='" + introduction + '\'' +
+                ", gender=" + gender +
+                ", liveIntroduction='" + liveIntroduction + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", money=" + money +
+                '}';
     }
 }

@@ -50,8 +50,13 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
             }
         });
         mHomePresenter = new HomePresenter(this);
-        mHomePresenter.getRoomList();
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mHomePresenter.getRoomList();
     }
 
     @Override

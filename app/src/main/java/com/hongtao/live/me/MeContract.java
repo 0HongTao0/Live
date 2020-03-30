@@ -26,6 +26,8 @@ public interface MeContract {
         void showCreateRoomDialog(Room room);
 
         void startLiveActivity(Room room);
+
+        void showAlterTextDialog(String oldData, int type);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -42,5 +44,14 @@ public interface MeContract {
         void recharge(float money);
 
         void withdraw(float money);
+
+        void alterNick(String nick);
+
+        void alterJob(String job);
+
+        void alterIntroduction(String introduction);
+
+        void alterLiveIntroduction(String liveIntroduction);
+
     }
 }

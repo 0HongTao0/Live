@@ -227,4 +227,128 @@ public class MePresenter implements MeContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void alterNick(String nick) {
+        ServiceGenerator.createService(MeApi.class).alterNick(nick)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        if (normalResponse.getCode() == NormalResponse.CODE_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_ME_ALTER_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void alterJob(String job) {
+        ServiceGenerator.createService(MeApi.class).alterJob(job)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        if (normalResponse.getCode() == NormalResponse.CODE_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_ME_ALTER_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void alterIntroduction(String introduction) {
+        ServiceGenerator.createService(MeApi.class).alterIntroduce(introduction)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        if (normalResponse.getCode() == NormalResponse.CODE_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_ME_ALTER_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void alterLiveIntroduction(String liveIntroduction) {
+        ServiceGenerator.createService(MeApi.class).alterLiveIntroduce(liveIntroduction)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        if (normalResponse.getCode() == NormalResponse.CODE_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_ME_ALTER_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
 }
