@@ -382,4 +382,35 @@ public class MePresenter implements MeContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void alterBirthday(long birthday) {
+        ServiceGenerator.createService(MeApi.class).alterBirthday(birthday)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        if (normalResponse.getCode() == NormalResponse.CODE_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_ME_ALTER_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
 }

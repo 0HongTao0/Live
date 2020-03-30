@@ -49,4 +49,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.shuyu:GSYVideoPlayer:7.1.2'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
 }

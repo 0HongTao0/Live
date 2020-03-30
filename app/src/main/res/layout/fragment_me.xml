@@ -171,6 +171,7 @@
                 android:background="@color/divider" />
 
             <RelativeLayout
+                android:id="@+id/me_rl_birthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/me_text_margin_top">

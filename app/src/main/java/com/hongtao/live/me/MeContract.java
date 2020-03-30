@@ -30,6 +30,8 @@ public interface MeContract {
         void showAlterTextDialog(String oldData, int type);
 
         void showAlterGenderDialog(int gender);
+
+        void showTimePickerView(String date);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -56,5 +58,7 @@ public interface MeContract {
         void alterLiveIntroduction(String liveIntroduction);
 
         void alterGender(int gender);
+
+        void alterBirthday(long birthday);
     }
 }
