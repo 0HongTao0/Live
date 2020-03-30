@@ -13,7 +13,7 @@
         android:id="@+id/alter_text_dialog_tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/alter_text_dialog_tv_nick"
+        android:text="@string/alter_gender_dialog_tv_gender"
         android:textColor="@color/black"
         android:textStyle="bold" />
 
@@ -25,16 +25,29 @@
         android:layout_marginBottom="@dimen/alter_dialog_divider_margin_bottom_top"
         android:background="@color/divider" />
 
-    <EditText
-        android:id="@+id/alter_text_dialog_et_data"
+    <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_alter_text_dialog_et"
-        android:gravity="start"
-        android:maxLines="3"
-        android:minLines="3"
-        android:paddingStart="@dimen/alter_dialog_et_padding"
-        android:paddingEnd="@dimen/alter_dialog_et_padding" />
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/alter_gender_dialog_rb_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/alter_dialog_rb_male"
+            android:textColor="@color/black" />
+
+        <RadioButton
+            android:id="@+id/alter_gender_dialog_rb_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/alter_dialog_rb_female"
+            android:textColor="@color/black" />
+
+    </RadioGroup>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -42,7 +55,7 @@
         android:layout_marginTop="@dimen/money_dialog_btn_margin_top">
 
         <Button
-            android:id="@+id/alter_text_dialog_btn_cancel"
+            android:id="@+id/alter_gender_dialog_btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/money_dialog_btn_height"
             android:background="@drawable/bg_room_create_dialog_btn_cancel"
@@ -56,7 +69,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/alter_text_dialog_btn_confirm"
+            android:id="@+id/alter_gender_dialog_btn_confirm"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/money_dialog_btn_height"
             android:background="@drawable/bg_room_create_dialog_btn_confirm"

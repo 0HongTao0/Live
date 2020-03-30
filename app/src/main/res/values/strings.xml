@@ -68,6 +68,9 @@
     <string name="alter_text_dialog_tv_introduce">修改简介</string>
     <string name="alter_text_dialog_tv_live_introduce">修改直播简介</string>
 
+    <string name="alter_gender_dialog_tv_gender">修改性别</string>
+    <string name="alter_dialog_rb_male">男</string>
+    <string name="alter_dialog_rb_female">女</string>
 
 
 </resources>

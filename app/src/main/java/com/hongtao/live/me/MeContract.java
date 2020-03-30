@@ -28,6 +28,8 @@ public interface MeContract {
         void startLiveActivity(Room room);
 
         void showAlterTextDialog(String oldData, int type);
+
+        void showAlterGenderDialog(int gender);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -53,5 +55,6 @@ public interface MeContract {
 
         void alterLiveIntroduction(String liveIntroduction);
 
+        void alterGender(int gender);
     }
 }

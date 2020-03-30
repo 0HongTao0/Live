@@ -165,7 +165,7 @@
 
     <!--   alter -->
     <dimen name="alter_text_dialog_iv_close_width_height">20dp</dimen>
-    <dimen name="alter_text_dialog_divider_margin_bottom_top">5dp</dimen>
+    <dimen name="alter_dialog_divider_margin_bottom_top">5dp</dimen>
     <dimen name="alter_dialog_et_padding">10dp</dimen>
 
 

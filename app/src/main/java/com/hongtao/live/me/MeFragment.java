@@ -1,6 +1,7 @@
 package com.hongtao.live.me;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import androidx.fragment.app.Fragment;
  *
  * @author HongTao
  */
-public class MeFragment extends Fragment implements View.OnClickListener, MeContract.View, MoneyDialog.Callback, AlterTextDialog.Callback {
+public class MeFragment extends Fragment implements View.OnClickListener, MeContract.View, MoneyDialog.Callback, AlterTextDialog.Callback, AlterGenderDialog.Callback {
     private static final String TAG = "MeFragment";
 
     private MePresenter mMePresenter;
@@ -80,6 +81,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
         mTvWithdraw.setOnClickListener(this);
         mTvRecord = rootView.findViewById(R.id.me_tv_record);
         mTvRecord.setOnClickListener(this);
+        rootView.findViewById(R.id.me_rl_gender).setOnClickListener(this);
     }
 
     @Override
@@ -160,6 +162,12 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
     }
 
     @Override
+    public void showAlterGenderDialog(int gender) {
+        Log.d(TAG, "showAlterGenderDialog: ");
+        new AlterGenderDialog(getContext(), R.style.LiveDialog, gender, this).show();
+    }
+
+    @Override
     public void showNullUser() {
         mTvNick.setText("");
         mTvUserId.setText("");
@@ -209,6 +217,9 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
             case R.id.me_tv_live_introduce:
                 showAlterTextDialog(mTvLiveIntroduce.getText().toString(), AlterTextDialog.TYPE_LIVE_INTRODUCE);
                 break;
+            case R.id.me_rl_gender:
+                showAlterGenderDialog(mTvGender.getText().toString().equals("男") ? 1 : 0);
+                break;
         }
     }
 
@@ -237,5 +248,10 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
                 mMePresenter.alterLiveIntroduction(data);
                 break;
         }
+    }
+
+    @Override
+    public void confirm(int gender) {
+        mMePresenter.alterGender(gender);
     }
 }
