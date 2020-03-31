@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.hongtao.live.R;
 import com.hongtao.live.home.attention.AttentionActivity;
@@ -34,6 +35,7 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
 
     private RoomAdapter mRoomAdapter;
     private SmartRefreshLayout mSrlRefresh;
+    private EditText mEtSearchKey;
 
     @Nullable
     @Override
@@ -41,6 +43,8 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         mRvRoom = rootView.findViewById(R.id.home_rv_rooms);
         rootView.findViewById(R.id.home_iv_attention).setOnClickListener(this);
+        rootView.findViewById(R.id.home_iv_search).setOnClickListener(this);
+        mEtSearchKey = rootView.findViewById(R.id.home_et_search);
         mSrlRefresh = rootView.findViewById(R.id.home_srl_refresh);
         mSrlRefresh.setEnableLoadMore(false);
         mSrlRefresh.setOnRefreshListener(new OnRefreshListener() {
@@ -50,13 +54,13 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
             }
         });
         mHomePresenter = new HomePresenter(this);
+        mHomePresenter.getRoomList();
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mHomePresenter.getRoomList();
     }
 
     @Override
@@ -80,6 +84,9 @@ public class HomeFragment extends Fragment implements HomeContract.View, RoomAda
         switch (v.getId()) {
             case R.id.home_iv_attention:
                 AttentionActivity.start(getContext());
+                break;
+            case R.id.home_iv_search:
+                mHomePresenter.searchRoom(mEtSearchKey.getText().toString());
                 break;
         }
     }

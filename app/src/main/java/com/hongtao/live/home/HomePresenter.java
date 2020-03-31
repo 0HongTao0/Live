@@ -58,7 +58,31 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void searchRoom(String key) {
+        RoomApi api = ServiceGenerator.createService(RoomApi.class);
+        api.searchRooms(key)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<Room>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
 
+                    @Override
+                    public void onNext(List<Room> rooms) {
+                        mView.showRoomList(rooms);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
     }
 
     @Override
