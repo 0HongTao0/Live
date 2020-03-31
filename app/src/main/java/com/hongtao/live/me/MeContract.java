@@ -45,6 +45,8 @@ public interface MeContract {
         void showCountry(List<Country> countries);
 
         void showAddressPickerView(List<Province> provinces, List<City> cities, List<Country> countries);
+
+        void showImagePicker();
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -81,5 +83,7 @@ public interface MeContract {
         void getCountry(int cityId);
 
         void alterAddress(int addressId);
+
+        void alterAvatar(String path);
     }
 }

@@ -8,6 +8,7 @@ import com.hongtao.live.LiveApplication;
 import com.hongtao.live.UserManager;
 import com.hongtao.live.home.RoomApi;
 import com.hongtao.live.live.LiveActivity;
+import com.hongtao.live.module.AlterAvatarResponse;
 import com.hongtao.live.module.City;
 import com.hongtao.live.module.Content;
 import com.hongtao.live.module.Country;
@@ -20,12 +21,16 @@ import com.hongtao.live.net.ServiceGenerator;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
 
+import java.io.File;
 import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created 2020/3/20.
@@ -533,6 +538,54 @@ public class MePresenter implements MeContract.Presenter {
                     @Override
                     public void onComplete() {
                         Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void alterAvatar(String path) {
+
+        File file = new File(path);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("avatar", file.getName(), requestBody);
+
+        ServiceGenerator.createService(MeApi.class).alterAvatar(body)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<AlterAvatarResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(AlterAvatarResponse alterAvatarResponse) {
+                        if (alterAvatarResponse.getCode() == AlterAvatarResponse.CODE_AVATAR_ALTER_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_ME_ALTER_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        } else {
+                            switch (alterAvatarResponse.getCode()) {
+                                case AlterAvatarResponse.CODE_AVATAR_ALTER_FAIL:
+                                    Toast.makeText(LiveApplication.getContext(), AlterAvatarResponse.MSG_AVATAR_ALTER_FAIl, Toast.LENGTH_SHORT).show();
+                                    break;
+                                case AlterAvatarResponse.CODE_AVATAR_TOO_LARGE:
+                                    Toast.makeText(LiveApplication.getContext(), AlterAvatarResponse.MSG_AVATAR_TOO_LARGE, Toast.LENGTH_SHORT).show();
+                                    break;
+                                case AlterAvatarResponse.CODE_AVATAR_FORMAT_ERROR:
+                                    Toast.makeText(LiveApplication.getContext(), AlterAvatarResponse.MSG_AVATAR_FORMATE_ERROR, Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
     }

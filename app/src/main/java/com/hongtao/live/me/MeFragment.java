@@ -1,5 +1,6 @@
 package com.hongtao.live.me;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,11 @@ import com.hongtao.live.money.MoneyRecordDialog;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
 import com.hongtao.live.util.DateUtil;
+import com.hongtao.live.util.GlideEngine;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +47,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created 2020/3/4.
@@ -58,6 +66,8 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
     private List<Province> mProvinces;
     private List<City> mCities;
     private List<Country> mCountries;
+
+    private static final int IMAGE_PICKER = 0x1;
 
 
     @Nullable
@@ -87,6 +97,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
         mIvLive = rootView.findViewById(R.id.me_iv_live);
         mIvLive.setOnClickListener(this);
         mIvAvatar = rootView.findViewById(R.id.me_iv_avatar);
+        mIvAvatar.setOnClickListener(this);
         mBtnLogin = rootView.findViewById(R.id.me_btn_login);
         mBtnLogout = rootView.findViewById(R.id.me_btn_logout);
         mBtnLogin.setOnClickListener(this);
@@ -317,6 +328,50 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
     }
 
     @Override
+    public void showImagePicker() {
+        Log.d(TAG, "showImagePicker: ");
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .loadImageEngine(GlideEngine.createGlideEngine())
+                .selectionMode(PictureConfig.SINGLE)
+                .isGif(false)
+                .freeStyleCropEnabled(true)
+                .compress(false)
+                .enableCrop(true)
+                .withAspectRatio(1, 1)
+                .circleDimmedLayer(true)
+                .freeStyleCropEnabled(false)
+                .showCropFrame(false)
+                .showCropGrid(false)
+                .cropImageWideHigh(200, 200)
+                .rotateEnabled(false)
+                .scaleEnabled(true)
+                .forResult(PictureConfig.CHOOSE_REQUEST);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: " + requestCode + "   " + resultCode);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PictureConfig.CHOOSE_REQUEST:
+                    // 图片选择结果回调
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
+                    // 例如 LocalMedia 里面返回三种 path
+                    // 1.media.getPath(); 为原图 path
+                    // 2.media.getCutPath();为裁剪后 path，需判断 media.isCut();是否为 true
+                    // 3.media.getCompressPath();为压缩后 path，需判断 media.isCompressed();是否为 true
+                    // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
+                    Log.d(TAG, "onActivityResult: " + selectList.get(0).getCompressPath() + "   " + selectList.get(0).getSize());
+                    mMePresenter.alterAvatar(selectList.get(0).getCutPath());
+                    break;
+            }
+        }
+    }
+
+    @Override
     public void showNullUser() {
         mTvNick.setText("");
         mTvUserId.setText("");
@@ -375,6 +430,9 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
                 break;
             case R.id.me_rl_address:
                 mMePresenter.getProvinces();
+                break;
+            case R.id.me_iv_avatar:
+                showImagePicker();
                 break;
         }
     }

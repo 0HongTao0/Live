@@ -1,13 +1,17 @@
 package com.hongtao.live.me;
 
+import com.hongtao.live.module.AlterAvatarResponse;
 import com.hongtao.live.module.NormalResponse;
 import com.hongtao.live.module.User;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created 2020/3/17.
@@ -46,4 +50,9 @@ public interface MeApi {
     @POST("me/alterBirthday")
     @FormUrlEncoded
     Observable<NormalResponse> alterBirthday(@Field("birthday") long birthday);
+
+    @Multipart
+    @POST("me/alterAvatar")
+    Observable<AlterAvatarResponse> alterAvatar(@Part MultipartBody.Part avatar);
+
 }
