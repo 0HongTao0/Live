@@ -112,6 +112,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/me_rl_nick"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/me_text_margin_top">
@@ -201,6 +202,7 @@
                 android:background="@color/divider" />
 
             <RelativeLayout
+                android:id="@+id/me_rl_job"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/me_text_margin_top">
@@ -230,6 +232,7 @@
                 android:background="@color/divider" />
 
             <RelativeLayout
+                android:id="@+id/me_rl_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/me_text_margin_top">
@@ -259,6 +262,7 @@
                 android:background="@color/divider" />
 
             <RelativeLayout
+                android:id="@+id/me_rl_introduce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/me_text_margin_top">
@@ -288,6 +292,7 @@
                 android:background="@color/divider" />
 
             <RelativeLayout
+                android:id="@+id/me_rl_live_introduce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/me_text_margin_top">

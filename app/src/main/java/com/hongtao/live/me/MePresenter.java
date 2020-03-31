@@ -8,14 +8,19 @@ import com.hongtao.live.LiveApplication;
 import com.hongtao.live.UserManager;
 import com.hongtao.live.home.RoomApi;
 import com.hongtao.live.live.LiveActivity;
+import com.hongtao.live.module.City;
 import com.hongtao.live.module.Content;
+import com.hongtao.live.module.Country;
 import com.hongtao.live.module.NormalResponse;
+import com.hongtao.live.module.Province;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
 import com.hongtao.live.money.MoneyApi;
 import com.hongtao.live.net.ServiceGenerator;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -386,6 +391,124 @@ public class MePresenter implements MeContract.Presenter {
     @Override
     public void alterBirthday(long birthday) {
         ServiceGenerator.createService(MeApi.class).alterBirthday(birthday)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<NormalResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(NormalResponse normalResponse) {
+                        if (normalResponse.getCode() == NormalResponse.CODE_SUCCESS) {
+                            Toast.makeText(LiveApplication.getContext(), Content.Message.MSG_ME_ALTER_SUCCESS, Toast.LENGTH_SHORT).show();
+                            getUser();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void getProvinces() {
+        AddressApi addressApi = ServiceGenerator.createService(AddressApi.class);
+        addressApi.getProvince()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<Province>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(List<Province> provinces) {
+                        mView.showProvinces(provinces);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void getCities(int provinceId) {
+        AddressApi addressApi = ServiceGenerator.createService(AddressApi.class);
+        addressApi.getCity(provinceId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<City>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(List<City> cities) {
+                        mView.showCity(cities);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void getCountry(int cityId) {
+        AddressApi addressApi = ServiceGenerator.createService(AddressApi.class);
+        addressApi.getCountry(cityId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<List<Country>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onNext(List<Country> countries) {
+                        mView.showCountry(countries);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
+    }
+
+    @Override
+    public void alterAddress(int addressId) {
+        ServiceGenerator.createService(MeApi.class).alterAddress(addressId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<NormalResponse>() {

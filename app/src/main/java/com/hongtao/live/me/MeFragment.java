@@ -10,15 +10,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.hongtao.live.R;
 import com.hongtao.live.UserManager;
 import com.hongtao.live.login.LoginActivity;
+import com.hongtao.live.module.City;
 import com.hongtao.live.module.Content;
+import com.hongtao.live.module.Country;
+import com.hongtao.live.module.Province;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
 import com.hongtao.live.money.MoneyDialog;
@@ -29,6 +36,7 @@ import com.hongtao.live.util.DateUtil;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,6 +55,9 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
     private TextView mTvNick, mTvUserId, mTvGender, mTvBirthday, mTvJob, mTvAddress, mTvIntroduce, mTvLiveIntroduce, mTvMoney, mTvRecharge, mTvWithdraw, mTvRecord;
     private ImageView mIvAvatar, mIvLive;
     private Button mBtnLogin, mBtnLogout;
+    private List<Province> mProvinces;
+    private List<City> mCities;
+    private List<Country> mCountries;
 
 
     @Nullable
@@ -89,6 +100,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
         mTvRecord.setOnClickListener(this);
         rootView.findViewById(R.id.me_rl_gender).setOnClickListener(this);
         rootView.findViewById(R.id.me_rl_birthday).setOnClickListener(this);
+        rootView.findViewById(R.id.me_rl_address).setOnClickListener(this);
     }
 
     @Override
@@ -199,7 +211,6 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
                 .setType(new boolean[]{true, true, true, false, false, false})
                 .setCancelText("取消")//取消按钮文字
                 .setSubmitText("确认")//确认按钮文字
-//                .setContentSize(18)//滚轮文字大小
                 .setTitleSize(20)//标题文字大小
                 .setTitleText("修改生日")//标题文字
                 .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
@@ -218,6 +229,94 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
     }
 
     @Override
+    public void showProvinces(List<Province> provinces) {
+        Log.d(TAG, "showProvinces: " + provinces);
+        mProvinces = provinces;
+//        if (mCities == null) {
+        mMePresenter.getCities(provinces.get(select1).getId());
+//        }
+    }
+
+    @Override
+    public void showCity(List<City> cities) {
+        Log.d(TAG, "showCity: " + cities);
+        mCities = cities;
+//        if (mCountries == null) {
+        mMePresenter.getCountry(cities.get(select2).getId());
+//        }
+    }
+
+    @Override
+    public void showCountry(List<Country> countries) {
+        mCountries = countries;
+        showAddressPickerView(mProvinces, mCities, mCountries);
+    }
+
+
+    private OptionsPickerView mOptionsPickerView;
+    private int select1, select2, select3;
+
+    @Override
+    public void showAddressPickerView(List<Province> provinces, List<City> cities, List<Country> countries) {
+        Log.d(TAG, "showAddressPickerView: ");
+        if (mOptionsPickerView == null) {
+            mOptionsPickerView = new OptionsPickerBuilder(getContext(), new OnOptionsSelectListener() {
+                @Override
+                public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                    select1 = 0;
+                    select2 = 0;
+                    select3 = 0;
+                    mMePresenter.alterAddress(mCountries.get(options3).getId());
+                }
+            }).setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
+                @Override
+                public void onOptionsSelectChanged(int options1, int options2, int options3) {
+                    if (select1 != options1) {
+                        select1 = options1;
+                        select2 = 0;
+                        select3 = 0;
+                        mMePresenter.getCities(mProvinces.get(options1).getId());
+                    } else if (select2 != options2) {
+                        select2 = options2;
+                        select3 = 0;
+                        mMePresenter.getCountry(mCities.get(options2).getId());
+                    }
+                }
+            }).addOnCancelClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: ");
+                    select1 = 0;
+                    select2 = 0;
+                    select3 = 0;
+                }
+            }).setSubmitText("确定")//确定按钮文字
+                    .setCancelText("取消")//取消按钮文字
+                    .setTitleText("城市选择")//标题
+                    .setSubCalSize(18)//确定和取消文字大小
+                    .setTitleSize(20)//标题文字大小
+                    .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
+                    .setTitleColor(Color.BLACK)//标题文字颜色
+                    .setSubmitColor(Color.GRAY)//确定按钮文字颜色
+                    .setCancelColor(Color.GRAY)//取消按钮文字颜色
+                    .setTitleBgColor(0xFFFFFFFF)//标题背景颜色
+                    .setBgColor(0xFFFFFFFF)//滚轮背景颜色
+                    .setContentTextSize(18)//滚轮文字大小
+                    .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                    .setCyclic(false, false, false)//循环与否
+                    .setOutSideCancelable(false)//点击外部dismiss default true
+                    .isDialog(true)//是否显示为对话框样式
+                    .isRestoreItem(false)//切换时是否还原，设置默认选中第一项。
+                    .isDialog(false)//是否显示为对话框样式
+                    .build();
+        }
+
+        mOptionsPickerView.setNPicker(provinces, cities, countries);
+        mOptionsPickerView.setSelectOptions(select1, select2, select3);
+        mOptionsPickerView.show();
+    }
+
+    @Override
     public void showNullUser() {
         mTvNick.setText("");
         mTvUserId.setText("");
@@ -227,6 +326,7 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
         mTvAddress.setText("");
         mTvIntroduce.setText("");
         mTvLiveIntroduce.setText("");
+        mTvMoney.setText("余额：0");
         Glide.with(mIvAvatar.getContext())
                 .load("")
                 .into(mIvAvatar);
@@ -272,6 +372,9 @@ public class MeFragment extends Fragment implements View.OnClickListener, MeCont
                 break;
             case R.id.me_rl_birthday:
                 showTimePickerView(mTvBirthday.getText().toString());
+                break;
+            case R.id.me_rl_address:
+                mMePresenter.getProvinces();
                 break;
         }
     }

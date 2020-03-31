@@ -3,10 +3,15 @@ package com.hongtao.live.me;
 import android.content.Context;
 
 import com.hongtao.live.base.BaseContract;
+import com.hongtao.live.module.City;
+import com.hongtao.live.module.Country;
+import com.hongtao.live.module.Province;
 import com.hongtao.live.module.Room;
 import com.hongtao.live.module.User;
 import com.hongtao.live.param.AudioParam;
 import com.hongtao.live.param.VideoParam;
+
+import java.util.List;
 
 /**
  * Created 2020/3/19.
@@ -32,6 +37,14 @@ public interface MeContract {
         void showAlterGenderDialog(int gender);
 
         void showTimePickerView(String date);
+
+        void showProvinces(List<Province> provinces);
+
+        void showCity(List<City> cities);
+
+        void showCountry(List<Country> countries);
+
+        void showAddressPickerView(List<Province> provinces, List<City> cities, List<Country> countries);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -60,5 +73,13 @@ public interface MeContract {
         void alterGender(int gender);
 
         void alterBirthday(long birthday);
+
+        void getProvinces();
+
+        void getCities(int provinceId);
+
+        void getCountry(int cityId);
+
+        void alterAddress(int addressId);
     }
 }
