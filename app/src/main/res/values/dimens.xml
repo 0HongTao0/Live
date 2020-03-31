@@ -39,6 +39,7 @@
     <dimen name="me_tv_recharge_padding">4dp</dimen>
     <dimen name="me_tv_recharge_margin_end">10dp</dimen>
     <dimen name="me_tv_withdraw_margin_end">10dp</dimen>
+    <dimen name="me_tv_record_margin_end">10dp</dimen>
     <dimen name="me_tv_money_margin_top">-4dp</dimen>
 
 
