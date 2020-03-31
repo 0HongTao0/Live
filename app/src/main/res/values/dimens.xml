@@ -137,6 +137,10 @@
     <dimen name="attention_tv_room_introduction_margin_end">50dp</dimen>
     <dimen name="attention_tv_time_size">10sp</dimen>
     <dimen name="attention_tv_time_margin_top_end">10dp</dimen>
+    <dimen name="attention_title_padding">5dp</dimen>
+    <dimen name="attention_title_text_size">20sp</dimen>
+    <dimen name="attention_title_iv_width_height">24dp</dimen>
+    <dimen name="attention_title_iv_margin_start">10dp</dimen>
 
     <!--gift-->
     <dimen name="gift_dialog_margin_start_end">30dp</dimen>

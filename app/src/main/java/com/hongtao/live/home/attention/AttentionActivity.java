@@ -57,10 +57,12 @@ public class AttentionActivity extends BaseActivity implements AttentionAdapter.
 
         mSrlRefresh = findViewById(R.id.attention_srl_refresh);
         mSrlRefresh.setEnableLoadMore(false);
+        mSrlRefresh.setOnRefreshListener(this);
         initViewData();
     }
 
     private void initViewData() {
+        Log.d(TAG, "initViewData: ");
         AttentionApi attentionApi = ServiceGenerator.createService(AttentionApi.class);
         attentionApi.getAttentionRoom()
                 .observeOn(AndroidSchedulers.mainThread())
@@ -100,6 +102,7 @@ public class AttentionActivity extends BaseActivity implements AttentionAdapter.
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        Log.d(TAG, "onRefresh: ");
         initViewData();
     }
 }

@@ -71,6 +71,7 @@
     <string name="alter_gender_dialog_tv_gender">修改性别</string>
     <string name="alter_dialog_rb_male">男</string>
     <string name="alter_dialog_rb_female">女</string>
+    <string name="attention_title">关注主播</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package com.hongtao.live.net;
 
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -44,7 +45,9 @@ public class LoginInterceptor implements Interceptor {
             if (!UserManager.getInstance().getToken().equals("")) {
                 newRequest = addTokenHeader(request, UserManager.getInstance().getToken());
             } else {
+                UserManager.getInstance().offline();
                 LoginActivity.start(LiveApplication.getContext());
+                Looper.prepare();
                 Toast.makeText(LiveApplication.getContext(), "未登录，请先登录。", Toast.LENGTH_SHORT).show();
                 return chain.proceed(newRequest);
             }
