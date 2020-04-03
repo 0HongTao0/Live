@@ -47,6 +47,10 @@ public class VideoStream implements Camera.PreviewCallback, CameraHelper.OnChang
         }
     }
 
+    public void startPreview(){
+        cameraHelper.startPreview();
+    }
+
     public void switchCamera() {
         cameraHelper.switchCamera();
     }

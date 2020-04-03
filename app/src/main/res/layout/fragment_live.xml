@@ -40,6 +40,27 @@
         android:layout_marginEnd="@dimen/live_btn_margin"
         android:background="@drawable/ic_live_switch_camera" />
 
+    <View
+        android:id="@+id/live_iv_switch_to_desktop"
+        android:layout_width="@dimen/live_btn_width"
+        android:layout_height="@dimen/live_btn_height"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/live_btn_margin"
+        android:layout_marginEnd="@dimen/live_btn_margin"
+        android:layout_toStartOf="@id/live_iv_switch_camera"
+        android:background="@drawable/ic_live_switch_to_desktop" />
+
+    <View
+        android:id="@+id/live_iv_switch_to_camera"
+        android:layout_width="@dimen/live_btn_width"
+        android:layout_height="@dimen/live_btn_height"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/live_btn_margin"
+        android:layout_marginEnd="@dimen/live_btn_margin"
+        android:layout_toStartOf="@id/live_iv_switch_camera"
+        android:background="@drawable/ic_live_switch_to_camera"
+        android:visibility="gone"/>
+
     <include
         layout="@layout/layout_chat"
         android:layout_width="wrap_content"

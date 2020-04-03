@@ -1,6 +1,7 @@
 package com.hongtao.live.live;
 
 import android.app.Activity;
+import android.media.projection.MediaProjection;
 import android.view.SurfaceView;
 
 import com.hongtao.live.base.BaseContract;
@@ -19,7 +20,13 @@ public interface LiveContract {
 
         void showStopBtn();
 
+        void hideStartAndStopBtn();
+
         void clearMessageEt();
+
+        void showSwitchToCamera();
+
+        void showSwitchToDesktop();
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -37,9 +44,9 @@ public interface LiveContract {
 
         void switchCamera();
 
-        void switchToDesktop();
+        void switchToDesktop(MediaProjection mediaProjection, Activity activity);
 
-        void switchToCamera();
+        void switchToCamera(Activity activity, SurfaceView surfaceView, VideoParam videoParam, AudioParam audioParam);
 
         void sendMessage(Room room, String message);
     }

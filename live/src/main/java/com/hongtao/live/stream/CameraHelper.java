@@ -61,7 +61,7 @@ public class CameraHelper implements SurfaceHolder.Callback, Camera.PreviewCallb
         }
     }
 
-    private void startPreview() {
+    public void startPreview() {
         try {
             mCamera = Camera.open(mCameraId);
             Camera.Parameters parameters = mCamera.getParameters();

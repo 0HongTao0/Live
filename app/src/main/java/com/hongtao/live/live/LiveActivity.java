@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.projection.MediaProjection;
+import android.media.projection.MediaProjectionManager;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -39,6 +41,8 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
     private RecyclerView mRvMessage;
     private EditText mEtMessage;
     private Room mRoom;
+    private MediaProjectionManager mMediaProjectionManager;
+    private static final int REQUEST_MEDIA_PROJECTION = 0x5;
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -79,20 +83,21 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
 
     private View mBtnStart;
     private View mBtnStop;
+    private View mBtnSwitchToCamera;
+    private View mBtnSwitchToDesktop;
+    private View mBtnSwitchCamera;
 
 
     @Override
     public void onResume() {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mPresenter.startLive();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Log.d(TAG, "onPause: ");
-        mPresenter.stopLive();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
@@ -122,6 +127,18 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
             case R.id.chat_tv_send:
                 mPresenter.sendMessage(mRoom, mEtMessage.getText().toString());
                 break;
+            case R.id.live_iv_switch_to_desktop:
+                mMediaProjectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
+                Intent captureIntent = mMediaProjectionManager.createScreenCaptureIntent();
+                startActivityForResult(captureIntent, REQUEST_MEDIA_PROJECTION);
+                break;
+
+            case R.id.live_iv_switch_to_camera:
+                mPresenter.switchToCamera(this
+                        , mLiveView
+                        , (VideoParam) getIntent().getExtras().get(KEY_VIDEO_PARAM)
+                        , (AudioParam) getIntent().getExtras().get(KEY_AUDIO_PARAM));
+                break;
         }
     }
 
@@ -138,8 +155,28 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
     }
 
     @Override
+    public void hideStartAndStopBtn() {
+        mBtnStop.setVisibility(View.GONE);
+        mBtnStart.setVisibility(View.GONE);
+    }
+
+    @Override
     public void clearMessageEt() {
         mEtMessage.setText("");
+    }
+
+    @Override
+    public void showSwitchToCamera() {
+        mBtnSwitchToCamera.setVisibility(View.VISIBLE);
+        mBtnSwitchToDesktop.setVisibility(View.GONE);
+        mBtnSwitchCamera.setClickable(false);
+    }
+
+    @Override
+    public void showSwitchToDesktop() {
+        mBtnSwitchToDesktop.setVisibility(View.VISIBLE);
+        mBtnSwitchToCamera.setVisibility(View.GONE);
+        mBtnSwitchCamera.setClickable(true);
     }
 
     @Override
@@ -152,13 +189,18 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
         Intent intent = getIntent();
         mRoom = intent.getParcelableExtra(KEY_ROOM);
         mLiveView = findViewById(R.id.live_texture_view);
-        findViewById(R.id.live_iv_switch_camera).setOnClickListener(this);
+        mBtnSwitchCamera = findViewById(R.id.live_iv_switch_camera);
+        mBtnSwitchCamera.setOnClickListener(this);
         mBtnStart = findViewById(R.id.live_iv_start);
         mBtnStart.setOnClickListener(this);
         mBtnStop = findViewById(R.id.live_iv_stop);
         mBtnStop.setOnClickListener(this);
         mEtMessage = findViewById(R.id.chat_et_message);
         findViewById(R.id.chat_tv_send).setOnClickListener(this);
+        mBtnSwitchToDesktop = findViewById(R.id.live_iv_switch_to_desktop);
+        mBtnSwitchToDesktop.setOnClickListener(this);
+        mBtnSwitchToCamera = findViewById(R.id.live_iv_switch_to_camera);
+        mBtnSwitchToCamera.setOnClickListener(this);
         mRvMessage = findViewById(R.id.chat_rv_message);
         mPresenter = new LivePresenter(this, mRoom);
         mPresenter.startCameraPreview(this
@@ -167,6 +209,7 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
                 , (AudioParam) intent.getExtras().get(KEY_AUDIO_PARAM));
         initMessageReceiver();
         startMessageService(mRoom);
+        mPresenter.startLive();
     }
 
     private void initMessageReceiver() {
@@ -179,5 +222,18 @@ public class LiveActivity extends BaseActivity implements LiveContract.View, Vie
         Intent intent = new Intent(this, MessageService.class);
         intent.putExtra(MessageService.KEY_ROOM_ID, room.getRoomId());
         startService(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_MEDIA_PROJECTION && resultCode == RESULT_OK) {
+            MediaProjection mediaProjection = mMediaProjectionManager.getMediaProjection(resultCode, data);
+            if (mediaProjection == null) {
+                Log.e(TAG, "media projection is null");
+                return;
+            }
+            mPresenter.switchToDesktop(mediaProjection, this);
+        }
     }
 }

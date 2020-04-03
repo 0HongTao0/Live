@@ -84,6 +84,10 @@ public class LivePusherNew {
         videoStream.switchCamera();
     }
 
+    public void startPreview(){
+        videoStream.startPreview();
+    }
+
     /**
      * 设置静音
      *
